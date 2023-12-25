@@ -11,17 +11,6 @@
 Entity Framework Core является ORM (Object-Relational Mapping) для .NET Core. Он позволяет работать с базами данных, используя объектно-ориентированный подход. Entity Framework Core позволяет работать с различными СУБД, в том числе с PostgreSQL, которая была выбрана для разработки.
 \subsubsection{Angular}
 Angular является самым строгим и требовательным к архитектуре среди других Frontend библиотек. Такие свойства Angular делают его идеальным инструментом для разработки сложных масштабируемых приложений. Мощные инструменты для создания интерактивных интерфейсов и легкость интеграции с REST API.
-\subsection{Архитектура программной системы}
-Взаимодействие между .NET Core и Angular через REST API, использование PostgreSQL для хранения данных.
-
-\subsection{Компоненты программной системы}
-Детальное описание компонентов системы на .NET Core и Angular, их функций и взаимодействия.
-
-\subsection{Проект данных программной системы}
-\subsubsection{Описание сущностей серверной части}
-Структура базы данных, связи, индексы и использование Entity Framework Core.
-\subsubsection{Описание сущностей клиентской части}
-Структура данных на клиенте, API взаимодействия и обработка ответов.
 
 \subsection{Проектирование пользовательского интерфейса}
 Процесс проектирования UI/UX, создание макетов, прототипирование, тестирование интерфейса и адаптивный дизайн.
@@ -59,74 +48,168 @@ Angular является самым строгим и требовательны
 \begin{figure}[ht]
 \center{\includegraphics[width=1\linewidth]{client-server.eps}}
 \caption{Диаграмма размещения}
-\label{client-server.eps:image}
+\label{place:image}
 \end{figure}
 
 Она является хорошим средством для показа маршрутов перемещения объектов и компонентов в распределенной системе.
 
-В таблице \ref{ssevsws:table} приведен пример использования пакета xltabular с автоматическим расчетом ширины столбца.
+\subsection{Описание классов системы}
 
-\begin{xltabular}{\textwidth}{|c|X|X|}
-	\caption{Сравнение протоколов SSE и WebSocket\label{ssevsws:table}}\\ \hline
-	~  & \centrow  SSE & \centrow WebSocket \\ \hline
-	\endfirsthead
-	\continuecaption{Продолжение таблицы \ref{ssevsws:table}}
-	~ & \centrow SSE & \centrow WebSocket \\ \hline 
-	\finishhead
-	Направленность & 
-	Однонаправленный, полудуплексный: данные посылает только сервер & 
-	Двунаправленный, полнодуплексный: и сервер, и клиент могут обмениваться сообщениями \\ \hline 
-	Соединение  & HTTP & WS \\ \hline 
-	Тип данных & Только текст & Бинарные и текстовые данные \\ \hline 
-	Доп. возможности & Встроенный механизм идентификаторов событий и переподключения & Переподключение и идентификация события реализуются на стороне приложения
-\end{xltabular}
+\subsubsection{Описание классов серверной части}
 
-\subsection{Содержание информационных блоков. Основные сущности}
-
-Проанализировав требования, можно выделить шесть основных сущностей:
 \begin{itemize}
-\item "<Новости">;
-\item "<Продукция">;
-\item "<Услуги">.
+    \item <<UserBase>> служит основой для всех пользовательских данных, предоставляя общие поля, такие как <<Phone>>, <<Email>>, <<FirstName>>, <<LastName>>, и т.д.
+    \item <<UserRegistrationData>> расширяет <<UserBase>>, добавляя специфичное для регистрации поле <<Password>>.
+    \item <<UserLoginData>> используется для процесса входа в систему, содержа только <<Email>> и <<Password>>.
+    \item <<UserLoginResponseData>> и <<UserView>> расширяют <<UserBase>>, добавляя уникальный идентификатор <<Id>>, а <<UserLoginResponseData>> также включает <<AccessToken>> для аутентификации.
+    \item <<User>> является полным представлением пользователя, включающим безопасность (через <<Hash>> и <<Salt>>) и <<Id>>.
 \end{itemize}
 
-В состав сущности "<Новости"> можно включить атрибуты, представленные в таблице \ref{news:table}.
-
+% Таблица для UserBase
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
-	\caption{Атрибуты сущности "<Новости">\label{news:table}}\\ \hline
-	\centrow Поле & \centrow Тип & \centrow Обяза\-тельное & \centrow Описание \\ \hline
-	\thead{1} & \thead{2} & \centrow 3 & \centrow 4 \\ \hline
-	\endfirsthead
-	\continuecaption{Продолжение таблицы \ref{news:table}}
-	\thead{1} & \thead{2} & \centrow 3 & \centrow 4 \\ \hline
-	\finishhead
-	\_id & ObjectId & true & Уникальный идентификатор \\ \hline 
-	head & String & true & Заголовок новости \\ \hline 
-	short & String & false & Аннотация к новости \\ \hline 
-	createdAt & Date & true & Время создания новости \\ \hline 
-	author & String & false & Автор новости \\ \hline 
-	content & String & true & Текст новости \\ \hline 
-	views & Integer & true & Количество просмотров новости зарегистрированными пользователями
+    \caption{Атрибуты сущности "UserBase"}\\ \hline
+    Поле & Тип & Обяза\-тельное & Описание \\ \hline
+    Phone & String & false & Телефонный номер пользователя \\ \hline
+    Email & String & false & Электронная почта пользователя \\ \hline
+    FirstName & String & false & Имя пользователя \\ \hline
+    LastName & String & false & Фамилия пользователя \\ \hline
+    ImageUrl & String & false & URL изображения пользователя \\ \hline
+    Telegram & String & false & Telegram пользователя \\ \hline
+    Website & String & false & Веб-сайт пользователя \\ \hline
 \end{xltabular}
 
-Пример использования различных типов столбцов представлен в таблице \ref{prod:table}. Рекомендуется использовать пакет xltabular для создания таблиц.
-
-\begin{xltabular}{\textwidth}{|R|C{2.5cm}|l|T|}
-	\caption{Атрибуты  сущности "<Новости разметки в LaTeX"> с использованием различных типов столбцов и многострочным заголовком\label{prod:table}}\\ \hline
-	\centrow Поле & \centrow Тип & \centrow Обязательное & \centrow Описание \\ \hline
-	\centrow 1 & \centrow 2 & \thead{3} & \centrow 4 \\ \hline
-	\endfirsthead
-	\continuecaption{Продолжение таблицы \ref{prod:table}}
-	\centrow 1 & \centrow 2 & \thead{3} & \centrow 4 \\ \hline
-	\finishhead
-	\_id & ObjectId & true & Уникальный идентификатор \\ \hline 
-	head & String & true & Заголовок новости \\ \hline 
-	short & String & false & Аннотация к новости \\ \hline 
-	createdAt & Date & true & Время создания новости \\ \hline 
-	author & String & false & Автор новости \\ \hline 
-	content & String & true & Текст новости \\ \hline 
-	views & Integer & true & Количество просмотров новости зарегистрированными пользователями
+% Таблица для UserRegistrationData
+\begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
+    \caption{Атрибуты сущности "UserRegistrationData"}\\ \hline
+    Поле & Тип & Обяза\-тельное & Описание \\ \hline
+    % Здесь перечислены атрибуты из UserBase
+    Password & String & true & Пароль пользователя \\ \hline
 \end{xltabular}
+
+% Таблица для UserLoginData
+\begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
+    \caption{Атрибуты сущности "UserLoginData"}\\ \hline
+    Поле & Тип & Обяза\-тельное & Описание \\ \hline
+    Email & String & true & Электронная почта пользователя для входа \\ \hline
+    Password & String & true & Пароль пользователя для входа \\ \hline
+\end{xltabular}
+
+% Таблица для UserLoginResponseData
+\begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
+    \caption{Атрибуты сущности "UserLoginResponseData"}\\ \hline
+    Поле & Тип & Обяза\-тельное & Описание \\ \hline
+    % Здесь перечислены атрибуты из UserBase
+    Id & Long & true & Уникальный идентификатор пользователя \\ \hline
+    AccessToken & String & true & Токен доступа пользователя \\ \hline
+\end{xltabular}
+
+% Таблица для UserView
+\begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
+    \caption{Атрибуты сущности "UserView"}\\ \hline
+    Поле & Тип & Обяза\-тельное & Описание \\ \hline
+    % Здесь перечислены атрибуты из UserBase
+    Id & Long & true & Уникальный идентификатор пользователя \\ \hline
+\end{xltabular}
+
+% Таблица для User
+\begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
+    \caption{Атрибуты сущности "User"}\\ \hline
+    Поле & Тип & Обяза\-тельное & Описание \\ \hline
+    % Здесь перечислены атрибуты из UserBase
+    Id & Long & true & Уникальный идентификатор пользователя \\ \hline
+    Hash & String & true & Хэш пользователя \\ \hline
+    Salt & String & true & Соль для хэша пароля пользователя \\ \hline
+\end{xltabular}
+
+\begin{itemize}
+    \item <<Product>>, наследующийся от <<Short>>, описывает основную информацию о продукте, такую как <<ImageUrl>>, <<ProductGroupId>>, <<Price>>, <<Weight>>, и <<CreatedByUserId>>, указывающий на пользователя, создавшего продукт.
+    \item <<ProductView>> расширяет <<Product>>, добавляя <<CreatedByUser>>, который является экземпляром <<UserView>>. Это позволяет получать не только идентификационную информацию о создателе продукта, но и более детальные данные пользователя.
+\end{itemize}
+
+% Таблица для Product
+\begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
+    \caption{Атрибуты сущности "Product"}\\ \hline
+    Поле & Тип & Обяза\-тельное & Описание \\ \hline
+    % Здесь перечислены атрибуты из Short
+    ImageUrl & String & false & URL изображения продукта \\ \hline
+    ProductGroupId & Long & true & Идентификатор группы продуктов \\ \hline
+    Price & Float & true & Цена продукта \\ \hline
+    Weight & Integer & true & Вес продукта \\ \hline
+    CreatedByUserId & Long & true & Идентификатор пользователя, создавшего продукт \\ \hline
+\end{xltabular}
+
+% Таблица для ProductView
+\begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
+    \caption{Атрибуты сущности "ProductView"}\\ \hline
+    Поле & Тип & Обяза\-тельное & Описание \\ \hline
+    % Здесь перечислены атрибуты из Product
+    CreatedByUser & UserView & true & Пользователь, создавший продукт \\ \hline
+\end{xltabular}
+
+
+% По аналогии создаются таблицы для UserLoginData, UserLoginResponseData, UserView, User
+
+% В таблице \ref{ssevsws:table} приведен пример использования пакета xltabular с автоматическим расчетом ширины столбца.
+%
+% \begin{xltabular}{\textwidth}{|c|X|X|}
+% 	\caption{Сравнение протоколов SSE и WebSocket\label{ssevsws:table}}\\ \hline
+% 	~  & \centrow  SSE & \centrow WebSocket \\ \hline
+% 	\endfirsthead
+% 	\continuecaption{Продолжение таблицы \ref{ssevsws:table}}
+% 	~ & \centrow SSE & \centrow WebSocket \\ \hline
+% 	\finishhead
+% 	Направленность &
+% 	Однонаправленный, полудуплексный: данные посылает только сервер &
+% 	Двунаправленный, полнодуплексный: и сервер, и клиент могут обмениваться сообщениями \\ \hline
+% 	Соединение  & HTTP & WS \\ \hline
+% 	Тип данных & Только текст & Бинарные и текстовые данные \\ \hline
+% 	Доп. возможности & Встроенный механизм идентификаторов событий и переподключения & Переподключение и идентификация события реализуются на стороне приложения
+% \end{xltabular}
+
+% Проанализировав требования, можно выделить шесть основных сущностей:
+% \begin{itemize}
+% \item "<Новости">;
+% \item "<Продукция">;
+% \item "<Услуги">.
+% \end{itemize}
+%
+% В состав сущности "<Новости"> можно включить атрибуты, представленные в таблице \ref{news:table}.
+%
+% \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
+% 	\caption{Атрибуты сущности "<Новости">\label{news:table}}\\ \hline
+% 	\centrow Поле & \centrow Тип & \centrow Обяза\-тельное & \centrow Описание \\ \hline
+% 	\thead{1} & \thead{2} & \centrow 3 & \centrow 4 \\ \hline
+% 	\endfirsthead
+% 	\continuecaption{Продолжение таблицы \ref{news:table}}
+% 	\thead{1} & \thead{2} & \centrow 3 & \centrow 4 \\ \hline
+% 	\finishhead
+% 	\_id & ObjectId & true & Уникальный идентификатор \\ \hline
+% 	head & String & true & Заголовок новости \\ \hline
+% 	short & String & false & Аннотация к новости \\ \hline
+% 	createdAt & Date & true & Время создания новости \\ \hline
+% 	author & String & false & Автор новости \\ \hline
+% 	content & String & true & Текст новости \\ \hline
+% 	views & Integer & true & Количество просмотров новости зарегистрированными пользователями
+% \end{xltabular}
+%
+% Пример использования различных типов столбцов представлен в таблице \ref{prod:table}. Рекомендуется использовать пакет xltabular для создания таблиц.
+%
+% \begin{xltabular}{\textwidth}{|R|C{2.5cm}|l|T|}
+% 	\caption{Атрибуты  сущности "<Новости разметки в LaTeX"> с использованием различных типов столбцов и многострочным заголовком\label{prod:table}}\\ \hline
+% 	\centrow Поле & \centrow Тип & \centrow Обязательное & \centrow Описание \\ \hline
+% 	\centrow 1 & \centrow 2 & \thead{3} & \centrow 4 \\ \hline
+% 	\endfirsthead
+% 	\continuecaption{Продолжение таблицы \ref{prod:table}}
+% 	\centrow 1 & \centrow 2 & \thead{3} & \centrow 4 \\ \hline
+% 	\finishhead
+% 	\_id & ObjectId & true & Уникальный идентификатор \\ \hline
+% 	head & String & true & Заголовок новости \\ \hline
+% 	short & String & false & Аннотация к новости \\ \hline
+% 	createdAt & Date & true & Время создания новости \\ \hline
+% 	author & String & false & Автор новости \\ \hline
+% 	content & String & true & Текст новости \\ \hline
+% 	views & Integer & true & Количество просмотров новости зарегистрированными пользователями
+% \end{xltabular}
 
 В системе предусмотрен внутренний механизм связи между разделами и элементами информационных блоков, поэтому введения дополнительных идентификаторов при реализации связей между сущностями не предполагается.
 
