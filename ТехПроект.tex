@@ -88,6 +88,7 @@ Angular, выбранный для Frontend разработки, предост
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
     \caption{Атрибуты сущности <<UserBase>>}\\ \hline
     Поле & Тип & Обяза\-тельное & Описание \\ \hline
+    1 & 2 & 3 & 4 \\ \hline
     Phone & String & false & Телефонный номер пользователя \\ \hline
     Email & String & false & Электронная почта пользователя \\ \hline
     FirstName & String & false & Имя пользователя \\ \hline
@@ -97,10 +98,13 @@ Angular, выбранный для Frontend разработки, предост
     Website & String & false & Веб-сайт пользователя \\ \hline
 \end{xltabular}
 
+
+
 % Таблица для UserRegistrationData
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
     \caption{Атрибуты сущности <<UserRegistrationData>>}\\ \hline
     Поле & Тип & Обяза\-тельное & Описание \\ \hline
+    1 & 2 & 3 & 4 \\ \hline
     % Здесь перечислены атрибуты из UserBase
     Password & String & true & Пароль пользователя \\ \hline
 \end{xltabular}
@@ -109,6 +113,7 @@ Angular, выбранный для Frontend разработки, предост
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
     \caption{Атрибуты сущности <<UserLoginData>>}\\ \hline
     Поле & Тип & Обяза\-тельное & Описание \\ \hline
+    1 & 2 & 3 & 4 \\ \hline
     Email & String & true & Электронная почта пользователя для входа \\ \hline
     Password & String & true & Пароль пользователя для входа \\ \hline
 \end{xltabular}
@@ -117,6 +122,7 @@ Angular, выбранный для Frontend разработки, предост
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
     \caption{Атрибуты сущности <<UserLoginResponseData>>}\\ \hline
     Поле & Тип & Обяза\-тельное & Описание \\ \hline
+    1 & 2 & 3 & 4 \\ \hline
     % Здесь перечислены атрибуты из UserBase
     Id & Long & true & Уникальный идентификатор пользователя \\ \hline
     AccessToken & String & true & Токен доступа пользователя \\ \hline
@@ -126,6 +132,7 @@ Angular, выбранный для Frontend разработки, предост
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
     \caption{Атрибуты сущности <<UserView>>}\\ \hline
     Поле & Тип & Обяза\-тельное & Описание \\ \hline
+    1 & 2 & 3 & 4 \\ \hline
     % Здесь перечислены атрибуты из UserBase
     Id & Long & true & Уникальный идентификатор пользователя \\ \hline
 \end{xltabular}
@@ -134,6 +141,7 @@ Angular, выбранный для Frontend разработки, предост
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
     \caption{Атрибуты сущности <<User>>}\\ \hline
     Поле & Тип & Обяза\-тельное & Описание \\ \hline
+    1 & 2 & 3 & 4 \\ \hline
     % Здесь перечислены атрибуты из UserBase
     Id & Long & true & Уникальный идентификатор пользователя \\ \hline
     Hash & String & true & Хэш пользователя \\ \hline
@@ -149,6 +157,7 @@ Angular, выбранный для Frontend разработки, предост
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
     \caption{Атрибуты сущности <<Product>>}\\ \hline
     Поле & Тип & Обяза\-тельное & Описание \\ \hline
+    1 & 2 & 3 & 4 \\ \hline
     % Здесь перечислены атрибуты из Short
     ImageUrl & String & false & URL изображения продукта \\ \hline
     ProductGroupId & Long & true & Идентификатор группы продуктов \\ \hline
@@ -161,6 +170,7 @@ Angular, выбранный для Frontend разработки, предост
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
     \caption{Атрибуты сущности <<ProductView>>}\\ \hline
     Поле & Тип & Обяза\-тельное & Описание \\ \hline
+    1 & 2 & 3 & 4 \\ \hline
     % Здесь перечислены атрибуты из Product
     CreatedByUser & UserView & true & Пользователь, создавший продукт \\ \hline
 \end{xltabular}
@@ -185,6 +195,7 @@ Angular, выбранный для Frontend разработки, предост
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
     \caption{Атрибуты интерфейса <<Short>>}\\ \hline
     Поле & Тип & Обяза\-тельное & Описание \\ \hline
+    1 & 2 & 3 & 4 \\ \hline
     id & number & true & Уникальный идентификатор \\ \hline
     name & string & true & Название \\ \hline
     description & string & true & Описание \\ \hline
@@ -193,6 +204,8 @@ Angular, выбранный для Frontend разработки, предост
 % Таблица для User
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
     \caption{Атрибуты интерфейса <<User>>}\\ \hline
+    Поле & Тип & Обяза\-тельное & Описание \\ \hline
+    1 & 2 & 3 & 4 \\ \hline
     % Здесь перечислены атрибуты из Short
     phone & string & false & Телефонный номер \\ \hline
     % ... другие поля User ...
@@ -202,6 +215,8 @@ Angular, выбранный для Frontend разработки, предост
 % Таблица для ProductGroup
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
     \caption{Атрибуты интерфейса <<ProductGroup>>}\\ \hline
+    Поле & Тип & Обяза\-тельное & Описание \\ \hline
+    1 & 2 & 3 & 4 \\ \hline
     % Здесь перечислены атрибуты из Short
     type & string & true & Тип группы продуктов \\ \hline
     % ... другие поля ProductGroup ...
@@ -210,6 +225,8 @@ Angular, выбранный для Frontend разработки, предост
 % Таблица для Product
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
     \caption{Атрибуты интерфейса <<Product>>}\\ \hline
+    Поле & Тип & Обяза\-тельное & Описание \\ \hline
+    1 & 2 & 3 & 4 \\ \hline
     % Здесь перечислены атрибуты из Short
     imageUrl & string & false & URL изображения продукта \\ \hline
     % ... другие поля Product ...
@@ -218,6 +235,8 @@ Angular, выбранный для Frontend разработки, предост
 % Таблица для City
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
     \caption{Атрибуты интерфейса <<City>>}\\ \hline
+    Поле & Тип & Обяза\-тельное & Описание \\ \hline
+    1 & 2 & 3 & 4 \\ \hline
     id & number & true & Уникальный идентификатор \\ \hline
     name & string & true & Название города \\ \hline
 \end{xltabular}
