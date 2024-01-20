@@ -12,21 +12,21 @@
 \renewcommand{\arraystretch}{0.8} % уменьшение расстояний до сетки таблицы
 
 \begin{xltabular}{\textwidth}{|X|p{2.5cm}|>{\setlength{\baselineskip}{0.7\baselineskip}}p{4.85cm}|>{\setlength{\baselineskip}{0.7\baselineskip}}p{4.85cm}|}
-\caption{Описания методов для работы с городами\label{city:table}}\\
-\hline \centrow \setlength{\baselineskip}{0.7\baselineskip} HTTP-метод & \centrow \setlength{\baselineskip}{0.7\baselineskip} Описание & \centrow Входные параметры & \centrow Пример JSON ответа \\
-\hline \centrow 1 & \centrow 2 & \centrow 3 & \centrow 4\\ \hline
-\endfirsthead
-\caption*{Продолжение таблицы \ref{city:table}}\\
-\hline \centrow 1 & \centrow 2 & \centrow 3 & \centrow 4\\ \hline
-\finishhead
-GET /api/City & Список всех городов City в БД & Нет & [
-    \{
-      "id": 0,
-      "name": "string",
-      "description": "string"
-    \}
-  ]\\
+    \caption{Описания методов для работы с городами\label{city:table}}\\
+    \hline \centrow \setlength{\baselineskip}{0.7\baselineskip} HTTP-метод & \centrow \setlength{\baselineskip}{0.7\baselineskip} Описание & \centrow Входные параметры & \centrow Пример JSON ответа \\
+    \hline \centrow 1 & \centrow 2 & \centrow 3 & \centrow 4\\ \hline
+    \endfirsthead
+    \caption*{Продолжение таблицы \ref{city:table}}\\
+    \hline \centrow 1 & \centrow 2 & \centrow 3 & \centrow 4\\ \hline
+    \finishhead
+    GET /api /City  & Список всех городов City в БД & Нет & [ \{ 
+      id: 0, 
+      name: <<string>>, 
+      description: <<string>> 
+        \} 
+      ] \\
 \end{xltabular}
+    
 
 \begin{xltabular}{\textwidth}{|X|p{2.5cm}|>{\setlength{\baselineskip}{0.7\baselineskip}}p{4.85cm}|>{\setlength{\baselineskip}{0.7\baselineskip}}p{4.85cm}|}
     \caption{Описание методов для работы с карточками товаров и услуг\label{product:table}}\\
@@ -36,165 +36,164 @@ GET /api/City & Список всех городов City в БД & Нет & [
     \caption*{Продолжение таблицы \ref{product:table}}\\
     \hline \centrow 1 & \centrow 2 & \centrow 3 & \centrow 4\\ \hline
     \finishhead
-    GET /api/Product & Список всех карточек Product & Нет & [
+    GET /api /Product  & Список всех карточек Product & Нет & [
         \{
-          "id": 0,
-          "name": "string",
-          "description": "string",
-          "imageUrl": "string",
-          "price": 0,
-          "createdByUserId": 0,
-          "cityId": 0,
-          "productGroupId": 0,
-          "productStatusId": 0,
-          "createdAt": "2024-01-20",
-          "publishedAt": "2024-01-20",
-          "expiredAt": "2024-01-20",
-          "priorityId": 0,
-          "priorityStartedAt": "2024-01-20",
-          "priorityExpiredAt": "2024-01-20",
-          "createdByUser": \{
-            "phone": "string",
-            "email": "string",
-            "firstName": "string",
-            "lastName": "string",
-            "imageUrl": "string",
-            "telegram": "string",
-            "website": "string",
-            "userRoleId": "string",
-            "permissions": "string",
-            "id": 0
+      id: 0,
+      name: <<string>>,
+      description: <<string>>,
+      imageUrl: <<string>>,
+      price: 0,
+      createdByUserId: 0,
+      cityId: 0,
+      productGroupId: 0,
+      productStatusId: 0,
+      createdAt: <<2024-01-20>>,
+      publishedAt: <<2024-01-20>>,
+      expiredAt: <<2024-01-20>>,
+      priorityId: 0,
+      priorityStartedAt: <<2024-01-20>>,
+      priorityExpiredAt: <<2024-01-20>>,
+      createdByUser: \{
+        phone: <<string>>,
+        email: <<string>>,
+        firstName: <<string>>,
+        lastName: <<string>>,
+        imageUrl: <<string>>,
+        telegram: <<string>>,
+        website: <<string>>,
+        userRoleId: <<string>>,
+        permissions: <<string>>,
+        id: 0
           \}
         \}
       ]\\
-\hline POST /api/Product & Создать новый Product & Body: \{
-    "id": 0,
-    "name": "string",
-    "description": "string",
-    "imageUrl": "string",
-    "price": 0,
-    "createdByUserId": 0,
-    "cityId": 0,
-    "productGroupId": 0,
-    "productStatusId": 0,
-    "createdAt": "2024-01-20",
-    "publishedAt": "2024-01-20",
-    "expiredAt": "2024-01-20",
-    "priorityId": 0,
-    "priorityStartedAt": "2024-01-20",
-    "priorityExpiredAt": "2024-01-20",
-    "createdByUser": \{
-      "phone": "string",
-      "email": "string",
-      "firstName": "string",
-      "lastName": "string",
-      "imageUrl": "string",
-      "telegram": "string",
-      "website": "string",
-      "userRoleId": "string",
-      "permissions": "string",
-      "id": 0
+\hline POST /api /Product  & Создать новый Product & Body: \{
+id: 0,
+name: <<string>>,
+description: <<string>>,
+imageUrl: <<string>>,
+price: 0,
+createdByUserId: 0,
+cityId: 0,
+productGroupId: 0,
+productStatusId: 0,
+createdAt: <<2024-01-20>>,
+publishedAt: <<2024-01-20>>,
+expiredAt: <<2024-01-20>>,
+priorityId: 0,
+priorityStartedAt: <<2024-01-20>>,
+priorityExpiredAt: <<2024-01-20>>,
+createdByUser: \{
+  phone: <<string>>,
+  email: <<string>>,
+  firstName: <<string>>,
+  lastName: <<string>>,
+  imageUrl: <<string>>,
+  telegram: <<string>>,
+  website: <<string>>,
+  userRoleId: <<string>>,
+  permissions: <<string>>,
+  id: 0
     \}
   \} & \{
-    "id": 0,
-    "name": "string",
-    "description": "string",
-    "imageUrl": "string",
-    "price": 0,
-    "createdByUserId": 0,
-    "cityId": 0,
-    "productGroupId": 0,
-    "productStatusId": 0,
-    "createdAt": "2024-01-20",
-    "publishedAt": "2024-01-20",
-    "expiredAt": "2024-01-20",
-    "priorityId": 0,
-    "priorityStartedAt": "2024-01-20",
-    "priorityExpiredAt": "2024-01-20"
+id: 0,
+name: <<string>>,
+description: <<string>>,
+imageUrl: <<string>>,
+price: 0,
+createdByUserId: 0,
+cityId: 0,
+productGroupId: 0,
+productStatusId: 0,
+createdAt: <<2024-01-20>>,
+publishedAt: <<2024-01-20>>,
+expiredAt: <<2024-01-20>>,
+priorityId: 0,
+priorityStartedAt: <<2024-01-20>>,
+priorityExpiredAt: <<2024-01-20>>
   \}\\
-\hline GET /api/Product/\{id\} & Получить выбранный Product по его id & Нет & \{
-    "id": 0,
-    "name": "string",
-    "description": "string",
-    "imageUrl": "string",
-    "price": 0,
-    "createdByUserId": 0,
-    "cityId": 0,
-    "productGroupId": 0,
-    "productStatusId": 0,
-    "createdAt": "2024-01-20",
-    "publishedAt": "2024-01-20",
-    "expiredAt": "2024-01-20",
-    "priorityId": 0,
-    "priorityStartedAt": "2024-01-20",
-    "priorityExpiredAt": "2024-01-20"
+\hline GET /api /Product /\{id\} & Получить выбранный Product по его id & Нет & \{
+id: 0,
+name: <<string>>,
+description: <<string>>,
+imageUrl: <<string>>,
+price: 0,
+createdByUserId: 0,
+cityId: 0,
+productGroupId: 0,
+productStatusId: 0,
+createdAt: <<2024-01-20>>,
+publishedAt: <<2024-01-20>>,
+expiredAt: <<2024-01-20>>,
+priorityId: 0,
+priorityStartedAt: <<2024-01-20>>,
+priorityExpiredAt: <<2024-01-20>>
   \}\\
-\hline PUT /api/Product/\{id\} & Обновить существующий Product & Body: \{
-    "id": 0,
-    "name": "string",
-    "description": "string",
-    "imageUrl": "string",
-    "price": 0,
-    "createdByUserId": 0,
-    "cityId": 0,
-    "productGroupId": 0,
-    "productStatusId": 0,
-    "createdAt": "2024-01-20",
-    "publishedAt": "2024-01-20",
-    "expiredAt": "2024-01-20",
-    "priorityId": 0,
-    "priorityStartedAt": "2024-01-20",
-    "priorityExpiredAt": "2024-01-20",
-    "createdByUser": \{
-      "phone": "string",
-      "email": "string",
-      "firstName": "string",
-      "lastName": "string",
-      "imageUrl": "string",
-      "telegram": "string",
-      "website": "string",
-      "userRoleId": "string",
-      "permissions": "string",
-      "id": 0
+\hline PUT /api /Product /\{id\} & Обновить существующий Product & Body: \{
+id: 0,
+name: <<string>>,
+description: <<string>>,
+imageUrl: <<string>>,
+price: 0,
+createdByUserId: 0,
+cityId: 0,
+productGroupId: 0,
+productStatusId: 0,
+createdAt: <<2024-01-20>>,
+publishedAt: <<2024-01-20>>,
+expiredAt: <<2024-01-20>>,
+priorityId: 0,
+priorityStartedAt: <<2024-01-20>>,
+priorityExpiredAt: <<2024-01-20>>,
+createdByUser: \{
+  phone: <<string>>,
+  email: <<string>>,
+  firstName: <<string>>,
+  lastName: <<string>>,
+  imageUrl: <<string>>,
+  telegram: <<string>>,
+  website: <<string>>,
+  userRoleId: <<string>>,
+  permissions: <<string>>,
+  id: 0
     \}
   \} & \{
-    "id": 0,
-    "name": "string",
-    "description": "string",
-    "imageUrl": "string",
-    "price": 0,
-    "createdByUserId": 0,
-    "cityId": 0,
-    "productGroupId": 0,
-    "productStatusId": 0,
-    "createdAt": "2024-01-20",
-    "publishedAt": "2024-01-20",
-    "expiredAt": "2024-01-20",
-    "priorityId": 0,
-    "priorityStartedAt": "2024-01-20",
-    "priorityExpiredAt": "2024-01-20"
+id: 0,
+name: <<string>>,
+description: <<string>>,
+imageUrl: <<string>>,
+price: 0,
+createdByUserId: 0,
+cityId: 0,
+productGroupId: 0,
+productStatusId: 0,
+createdAt: <<2024-01-20>>,
+publishedAt: <<2024-01-20>>,
+expiredAt: <<2024-01-20>>,
+priorityId: 0,
+priorityStartedAt: <<2024-01-20>>,
+priorityExpiredAt: <<2024-01-20>>
   \}\\
-\hline DELETE /api/Product/\{id\} & Удалить Product по его id & Нет & Нет\\
-\hline GET /api/Product/filter & Получить отфильтрованный список существующих продуктов & Query parameters: cityId: integer, productGroupId: integer, publishedAtFrom: string, expiredAtTo: string. & [
+\hline DELETE /api /Product /\{id\} & Удалить Product по его id & Нет & Нет\\
+\hline GET /api /Product /filter & Получить отфильтрованный список существующих продуктов & Query parameters: cityId: integer, productGroupId: integer, publishedAtFrom: string, expiredAtTo: string. & [
     \{
-      "id": 0,
-      "name": "string",
-      "description": "string",
-      "imageUrl": "string",
-      "price": 0,
-      "createdByUserId": 0,
-      "cityId": 0,
-      "productGroupId": 0,
-      "productStatusId": 0,
-      "createdAt": "2024-01-20",
-      "publishedAt": "2024-01-20",
-      "expiredAt": "2024-01-20",
-      "priorityId": 0,
-      "priorityStartedAt": "2024-01-20",
-      "priorityExpiredAt": "2024-01-20"
+  id: 0,
+  name: <<string>>,
+  description: <<string>>,
+  imageUrl: <<string>>,
+  price: 0,
+  createdByUserId: 0,
+  cityId: 0,
+  productGroupId: 0,
+  productStatusId: 0,
+  createdAt: <<2024-01-20>>,
+  publishedAt: <<2024-01-20>>,
+  expiredAt: <<2024-01-20>>,
+  priorityId: 0,
+  priorityStartedAt: <<2024-01-20>>,
+  priorityExpiredAt: <<2024-01-20>>
     \}
   ]\\
-% \hline POST /api/Product & Создать новый Product & Body: & Нет \\
 \end{xltabular}
 
 \begin{xltabular}{\textwidth}{|X|p{2.5cm}|>{\setlength{\baselineskip}{0.7\baselineskip}}p{4.85cm}|>{\setlength{\baselineskip}{0.7\baselineskip}}p{4.85cm}|}
@@ -205,46 +204,44 @@ GET /api/City & Список всех городов City в БД & Нет & [
     \caption*{Продолжение таблицы \ref{type:table}}\\
     \hline \centrow 1 & \centrow 2 & \centrow 3 & \centrow 4\\ \hline
     \finishhead
-    GET /api/ProductGtoup & Список всех типов товаров и услуг ProductGroup в БД & Нет & [
-        {
-          "id": 0,
-          "name": "string",
-          "description": "string",
-          "type": 0,
-          "childrenProductGroupIds": [
-            0
-          ],
-          "parentProductGroupId": 0
-        }
-      ]\\
-      \hline POST /api/ProductGtoup & Создать новый ProductGtoup & Body: [
+    GET /api /ProductGtoup  & Список всех типов товаров и услуг ProductGroup в БД & Нет & [
         \{
-          "id": 0,
-          "name": "string",
-          "description": "string",
-          "type": 0,
-          "childrenProductGroupIds": [
+      id: 0,
+      name: <<string>>,
+      description: <<string>>,
+      type: 0,
+      childrenProductGroupIds: [
             0
           ],
-          "parentProductGroupId": 0
+      parentProductGroupId: 0
+        \}
+      ]\\
+      \hline POST /api /ProductGtoup  & Создать новый ProductGtoup & Body: [
+        \{
+      id: 0,
+      name: <<string>>,
+      description: <<string>>,
+      type: 0,
+      childrenProductGroupIds: [
+            0
+          ],
+      parentProductGroupId: 0
         \}
       ] & [
         \{
-          "id": 0,
-          "name": "string",
-          "description": "string",
-          "type": 0,
-          "childrenProductGroupIds": [
+      id: 0,
+      name: <<string>>,
+      description: <<string>>,
+      type: 0,
+      childrenProductGroupIds: [
             0
           ],
-          "parentProductGroupId": 0
+      parentProductGroupId: 0
         \}
       ] \\
 \end{xltabular}
 
-% \hline POST /api/Product & Создать новый Product & Body: & Нет \\
-
-\begin{xltabular}{\textwidth}{|X|p{2.5cm}|>{\setlength{\baselineskip}{0.7\baselineskip}}p{4.85cm}|>{\setlength{\baselineskip}{0.7\baselineskip}}p{4.85cm}|}
+\begin{xltabular}{\textwidth}{|X|p{4.85cm}|>{\setlength{\baselineskip}{0.7\baselineskip}}p{2.5cm}|>{\setlength{\baselineskip}{0.7\baselineskip}}p{4.85cm}|}
     \caption{Описание методов для работы с данными пользователя\label{data:table}}\\
     \hline \centrow \setlength{\baselineskip}{0.7\baselineskip} HTTP-метод & \centrow \setlength{\baselineskip}{0.7\baselineskip} Описание & \centrow Входные параметры & \centrow JSON ответ \\
     \hline \centrow 1 & \centrow 2 & \centrow 3 & \centrow 4\\ \hline
@@ -252,58 +249,58 @@ GET /api/City & Список всех городов City в БД & Нет & [
     \caption*{Продолжение таблицы \ref{data:table}}\\
     \hline \centrow 1 & \centrow 2 & \centrow 3 & \centrow 4\\ \hline
     \finishhead
-    GET /api/User/{id} & Получить данные существующего пользователя User по его id & Нет & \{
-        "phone": "string",
-        "email": "string",
-        "firstName": "string",
-        "lastName": "string",
-        "imageUrl": "string",
-        "telegram": "string",
-        "website": "string",
-        "userRoleId": "string",
-        "permissions": "string",
-        "id": 0
+    GET /api /User /{id} & Получить данные существующего пользователя User по его id & Нет & \{
+    phone: <<string>>,
+    email: <<string>>,
+    firstName: <<string>>,
+    lastName: <<string>>,
+    imageUrl: <<string>>,
+    telegram: <<string>>,
+    website: <<string>>,
+    userRoleId: <<string>>,
+    permissions: <<string>>,
+    id: 0
       \}\\
-      \hline POST /api/User/create & Создать нового пользователя User & Body: \{
-        "phone": "string",
-        "email": "string",
-        "firstName": "string",
-        "lastName": "string",
-        "imageUrl": "string",
-        "telegram": "string",
-        "website": "string",
-        "userRoleId": "string",
-        "permissions": "string",
-        "password": "string"
+      \hline POST /api /User /create & Создать нового пользователя User & Body: \{
+    phone: <<string>>,
+    email: <<string>>,
+    firstName: <<string>>,
+    lastName: <<string>>,
+    imageUrl: <<string>>,
+    telegram: <<string>>,
+    website: <<string>>,
+    userRoleId: <<string>>,
+    permissions: <<string>>,
+    password: <<string>>
       \} & \{
-        "phone": "string",
-        "email": "string",
-        "firstName": "string",
-        "lastName": "string",
-        "imageUrl": "string",
-        "telegram": "string",
-        "website": "string",
-        "userRoleId": "string",
-        "permissions": "string",
-        "id": 0,
-        "hash": "string",
-        "salt": "string"
+    phone: <<string>>,
+    email: <<string>>,
+    firstName: <<string>>,
+    lastName: <<string>>,
+    imageUrl: <<string>>,
+    telegram: <<string>>,
+    website: <<string>>,
+    userRoleId: <<string>>,
+    permissions: <<string>>,
+    id: 0,
+    hash: <<string>>,
+    salt: <<string>>
       \} \\
-      \hline POST /api/User/login & Авторизоваться существующим пользователем User в системе. Авторизоваться -\- сохранить в клиентском приложение значение из поля accessToken & Body: \{
-        "email": "string",
-        "password": "string"
+      \hline POST /api /User /login & Авторизоваться существующим пользователем User в системе. Авторизоваться -\- сохранить в клиентском приложение значение из поля accessToken & Body: \{
+    email: <<string>>,
+    password: <<string>>
       \} & \{
-        "phone": "string",
-        "email": "string",
-        "firstName": "string",
-        "lastName": "string",
-        "imageUrl": "string",
-        "telegram": "string",
-        "website": "string",
-        "userRoleId": "string",
-        "permissions": "string",
-        "id": 0,
-        "accessToken": "string"
+    phone: <<string>>,
+    email: <<string>>,
+    firstName: <<string>>,
+    lastName: <<string>>,
+    imageUrl: <<string>>,
+    telegram: <<string>>,
+    website: <<string>>,
+    userRoleId: <<string>>,
+    permissions: <<string>>,
+    id: 0,
+    accessToken: <<string>>
       \} \\
 \end{xltabular}
 
