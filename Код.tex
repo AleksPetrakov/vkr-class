@@ -1,10 +1,2891 @@
-\appendix{Фрагменты исходного кода программы}
+\appendix{Фрагменты исходного кода серверной части приложения}
 
-main.tex
-\lstinputlisting[language=Tex, frame=none]{main.tex}
+Program.cs
+\lstset{style=sharpc}
+\begin{lstlisting}
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.Hosting;
+    
+    namespace new_back
+    {
+      public static class Program
+      {
+        public static void Main(string[] args)
+        {
+          CreateHostBuilder(args).Build().Run();
+        }
+    
+        private static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                  webBuilder.UseStartup<Startup>();
+                });
+      }
+    }
+\end{lstlisting}
 
-ТехПроект.tex
-\lstinputlisting[language=Tex, frame=none]{ТехПроект.tex}
+Startup.cs
+\lstset{style=sharpc}
+\begin{lstlisting}
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting; // Убедитесь, что используете это пространство имен
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.EntityFrameworkCore;
+    using new_back.Infrastructure;
+    
+    namespace new_back
+    {
+        public class Startup
+        {
+            public Startup(IConfiguration configuration)
+            {
+                Configuration = configuration;
+            }
+    
+            private IConfiguration Configuration { get; }
+    
+            public void ConfigureServices(IServiceCollection services)
+            {
+                services.AddDbContext<DatabaseContext>(options =>
+                    options.UseNpgsql(Configuration.GetConnectionString("new_backConnection"))
+                );
+    
+                // добавляем поддержку CORS:
+                services.AddCors();
+    
+                services.AddMvc(option => option.EnableEndpointRouting = false);
+    
+                services.AddSwaggerGen();
+                services.AddScoped<ProductRepository>();
+                services.AddScoped<ProductGroupRepository>();
+                services.AddScoped<UserRepository>();
+                services.AddScoped<UserRoleRepository>();
+                services.AddScoped<CityRepository>();
+            }
+    
+            public void Configure(IApplicationBuilder app, IWebHostEnvironment env) // Используйте IWebHostEnvironment здесь
+            {
+                if (env.IsDevelopment())
+                {
+                    app.UseDeveloperExceptionPage();
+    
+                    app.UseSwagger();
+    
+                    app.UseSwaggerUI(c =>
+                    {
+                        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Animal Sharing API version 0.1");
+                    });
+                }
+                else
+                {
+                    app.UseHsts();
+                }
+    
+                // строчки, позволяющие серверу обрабатывать статические файлы:
+                app.UseDefaultFiles();
+                app.UseStaticFiles();
+    
+                // строка, позволяющая серверу принимать запросы с порта 4200:
+                app.UseCors(builder => builder.WithOrigins("http://localhost:4200"));
+    
+                app.UseMvc();
+            }
+        }
+    }
+\end{lstlisting}
+
+Short.cs
+\lstset{style=sharpc}
+\begin{lstlisting}
+    namespace new_back.Models
+
+    {
+      public abstract class Short
+      {
+        public long Id { get; set; }
+    
+        public string? Name { get; set; }
+    
+        public string? Description { get; set; } = null;
+      }
+    }
+\end{lstlisting}
+
+City.cs
+\lstset{style=sharpc}
+\begin{lstlisting}
+    namespace new_back.Models
+    {
+        public class City : Short
+        {
+        }
+    }
+\end{lstlisting}
+
+HashSalt.cs
+\lstset{style=sharpc}
+\begin{lstlisting}
+    namespace new_back.Models
+    {
+        public class HashSalt
+        {
+            public string Hash { get; set; }
+            public string Salt { get; set; }
+        }
+    }
+\end{lstlisting}
+
+Product.cs
+\lstset{style=sharpc}
+\begin{lstlisting}
+    namespace new_back.Models
+
+    {
+      public class Product : Short
+      {
+        public string? ImageUrl { get; set; } // assuming JSON string
+        public decimal Price { get; set; }
+        public long? CreatedByUserId { get; set; }
+        public long CityId { get; set; }
+        public long ProductGroupId { get; set; }
+        public long ProductStatusId { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime? PublishedAt { get; set; }
+        public DateTime? ExpiredAt { get; set; }
+        public long PriorityId { get; set; }
+        public DateTime PriorityStartedAt { get; set; }
+        public DateTime? PriorityExpiredAt { get; set; }
+      }
+      
+      public class ProductView : Product
+      {
+        public UserView? CreatedByUser { get; set; }
+      }
+    }
+\end{lstlisting}
+
+CityIdEnum.cs
+\lstset{style=sharpc}
+\begin{lstlisting}
+    // CityEnum.cs in Enums folder
+    using System.ComponentModel;
+    
+    namespace new_back.Enums
+    {
+        public enum CityIdEnum
+        {
+            [Description("Москва")]
+            Moscow = 1,
+            [Description("Санкт-Петербург")]
+            SaintPetersburg = 2,
+            [Description("Курск")]
+            Kazan = 3,
+        }
+    }    
+\end{lstlisting}
+
+ProductTypeEnum.cs
+\lstset{style=sharpc}
+\begin{lstlisting}
+    using System.ComponentModel;
+
+    namespace new_back.Enums
+    {
+        public enum ProductTypeEnum
+        {
+            [Description("Собаки")]
+            Dogs = 0,
+            [Description("Кошки")]
+            Cats = 1,
+            [Description("Лошади")]
+            Horses = 2,
+            [Description("Хорьки")]
+            Ferrets = 3,
+            [Description("Рептилии")]
+            Reptiles = 4,
+            [Description("Грызуны")]
+            Rodents = 5,
+            [Description("Амфибии")]
+            Amphibians = 6,
+            [Description("Птицы")]
+            Birds = 7,
+            [Description("Экзотика")]
+            Exotic = 8,
+            [Description("Беспозвоночные")]
+            Invertebrates = 9,
+            [Description("Аквариумные рыбки")]
+            AquariumFish = 10,
+            [Description("Сельскохозяйственные животные")]
+            FarmAnimals = 11,
+            [Description("Другое")]
+            Others = 12,
+        }
+    }
+\end{lstlisting}
+
+UserRoleEnum.cs
+\lstset{style=sharpc}
+\begin{lstlisting}
+    using System.ComponentModel;
+
+    namespace new_back.Enums
+    {
+        public enum UserRoleEnum
+        {
+            [Description("Ситтер")]
+            SITTER = 1,
+            [Description("Хозяин")]
+            OWNER = 2,
+        }
+    }
+\end{lstlisting}
+
+ProductGroup.cs
+\lstset{style=sharpc}
+\begin{lstlisting}
+    using System.Collections.Generic;
+    using new_back.Enums;
+    
+    namespace new_back.Models
+    {
+        public class ProductGroup : Short
+        {
+            public ProductTypeEnum Type { get; set; }
+            
+            public List<long> ChildrenProductGroupIds { get; set; }
+            
+            public long ParentProductGroupId { get; set; }
+        }
+    }
+\end{lstlisting}
+
+ProductPriority.cs
+\lstset{style=sharpc}
+\begin{lstlisting}
+    namespace new_back.Models
+    {
+        public class ProductPriority : Short
+        {
+            public decimal Price { get; set; }
+            public int DaysCount { get; set; }
+        }
+    }
+\end{lstlisting}
+
+ProductStatus.cs
+\lstset{style=sharpc}
+\begin{lstlisting}
+    namespace new_back.Models
+    {
+        public class ProductStatus : Short
+        {
+        }
+    }
+\end{lstlisting}
+
+User.cs
+\lstset{style=sharpc}
+\begin{lstlisting}
+    using new_back.Enums;
+
+    namespace new_back.Models
+    {
+        public class UserBase
+        {
+            public string? Phone { get; set; }
+            public string Email { get; set; }
+            public string FirstName { get; set; }
+            public string LastName { get; set; }
+            public string? ImageUrl { get; set; }
+            public string? Telegram { get; set; }
+            public string? Website { get; set; }
+            public string? UserRoleId { get; set; }
+            public string? Permissions { get; set; }
+        }
+        
+        public class UserRegistrationData : UserBase
+        {
+            public string Password { get; set; }
+        }
+    
+        public class UserLoginData
+        {
+            public string Email { get; set; }
+            public string Password { get; set; }
+        }
+        
+        public class UserLoginResponseData : UserBase
+        {
+            public long Id { get; set; }
+            public string AccessToken { get; set; }
+        }
+        
+        public class UserView : UserBase
+        {
+            public long Id { get; set; }
+        }
+        
+        public class User : UserBase
+        {
+            public long Id { get; set; }
+            public string Hash { get; set; }
+            public string Salt { get; set; }
+        }
+    }    
+\end{lstlisting}
+
+UserRole.cs
+\lstset{style=sharpc}
+\begin{lstlisting}
+    namespace new_back.Models
+
+    {
+      public class UserRole : Short
+      {
+        public string? Permissions { get; set; }
+      }
+    }
+\end{lstlisting}
+
+CityController.cs
+\lstset{style=sharpc}
+\begin{lstlisting}
+    using Microsoft.AspNetCore.Mvc;
+    using new_back.Infrastructure;
+    using new_back.Models;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    
+    namespace new_back.Controllers
+    {
+        [ApiController]
+        [Route("api/[controller]")]
+        public class CityController : ControllerBase
+        {
+            private readonly CityRepository _cityRepository;
+    
+            public CityController(CityRepository cityRepository)
+            {
+                _cityRepository = cityRepository;
+            }
+    
+            [HttpGet]
+            public async Task<ActionResult<IEnumerable<City>>> GetAllCities()
+            {
+                var cities = await _cityRepository.GetAllAsync();
+                return Ok(cities);
+            }
+        }
+    }
+\end{lstlisting}
+
+ProductController.cs
+\lstset{style=sharpc}
+\begin{lstlisting}
+    using Microsoft.AspNetCore.Mvc;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using new_back.Infrastructure;
+    using new_back.Models;
+    using new_back.Shared;
+    
+    namespace new_back.Controllersnew_back
+    {
+      [Route("api/[controller]")]
+      [ApiController]
+      public class ProductController : ControllerBase
+      {
+        private readonly ProductRepository _repository;
+        private readonly UserRepository _userRepository;
+    
+        public ProductController(ProductRepository repository, UserRepository userRepository)
+        {
+          _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+          _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+        }
+    
+        private static ProductView MapProductToProductView(Product p, List<UserView> users)
+        {
+          return new ProductView
+          {
+            Id = p.Id,
+            Name = p.Name,
+            Description = p.Description,
+            ImageUrl = p.ImageUrl,
+            ProductGroupId = p.ProductGroupId,
+            Price = p.Price,
+            CreatedByUserId = p.CreatedByUserId,
+            CreatedByUser = users.Find(u => u.Id == p.CreatedByUserId),
+            CityId = p.CityId,
+            PublishedAt = p.PublishedAt,
+            ExpiredAt = p.ExpiredAt,
+            ProductStatusId = p.ProductStatusId,
+            CreatedAt = p.CreatedAt
+          };
+        }
+        
+        private static Product MapProductViewToProduct(ProductView p)
+        {
+          return new Product
+          {
+            Id = p.Id,
+            Name = p.Name,
+            Description = p.Description,
+            ImageUrl = p.ImageUrl,
+            ProductGroupId = p.ProductGroupId,
+            Price = p.Price,
+            CreatedByUserId = p.CreatedByUserId,
+            
+            CityId = p.CityId,
+            PublishedAt = p.PublishedAt,
+            ExpiredAt = p.ExpiredAt,
+            ProductStatusId = p.ProductStatusId,
+            CreatedAt = p.CreatedAt
+          };
+        }
+    
+        [HttpGet]
+        public ActionResult<List<ProductView>> GetAll()
+        {
+          var users = _userRepository.GetAllUserViews();
+          
+          return _repository
+            .GetAll()
+            .Select(p => MapProductToProductView(p, users))
+            .ToList();
+        }
+        
+        [HttpGet("current-user")]
+        public ActionResult<List<Product>> GetByUser()
+        {
+          try
+          {
+            var user = Token.GetAuthorizedUser(HttpContext, _userRepository);
+            var users = _userRepository.GetAllUserViews();
+            var items = _repository
+              .FilterByUserId(user.Id)
+              .Select(p => MapProductToProductView(p, users))
+              .ToList();
+            
+            return Ok(items);
+          }
+          catch (Exception e)
+          {
+            return Problem(e.Message);
+          }
+        }
+    
+        [HttpGet("{id:long}")]
+        public ActionResult<Product> GetById(long id)
+        {
+          var item = _repository.GetById(id >= 0 ? id : throw new ArgumentNullException(nameof(id)));
+          if (item == null)
+          {
+            return NotFound();
+          }
+          return item;
+        }
+    
+        [HttpPut("{id:long}")]
+        public ActionResult<Product> Update(ProductView product, long id)
+        {
+          try
+          {
+            var user = Token.GetAuthorizedUser(HttpContext, _userRepository);
+    
+            if (product.CreatedByUserId != user.Id) throw new Exception("User does not have access to change this product");
+            
+            if (product is null) throw new ArgumentNullException(nameof(product));
+            
+            var dishDb = _repository.Update(MapProductViewToProduct(product));
+            
+            if (dishDb == null)
+            {
+              return NotFound();
+            }
+    
+            return NoContent();
+          }
+          catch (Exception e)
+          {
+            return Problem(e.Message);
+          }
+        }
+    
+        [HttpPost]
+        public ActionResult<Product> Create(ProductView productView)
+        {
+          try
+          {
+            if (productView is null) throw new ArgumentNullException(nameof(productView));
+            var user = Token.GetAuthorizedUser(HttpContext, _userRepository);
+    
+            var product = MapProductViewToProduct(productView);
+            product.CreatedByUserId = user.Id;
+            
+            var item = _repository.Create(product);
+    
+            return CreatedAtAction(
+              nameof(GetById),
+              new { id = item.Id },
+              item
+            );
+          }
+          catch (Exception e)
+          {
+            return Problem(e.Message);
+          }
+        }
+    
+        [HttpDelete("{id:long}")]
+        public ActionResult Delete(long id)
+        {
+          try
+          {
+            var user = Token.GetAuthorizedUser(HttpContext, _userRepository);
+            var oldProduct = _repository.GetById(id);
+    
+            if (oldProduct.CreatedByUserId != user.Id) throw new Exception("User does not have access to delete this product");
+    
+            var item = _repository.Delete(id >= 0 ? id : throw new ArgumentNullException(nameof(id)));
+    
+            if (item == null)
+            {
+              return NotFound();
+            }
+    
+            return NoContent();
+          }
+          catch (Exception e)
+          {
+            return Problem(e.Message);
+          }
+        }
+    
+        [HttpGet("filter")]
+        public ActionResult<List<Product>> GetFiltered(
+          [FromQuery] long? cityId, 
+          [FromQuery] long? productGroupId, 
+          [FromQuery] DateTime? publishedAtFrom, 
+          [FromQuery] DateTime? expiredAtTo
+        )
+        {
+          try
+          {
+            var users = _userRepository.GetAllUserViews();
+            var filteredProducts = _repository
+              .GetFiltered(
+                cityId, 
+                productGroupId, 
+                publishedAtFrom, 
+                expiredAtTo
+              )
+              .Select(p => MapProductToProductView(p, users))
+              .ToList();;
+            
+    
+            // Assuming GetFiltered returns IEnumerable<Product>
+            return Ok(filteredProducts);
+          }
+          catch (Exception e)
+          {
+            return Problem(e.Message);
+          }
+        }
+      }
+    }
+\end{lstlisting}
+
+ProductGroupController.cs
+\lstset{style=sharpc}
+\begin{lstlisting}
+    using System;
+    using System.Collections.Generic;
+    using Microsoft.AspNetCore.Mvc;
+    using new_back.Infrastructure;
+    using new_back.Models;
+    
+    namespace new_back.Controllers
+    {
+        [Route("api/[controller]")]
+        [ApiController]
+        public class ProductGroupController : ControllerBase
+        {
+            private readonly ProductGroupRepository _repository;
+            
+            public ProductGroupController(ProductGroupRepository repository)
+            {
+                _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            }
+            
+            [HttpGet]
+            public ActionResult<List<ProductGroup>> GetAll()
+            {
+                return _repository.GetAll();
+            }
+            
+            [HttpPost]
+            public ActionResult<List<ProductGroup>> UpdateAll(List<ProductGroup> complexities)
+            {
+                var items = _repository.UpdateAll(
+                    complexities ?? throw new ArgumentNullException("Ошибка при обновлении группы продуктов")
+                );
+    
+                return CreatedAtAction(
+                    nameof(GetAll),
+                    null,
+                    items
+                );
+            }
+        }
+    }
+\end{lstlisting}
+
+UserController.cs
+\lstset{style=sharpc}
+\begin{lstlisting}
+    using System;
+    using System.Security.Cryptography;
+    using new_back.Infrastructure;
+    using new_back.Models;
+    using new_back.Shared;
+    using Microsoft.AspNetCore.Mvc;
+    
+    
+    namespace new_back.Controllers
+    {
+        [Route("api/[controller]")]
+        [ApiController]
+        public class UserController : ControllerBase
+        {
+            private readonly UserRepository _repository;
+            
+            public UserController(UserRepository repository)
+            {
+                _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            }
+            
+            [HttpGet("{id:long}")]
+            public ActionResult<UserView> GetById(long id)
+            {
+                var user = _repository.GetById(id >= 0 ? id : throw new ArgumentNullException(nameof(id)));
+                
+                if (user == null)
+                {
+                    return NotFound();
+                }
+                
+                var userView = new UserView
+                {
+                    Id = user.Id,
+                    Phone = user.Phone,
+                    Email = user.Email,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    ImageUrl = user.ImageUrl,
+                    Telegram = user.Telegram,
+                    Website = user.Website,
+                    UserRoleId = user.UserRoleId,
+                };
+                
+                return userView;
+            }
+            
+            // [HttpPut("{id}")]
+            // public ActionResult<User> Update(UserView user, string id)
+            // {
+            //     var dishDb = _repository.Update(user ?? throw new ArgumentNullException(nameof(user)));
+            //     if (dishDb == null)
+            //     {
+            //         return NotFound();
+            //     }
+            //
+            //     return NoContent();
+            // }
+    
+            [HttpPost("create")]
+            public ActionResult<User> Create(UserRegistrationData regUserData)
+            {
+                if (regUserData is null) throw new ArgumentNullException(nameof(regUserData));
+    
+                var hashSalt = HashPassword(regUserData.Password);
+                var user = new User
+                {
+                    Id = 0,
+                    Phone = regUserData.Phone,
+                    Email = regUserData.Email,
+                    FirstName = regUserData.FirstName,
+                    LastName = regUserData.LastName,
+                    ImageUrl = regUserData.ImageUrl,
+                    Telegram = regUserData.Telegram,
+                    Website = regUserData.Website,
+                    Hash = hashSalt.Hash,
+                    Salt = hashSalt.Salt,
+                    UserRoleId = regUserData.UserRoleId,
+                };
+    
+                var r = _repository.Create(user);
+    
+                if (r is null) return Problem("User with this email exists");
+    
+                var userWithToken = new UserLoginResponseData
+                {
+                    Id = r.Id,
+                    Phone = r.Phone,
+                    Email = r.Email,
+                    FirstName = r.FirstName,
+                    LastName = r.LastName,
+                    ImageUrl = r.ImageUrl,
+                    Telegram = r.Telegram,
+                    Website = r.Website,
+                    UserRoleId = r.UserRoleId,
+                    AccessToken = Token.CreateToken(user)
+                };
+                
+                return CreatedAtAction(
+                    nameof(GetById),
+                    new { id = userWithToken.Id },
+                    userWithToken
+                );
+            }
+            
+            [HttpPost("login")]
+            public ActionResult<UserLoginResponseData> Login(UserLoginData userData)
+            {
+                if (userData is null) throw new ArgumentNullException(nameof(userData));
+            
+                var r = _repository.GetByEmail(userData.Email);
+                
+                if (r is null) return Problem("There is no user with this email");
+    
+                var isPasswordMatched = VerifyPassword(userData.Password, r.Hash, r.Salt);
+                
+                if (!isPasswordMatched) return Problem("Incorrect password");
+            
+                var userWithToken = new UserLoginResponseData
+                {
+                    Id = r.Id,
+                    Phone = r.Phone,
+                    Email = r.Email,
+                    FirstName = r.FirstName,
+                    LastName = r.LastName,
+                    ImageUrl = r.ImageUrl,
+                    Telegram = r.Telegram,
+                    Website = r.Website,
+                    UserRoleId = r.UserRoleId,
+                    AccessToken = Token.CreateToken(r)
+                };
+                
+                return CreatedAtAction(
+                    nameof(GetById),
+                    new { id = userWithToken.Id },
+                    userWithToken
+                );
+            }
+            
+            private static HashSalt HashPassword(string password)
+            {
+                var saltBytes = new byte[64];
+                var provider = new RNGCryptoServiceProvider();
+                provider.GetNonZeroBytes(saltBytes);
+                var salt = Convert.ToBase64String(saltBytes);
+                var rfc2898DeriveBytes = new Rfc2898DeriveBytes(password, saltBytes, 10000);
+                var hashPassword = Convert.ToBase64String(rfc2898DeriveBytes.GetBytes(256));
+    
+                return new HashSalt { Hash = hashPassword, Salt = salt };
+            }
+            
+            private static bool VerifyPassword(string enteredPassword, string storedHash, string storedSalt)
+            {
+                var saltBytes = Convert.FromBase64String(storedSalt);
+                var rfc2898DeriveBytes = new Rfc2898DeriveBytes(enteredPassword, saltBytes, 10000);
+                
+                return Convert.ToBase64String(rfc2898DeriveBytes.GetBytes(256)) == storedHash;
+            }
+        }
+    }    
+\end{lstlisting}
+
+UserRoleController.cs
+\lstset{style=sharpc}
+\begin{lstlisting}
+    using System;
+    using System.Collections.Generic;
+    using Microsoft.AspNetCore.Mvc;
+    using new_back.Infrastructure;
+    using new_back.Models;
+    
+    namespace new_back.Controllers
+    {
+        [Route("api/[controller]")]
+        [ApiController]
+        public class UserRoleController : ControllerBase
+        {
+            private readonly UserRoleRepository _repository;
+            
+            public UserRoleController(UserRoleRepository repository)
+            {
+                _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            }
+            
+            [HttpGet]
+            public ActionResult<List<UserRole>> GetAll()
+            {
+                return _repository.GetAll();
+            }
+            
+            [HttpPost]
+            public ActionResult<List<UserRole>> UpdateAll(List<UserRole> complexities)
+            {
+                var items = _repository.UpdateAll(
+                    complexities ?? throw new ArgumentNullException("Ошибка при обновлении роли пользователя")
+                );
+    
+                return CreatedAtAction(
+                    nameof(GetAll),
+                    null,
+                    items
+                );
+            }
+        }
+    }
+\end{lstlisting}
+
+CityRepository.cs
+\lstset{style=sharpc}
+\begin{lstlisting}
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Microsoft.EntityFrameworkCore;
+    using new_back.Enums;
+    using new_back.Models;
+    using new_back.Shared;
+    
+    namespace new_back.Infrastructure
+    {
+        public class CityRepository
+        {
+            private readonly DatabaseContext _context;
+    
+            public CityRepository(DatabaseContext context)
+            {
+                _context = context;
+            }
+    
+            private void EnsureDefaultCities()
+            {
+                if (!_context.Cities.Any())
+                {
+                    var cities = Enum.GetValues(typeof(CityIdEnum))
+                        .Cast<Enum>()
+                        .Select(e => new City { Name = e.GetDescription() })
+                        .ToList();
+    
+                    _context.Cities.AddRange(cities);
+                    _context.SaveChanges();
+                }
+            }
+    
+            public async Task<List<City>> GetAllAsync()
+            {
+                EnsureDefaultCities();
+                return await _context.Cities.ToListAsync();
+            }
+        }
+    }    
+\end{lstlisting}
+
+DatabaseBContext.cs
+\lstset{style=sharpc}
+\begin{lstlisting}
+    using Microsoft.EntityFrameworkCore;
+    using new_back.Models;
+    
+    namespace new_back.Infrastructure
+    {  
+      public class DatabaseContext : DbContext
+      {
+            internal object _context;
+    
+            // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+            // {
+            //     if (!optionsBuilder.IsConfigured)
+            //     {
+            //         optionsBuilder.UseSqlServer("Host=localhost;Port=5432;Username=postgres;Password=postgres;Database=AnimalSharing;");
+            //     }
+            // }
+    
+            public DatabaseContext() { }
+    
+        public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
+        {
+        }
+    
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductGroup> ProductGroups { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<City> Cities { get; set; }
+      }
+    }
+\end{lstlisting}
+
+ProductGroupRepository.cs
+\lstset{style=sharpc}
+\begin{lstlisting}
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Microsoft.EntityFrameworkCore;
+    using new_back.Enums;
+    using new_back.Models;
+    using new_back.Shared;
+    
+    namespace new_back.Infrastructure
+    {
+        public class ProductGroupRepository
+        {
+            private readonly DatabaseContext _context;
+            
+            public ProductGroupRepository(DatabaseContext context)
+            {
+                _context = context;
+            }
+    
+            private void PushDefaultValues()
+            {
+                var typeNames = Enum.GetNames(typeof(ProductTypeEnum));
+    
+                for (int i = 0; i < typeNames.Length; i++)
+                {
+                    var enumValue = (ProductTypeEnum)Enum.Parse(typeof(ProductTypeEnum), typeNames[i]);
+                    // Получаем описание из GetDescription()
+                    string description = enumValue.GetDescription();
+    
+                    _context.Database.ExecuteSqlInterpolated(
+                        $"INSERT INTO public.\"ProductGroups\"(\"Name\", \"Type\", \"ChildrenProductGroupIds\", \"ParentProductGroupId\") VALUES ({description}, {i}, {new List<long>(0)}, {0})"
+                    );
+                }
+                
+                _context.SaveChanges();
+            }
+            
+            public List<ProductGroup> GetAll()
+            {
+                var productGroups = _context.ProductGroups
+                    .FromSqlRaw("SELECT * FROM public.\"ProductGroups\" ORDER BY \"Type\" ASC")
+                    .ToList();
+    
+                if (productGroups.Count == 0)
+                {
+                    PushDefaultValues();
+                }
+                
+                return _context.ProductGroups.FromSqlRaw("SELECT * FROM public.\"ProductGroups\" ORDER BY \"Type\" ASC").ToList();
+            }
+            
+            public List<ProductGroup> UpdateAll(List<ProductGroup> productGroups)
+            {
+                foreach (var productGroup in productGroups)
+                {
+                    _context.Database.ExecuteSqlInterpolated(
+                        $"UPDATE public.\"ProductGroups\" SET \"Name\"={productGroup.Name}, \"Description\"={productGroup.Description} Where \"Id\" = {productGroup.Id}"
+                    );
+                    
+                    try
+                    {
+                        _context.SaveChanges();
+                    }
+                    catch (DbUpdateConcurrencyException) when (!_context.ProductGroups.IsExists(productGroup.Id))
+                    {
+                        return null;
+                    }
+                }
+    
+                var updated = GetAll();
+    
+                return updated;
+            }
+        }
+    }
+\end{lstlisting}
+
+ProductRepository.cs
+\lstset{style=sharpc}
+\begin{lstlisting}
+    using System.Collections.Generic;
+    using System.Linq;
+    using Microsoft.EntityFrameworkCore;
+    using new_back.Models;
+    using new_back.Shared;
+    
+    namespace new_back.Infrastructure
+    {
+      public class ProductRepository
+      {
+        private readonly DatabaseContext _context;
+    
+        public ProductRepository(DatabaseContext context)
+        {
+          _context = context;
+        }
+    
+        public List<Product> GetAll()
+        {
+          return _context.Products.ToList();
+        }
+    
+        public List<Product> FilterByUserId(long id)
+        {
+          return _context.Products.FromSqlRaw("SELECT * FROM public.\"Products\" ORDER BY \"Id\" ASC").ToList();
+        }
+    
+        public Product GetById(long id)
+        {
+          var item = _context.Products.Find(id);
+    
+          return item;
+        }
+    
+        public Product Update(Product product)
+        {
+          _context.Products.Update(product);
+    
+          var updated = GetById(product.Id);
+    
+          try
+          {
+            _context.SaveChanges();
+          }
+          catch (DbUpdateConcurrencyException) when (!_context.Products.IsExists(product.Id))
+          {
+            return null;
+          }
+    
+          return updated;
+        }
+    
+        public Product Create(Product product)
+        {
+          _context.Products.Add(product);
+          _context.SaveChanges();
+    
+          return product;
+        }
+    
+        public Product Delete(long id)
+        {
+          var createdProduct = GetById(id);
+    
+          _context.Products.Remove(createdProduct);
+          _context.SaveChanges();
+    
+          return createdProduct;
+        }
+    
+        public IEnumerable<Product> GetFiltered(
+          long? cityId, 
+          long? productGroupId, 
+          DateTime? publishedAtFrom, 
+          DateTime? expiredAtTo)
+        {
+          var query = _context.Products.AsQueryable();
+    
+          if (cityId.HasValue)
+            query = query.Where(p => p.CityId == cityId);
+    
+          if (productGroupId.HasValue)
+            query = query.Where(p => p.ProductGroupId == productGroupId);
+    
+          // Подготовка отдельных запросов
+          var queryA = publishedAtFrom.HasValue
+              ? query.Where(p => p.PublishedAt >= publishedAtFrom.Value)
+              : query;
+    
+          var queryB = expiredAtTo.HasValue
+              ? query.Where(p => p.ExpiredAt <= expiredAtTo.Value)
+              : query;
+    
+          // Объединение запросов
+          var combinedQuery = queryA.Union(queryB);
+    
+          return query.ToList();
+        }
+      }
+    }
+\end{lstlisting}
+
+UserRepository.cs
+\lstset{style=sharpc}
+\begin{lstlisting}
+    using System.Collections.Generic;
+    using System.Linq;
+    using new_back.Models;
+    using new_back.Shared;
+    
+    namespace new_back.Infrastructure
+    {
+        public class UserRepository
+        {
+            private readonly DatabaseContext _context;
+            
+            public UserRepository(DatabaseContext context)
+            {
+                _context = context;
+            }
+            
+            public User GetById(long id)
+            {
+                var item = _context.Users?.Find(id);
+    
+                return item;
+            }
+            
+            public User GetByEmail(string email)
+            {
+                var item = _context.Users?.FirstOrDefault(u => u.Email == email);
+    
+                return item;
+            }
+            
+            public List<UserView> GetAllUserViews()
+            {
+                return _context.Users?.ToList().Select(u => new UserView
+                {
+                    Id = u.Id,
+                    Phone = u.Phone,
+                    Email = u.Email,
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    ImageUrl = u.ImageUrl,
+                    Telegram = u.Telegram,
+                    Website = u.Website,
+                    UserRoleId = u.UserRoleId,
+                }).ToList();
+            }
+            
+            // public UserView Update(UserView user)
+            // {
+            //     _context.Users.Update(user);
+            //
+            //     var updated = GetById(user.Id);
+            //
+            //     try
+            //     {
+            //         _context.SaveChanges();
+            //     }
+            //     catch (DbUpdateConcurrencyException) when (!_context.Users.IsExists(user.Id))
+            //     {
+            //         return null;
+            //     }
+            //
+            //     return updated;
+            // }
+    
+            public User Create(User user)
+            {
+                if (_context.Users.IsUserEmailExists(user.Email)) return null;
+                
+                _context.Users.Add(user);
+                _context.SaveChanges();
+    
+                return user;
+            }
+        }
+    }
+\end{lstlisting}
+
+UserRoleRepository.cs
+\lstset{style=sharpc}
+\begin{lstlisting}
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Microsoft.EntityFrameworkCore;
+    using new_back.Enums;
+    using new_back.Models;
+    using new_back.Shared;
+    
+    namespace new_back.Infrastructure
+    {
+        public class UserRoleRepository
+        {
+            private readonly DatabaseContext _context;
+            
+            public UserRoleRepository(DatabaseContext context)
+            {
+                _context = context;
+            }
+    
+            private void PushDefaultValues()
+            {
+                var typeNames = Enum.GetNames(typeof(UserRoleEnum));
+                var emptystr = "";
+    
+                for (int i = 0; i < typeNames.Length; i++)
+                {
+                    _context.Database.ExecuteSqlInterpolated(
+                        $"INSERT INTO public.\"UserRoles\"(\"Name\", \"Permissions\") VALUES ({typeNames[i]}, {emptystr})"
+                    );
+                }
+                
+                _context.SaveChanges();
+            }
+            
+            public List<UserRole> GetAll()
+            {
+                var productGroups = _context.UserRoles
+                    .FromSqlRaw("SELECT * FROM public.\"UserRoles\" ORDER BY \"Id\" ASC")
+                    .ToList();
+    
+                if (productGroups.Count == 0)
+                {
+                    PushDefaultValues();
+                }
+                
+                return _context.UserRoles.FromSqlRaw("SELECT * FROM public.\"UserRoles\" ORDER BY \"Id\" ASC").ToList();
+            }
+            
+            public List<UserRole> UpdateAll(List<UserRole> productGroups)
+            {
+                foreach (var UserRole in productGroups)
+                {
+                    _context.Database.ExecuteSqlInterpolated(
+                        $"UPDATE public.\"UserRoles\" SET \"Name\"={UserRole.Name}, \"Description\"={UserRole.Description} Where \"Id\" = {UserRole.Id}"
+                    );
+                    
+                    try
+                    {
+                        _context.SaveChanges();
+                    }
+                    catch (DbUpdateConcurrencyException) when (!_context.UserRoles.IsExists(UserRole.Id))
+                    {
+                        return null;
+                    }
+                }
+    
+                var updated = GetAll();
+    
+                return updated;
+            }
+        }
+    }
+\end{lstlisting}
+
+EnumExtension.cs
+\lstset{style=sharpc}
+\begin{lstlisting}
+    using System.ComponentModel;
+    using System.Linq;
+    using Microsoft.EntityFrameworkCore;
+    using new_back.Models;
+    
+    namespace new_back.Shared
+    {
+        public static class EnumExtensions
+        {
+            public static string GetDescription(this Enum value)
+            {
+                    var field = value.GetType().GetField(value.ToString());
+                    var attribute = Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) as DescriptionAttribute;
+                    return attribute?.Description ?? value.ToString();
+            }
+        }
+    }
+\end{lstlisting}
+
+RepositoryHelper.cs
+\lstset{style=sharpc}
+\begin{lstlisting}
+    using System.Linq;
+    using Microsoft.EntityFrameworkCore;
+    using new_back.Models;
+    
+    namespace new_back.Shared
+    {
+      public static class RepositoryHelper
+      {
+        public static bool IsExists<T>(this DbSet<T> dbSet, long id) where T : Short
+        {
+          return dbSet.Any(e => e.Id == id);
+        }
+        
+        public static bool IsUserEmailExists<T>(this DbSet<T> dbSet, string email) where T : User
+        {
+          return dbSet.Any(e => e.Email == email);
+        }
+      }
+    }
+\end{lstlisting}
+
+Token.cs
+\lstset{style=sharpc}
+\begin{lstlisting}
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Security.Claims;
+    using System.Security.Cryptography;
+    using new_back.Infrastructure;
+    using new_back.Models;
+    using Microsoft.AspNetCore.Http;
+    using Newtonsoft.Json.Linq;
+    using Org.BouncyCastle.Crypto;
+    using Org.BouncyCastle.Crypto.Parameters;
+    using Org.BouncyCastle.OpenSsl;
+    using Org.BouncyCastle.Security;
+    
+    namespace new_back.Shared
+    {
+        public class Token
+        {
+            public static string CreateToken(User user)
+            {
+                // reading the content of a private key PEM file, PKCS8 encoded 
+                var privateKey = System.IO.File.ReadAllText(@"/Users/aleks/openssl/privateKey.pem");
+                
+                RSA rsa = RSA.Create(); // Создание экземпляра RSA
+    
+                try
+                {
+                    rsa.ImportFromPem(privateKey); // Импорт ключа из PEM файла
+    
+                    var claims = new List<Claim>();
+                    claims.Add(new Claim("id", user.Id.ToString()));
+                    claims.Add(new Claim("email", user.Email));
+    
+                    Dictionary<string, object> payload = claims.ToDictionary(k => k.Type, v => (object)v.Value);
+                    return Jose.JWT.Encode(payload, rsa, Jose.JwsAlgorithm.RS256);
+                }
+                finally
+                {
+                    rsa.Dispose(); // Убедитесь, что ресурсы освобождены
+                }
+            }
+            
+            public static JObject DecodeToken(string token)
+            {
+                var publicKey = System.IO.File.ReadAllText(@"/Users/aleks/openssl/publicKey.pem");
+                
+                RSA rsa = RSA.Create(); // Создание экземпляра RSA
+    
+                try
+                {
+                    rsa.ImportFromPem(publicKey); // Импорт ключа из PEM файла
+    
+                    // This will throw if the signature is invalid
+                    var decoded = Jose.JWT.Decode(token, rsa, Jose.JwsAlgorithm.RS256);
+                    return JObject.Parse(decoded);  
+                }
+                finally
+                {
+                    rsa.Dispose(); // Убедитесь, что ресурсы освобождены
+                }
+            }
+    
+            public static User GetAuthorizedUser(HttpContext context, UserRepository userRepository)
+            {
+                if (!context.Request.Headers.TryGetValue("Authorization", out  var authorizationToken))
+                {
+                    throw new Exception("Invalid credentials");
+                }
+          
+                var jwt = authorizationToken.ToString().Replace("Bearer ", "");
+                var decodedToken = Token.DecodeToken(jwt);
+                var user = userRepository.GetById((long)decodedToken["id"]);
+    
+                if (user is null) throw new Exception("Invalid credentials");
+            
+                return user;
+            }
+        }
+    }
+\end{lstlisting}
+
+\appendix{Фрагменты исходного кода клиентской части приложения}
+
+app-routing.module.ts
+\lstset{style=ts}
+\begin{lstlisting}
+    import { NgModule } from '@angular/core';
+    import { RouterModule, Routes } from '@angular/router';
+    import {SignupComponent} from "@app/pages/signup/signup.component";
+    import {SignupClientComponent} from "@app/pages/signup/signup-client/signup-client.component";
+    import {SignupSitterComponent} from "@app/pages/signup/signup-sitter/signup-sitter.component";
+    import {SignupFormComponent} from "@app/pages/signup/signup-form/signup-form.component";
+    import {SearchComponent} from "@app/pages/search/search.component";
+    import {LoginComponent} from "@app/pages/login/login.component";
+    import {SearchResultsComponent} from "@app/pages/search/search-results/search-results.component";
+    import {UserComponent} from "@app/pages/user/user.component";
+    
+    const routes: Routes = [
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'product',
+      },
+      {
+        path: 'product',
+        loadChildren: () => import('./pages/products/product.module').then(m => m.ProductModule),
+      },
+      {
+        path: 'signup',
+        component: SignupComponent,
+      },
+    
+      {
+        path: 'signup-client',
+        component: SignupClientComponent,
+      },
+      {
+        path: 'signup-sitter',
+        component: SignupSitterComponent,
+      },
+      {
+        path: 'search',
+        component: SearchComponent,
+      },
+      {
+        path: 'signup-form',
+        component: SignupFormComponent,
+      },
+      {
+        path: 'login',
+        component: LoginComponent,
+      },
+      { path: 'search-results',
+        component: SearchResultsComponent,
+      },
+      { path: 'user',
+        component: UserComponent,
+      }
+    ];
+    
+    @NgModule({
+      imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
+      exports: [RouterModule],
+    })
+    export class AppRoutingModule {}
+\end{lstlisting}
+
+app.component.html
+\begin{lstlisting}
+    <mat-toolbar color="primary">
+    <button mat-icon-button aria-label="Show menu" (click)="drawer.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>Animal Sharing</span>
+    <ts-user-bar class="w-100 d-flex flex-row justify-content-end align-items-center"></ts-user-bar>
+  </mat-toolbar>
+  <mat-drawer-container class="view-container" autosize>
+    <mat-drawer #drawer class="sidenav" mode="side" opened>
+      <mat-nav-list>
+        <a
+          *ngFor="let page of pages"
+          mat-list-item
+          [routerLink]="page.link"
+          routerLinkActive="active-page-link"
+        >
+          {{ page.name }}
+        </a>
+      </mat-nav-list>
+    </mat-drawer>
+    <div class="page-container">
+      <div class="container my-5">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </mat-drawer-container>
+\end{lstlisting}
+
+app.component.ts
+\lstset{style=ts}
+\begin{lstlisting}
+    import { DOCUMENT } from '@angular/common';
+    import {
+      ChangeDetectionStrategy,
+      Component,
+      Inject,
+      OnDestroy,
+      OnInit,
+      ViewEncapsulation,
+    } from '@angular/core';
+    import {User, UserService} from '@app/core';
+    import {UserStore} from '@app/store/user.store';
+    import { Subject } from 'rxjs';
+    import {take, takeUntil} from 'rxjs/operators';
+    import { ProductGroupService } from './core/api/product-group.service';
+    import { ProductGroupStore } from './store/product-group.store';
+    import jwt_decode from 'jwt-decode';
+    import { CityStore } from './store/city.store';
+    import { CityService } from './core/api/city.service';
+    
+    @Component({
+      selector: 'ts-app',
+      templateUrl: './app.component.html',
+      styleUrls: ['./app.component.scss'],
+      encapsulation: ViewEncapsulation.None,
+      changeDetection: ChangeDetectionStrategy.Default,
+    })
+    export class AppComponent implements OnInit, OnDestroy {
+      private destroy$ = new Subject<void>();
+      pages = [
+        {
+          link: 'product',
+          name: 'Объявления',
+        },
+        {
+          link: 'search',
+          name: 'Поиск',
+        },
+      ];
+    
+      constructor(
+        @Inject(DOCUMENT) private document: Document,
+        private readonly productGroupStore: ProductGroupStore,
+        private readonly cityStore: CityStore,
+        private readonly cityService: CityService,
+        private readonly productGroupService: ProductGroupService,
+        private readonly userStore: UserStore,
+        private readonly userService: UserService,
+      ) {}
+    
+      ngOnInit(): void {
+        this.setTheme();
+        this.productGroupService
+          .getAll()
+          .pipe(takeUntil(this.destroy$))
+          .subscribe((items) => this.productGroupStore.items$.next(items));
+    
+        this.cityService.getAll()
+          .pipe(takeUntil(this.destroy$))
+          .subscribe(
+            (cities) => this.cityStore.items$.next(cities),
+            (error) => console.error('Error fetching cities', error)
+          );
+    
+        const userToken = localStorage.getItem('token');
+        if (userToken) {
+          const user = jwt_decode(userToken) as User;
+          this.userService.getById(+user.id).pipe(
+            take(1),
+          ).subscribe(u => {
+            this.userStore.user$.next(u);
+          });
+        }
+      }
+    
+      private setTheme(): void {
+        this.document.body.classList.add('default-theme');
+      }
+    
+      ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
+      }
+    }    
+\end{lstlisting}
+
+city.service.ts
+\lstset{style=ts}
+\begin{lstlisting}
+    import { HttpClient } from '@angular/common/http';
+    import { Injectable } from '@angular/core';
+    import { Observable } from 'rxjs';
+    import { City } from '@core/model/City';
+    
+    @Injectable({
+      providedIn: 'root',
+    })
+    export class CityService {
+      private url = '/api/City';
+    
+      constructor(private http: HttpClient) {}
+    
+      getAll(): Observable<City[]> {
+        return this.http.get<City[]>(this.url);
+      }
+    }
+\end{lstlisting}
+
+product.service.ts
+\lstset{style=ts}
+\begin{lstlisting}
+    import { HttpClient, HttpParams } from '@angular/common/http';
+    import { Injectable } from '@angular/core';
+    import { Observable } from 'rxjs';
+    import { Product, ProductFilter } from '../model/product';
+    
+    @Injectable({
+      providedIn: 'root',
+    })
+    export class ProductService {
+      private url = '/api/Product';
+    
+      constructor(private http: HttpClient) { }
+    
+      getAll(): Observable<Product[]> {
+        return <Observable<Product[]>> this.http.get(`${this.url}`);
+      }
+    
+      getById(id: number): Observable<Product> {
+        return <Observable<Product>> this.http.get(`${this.url}/${id}`);
+      }
+    
+      add(product: Product): Observable<unknown> {
+        return <Observable<Product[]>> this.http.post(`${this.url}`, product);
+      }
+    
+      update(product: Product): Observable<unknown> {
+        return <Observable<Product[]>> this.http.put(`${this.url}/${product.id}`, product);
+      }
+    
+      delete(id: number): Observable<unknown> {
+        return <Observable<Product[]>> this.http.delete(`${this.url}/${id}`);
+      }
+    
+      getFilteredProducts(filter: ProductFilter): Observable<Product[]> {
+        let params = new HttpParams();
+    
+        // Append each filter that's defined to the HttpParams object
+        if (filter.cityId) {
+          params = params.append('cityId', filter.cityId.toString());
+        }
+        if (filter.productGroupId) {
+          params = params.append('productGroupId', filter.productGroupId.toString());
+        }
+        if (filter.publishedAtFrom) {
+          params = params.append('publishedAtFrom', filter.publishedAtFrom.toISOString());
+        }
+        if (filter.expiredAtTo) {
+          params = params.append('expiredAtTo', filter.expiredAtTo.toISOString());
+        }
+    
+        return this.http.get<Product[]>(`${this.url}/filter`, { params });
+      }
+    }
+\end{lstlisting}
+
+product-group.service.ts
+\lstset{style=ts}
+\begin{lstlisting}
+    import { HttpClient } from '@angular/common/http';
+    import { Injectable } from '@angular/core';
+    import { Observable } from 'rxjs';
+    import { ProductGroup } from '../model/product-group';
+    
+    @Injectable({
+      providedIn: 'root',
+    })
+    export class ProductGroupService {
+      private url = '/api/ProductGroup';
+    
+      constructor(private http: HttpClient) { }
+    
+      getAll(): Observable<ProductGroup[]> {
+        return <Observable<ProductGroup[]>> this.http.get(this.url);
+      }
+    
+      updateAll(productGroups: ProductGroup[]): Observable<ProductGroup[]> {
+        return <Observable<ProductGroup[]>> this.http.post(this.url, productGroups);
+      }
+    }
+\end{lstlisting}
+
+user.service.ts
+\lstset{style=ts}
+\begin{lstlisting}
+    import {HttpClient} from '@angular/common/http';
+    import { Injectable } from '@angular/core';
+    import {User} from '@app/core';
+    import {Observable} from 'rxjs';
+    
+    @Injectable({
+      providedIn: 'root'
+    })
+    export class UserService {
+      private url = '/api/User';
+    
+      constructor(private http: HttpClient) { }
+    
+      getById(id: number): Observable<User> {
+        return <Observable<User>> this.http.get(`${this.url}/${id}`);
+      }
+    
+      login(user: Partial<User>): Observable<unknown> {
+        return <Observable<User[]>> this.http.post(`${this.url}/login`, user);
+      }
+    
+      create(user: Partial<User>): Observable<unknown> {
+        return <Observable<User[]>> this.http.post(`${this.url}/create`, user);
+      }
+    
+      update(user: Partial<User>): Observable<User> {
+        return <Observable<User>> this.http.patch(`${this.url}/${user.id}`, user);
+      }
+    }    
+\end{lstlisting}
+
+user.store.ts
+\lstset{style=ts}
+\begin{lstlisting}
+    import { Injectable } from '@angular/core';
+    import { User } from '@app/core';
+    import { BehaviorSubject } from 'rxjs';
+    
+    @Injectable({
+      providedIn: 'root',
+    })
+    export class UserStore {
+      public user$ = new BehaviorSubject<User>(null);
+    }    
+\end{lstlisting}
+
+user.component.ts
+\lstset{style=ts}
+\begin{lstlisting}
+    import { Component, OnInit, Input } from '@angular/core';
+    import { ActivatedRoute } from '@angular/router';
+    import { takeUntil, withLatestFrom } from 'rxjs/operators';
+    import { Subject } from 'rxjs';
+    import {UserService} from "@app/core";
+    import {UserStore} from "@app/store/user.store";
+    
+    @Component({
+      selector: 'ts-user',
+      templateUrl: './user.component.html',
+      styleUrls: ['./user.component.scss']
+    })
+    export class UserComponent implements OnInit {
+      @Input() photoUrl: string;
+      @Input() firstName: string;
+      @Input() lastName: string;
+      @Input() address: string;
+      @Input() rating: number;
+    
+      private destroy$: Subject<void> = new Subject<void>();
+    
+      constructor(
+          private route: ActivatedRoute,
+          private userService: UserService,
+          private userStore: UserStore
+      ) { }
+    
+      ngOnInit(): void {
+        this.route.params.pipe(
+            withLatestFrom(this.userStore.user$),
+            takeUntil(this.destroy$)
+        ).subscribe(([params, userFromStore]) => {
+          const userId = +params['id'];
+    
+          this.userService.getById(userId).subscribe(userFromApi => {
+            if (userFromApi && userFromStore) {
+              if (userFromApi.id === userFromStore.id) {
+              } else {
+              }
+            }
+    
+            // Assign user data to component properties
+            this.photoUrl = userFromApi.photoUrl;
+            this.firstName = userFromApi.firstName;
+            this.lastName = userFromApi.lastName;
+            this.address = userFromApi.address;
+            this.rating = userFromApi.rating;
+          });
+        });
+      }
+    
+      ngOnDestroy() {
+        this.destroy$.next();
+        this.destroy$.complete();
+      }
+    }    
+\end{lstlisting}
+
+signup-form.component.html
+\begin{lstlisting}
+    <mat-card class="signupWrapper">
+    <h1 class="regTitle">Как вы хотите зарегистрироваться?</h1>
+    <button (click)="openUrl('/signup-client')" class="regLink my-3" mat-stroked-button color="primary">
+        Регистрация клиента
+    </button>
+    <div>или</div>
+    <button (click)="openUrl('/signup-sitter')" class="regLink my-3" mat-stroked-button color="primary">
+        Регистрация догситтера
+    </button>
+</mat-card>
+\end{lstlisting}
+
+signup.component.ts
+\lstset{style=ts}
+\begin{lstlisting}
+    import { Component, OnInit } from '@angular/core';
+    import {Router} from "@angular/router";
+    
+    @Component({
+      selector: 'ts-signup',
+      templateUrl: './signup.component.html',
+      styleUrls: ['./signup.component.scss']
+    })
+    export class SignupComponent implements OnInit {
+    
+      constructor(
+          private router: Router,
+      ) { }
+    
+      ngOnInit(): void {
+      }
+    
+      openUrl(url: string) {
+        this.router.navigate([url]);
+      }}
+\end{lstlisting}
+
+signup-form.component.html
+\begin{lstlisting}
+    <div class="formWrapper">
+    <form [formGroup]="userForm" (submit)="onSubmit($event)" class="mainForm">
+        <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Имя</mat-label>
+            <input matInput formControlName="firstName" type="text"/>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Фамилия</mat-label>
+            <input matInput formControlName="lastName" type="text"/>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" type="email"/>
+            <mat-error *ngIf="userForm.controls.email.hasError('email')">Некорректный формат email</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Telegram</mat-label>
+          <input matInput formControlName="telegram" type="text"/>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Придумайте пароль</mat-label>
+            <input matInput formControlName="password" type="password" />
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Повторите пароль</mat-label>
+            <input matInput formControlName="password1" type="password" />
+        </mat-form-field>
+        <mat-checkbox color="primary" formControlName="agreedConditionForm1" class="m-3">Нажимая кнопку «Продолжить» я соглашаюсь с<a href="#">политикой конфиденциальности</a></mat-checkbox>
+        <br>
+        <button type="submit" mat-raised-button [disabled]="userForm.invalid">Продолжить</button>
+    </form>
+</div>
+
+<div class="clientCheckboxWrapper">
+
+</div>
+\end{lstlisting}
+
+
+signup-form.component.ts
+\lstset{style=ts}
+\begin{lstlisting}
+    import { Component, Input, OnInit } from '@angular/core';
+    import {FormBuilder, Validators} from "@angular/forms";
+    import { User, UserService } from "@app/core";
+    import {take, tap} from "rxjs/operators";
+    import { UserStore } from '@app/store/user.store';
+    import { BehaviorSubject } from 'rxjs';
+    import { Router } from '@angular/router';
+    
+    export enum UserRole {
+      SITTER = 1,
+      OWNER = 2,
+    }
+    
+    @Component({
+      selector: 'ts-signup-form',
+      templateUrl: './signup-form.component.html',
+      styleUrls: ['./signup-form.component.scss']
+    })
+    export class SignupFormComponent implements OnInit {
+      @Input() isSitter = false;
+    
+      userForm = this.fb.group({
+        firstName: ['', Validators.required],
+        lastName: ['', Validators.required],
+        email: ['', [Validators.required,
+          Validators.email]],
+        password: ['', [Validators.required,
+          Validators.minLength(6),
+          Validators.maxLength(24)]],
+        password1: ['', [Validators.required,
+          Validators.minLength(6),
+          Validators.maxLength(24)]],
+        agreedConditionForm1: ['', Validators.required],
+        telegram: '',
+      });
+      error: string;
+      user$: BehaviorSubject<User> = this.userStore.user$;
+    
+      constructor(
+          private fb: FormBuilder,
+          private userService: UserService,
+          protected userStore: UserStore,
+          private router: Router,
+      ) { }
+    
+      ngOnInit(): void {
+      }
+    
+      onSubmit(_: any) {
+        this.userService.create({
+          firstName: this.userForm.value.firstName,
+          lastName: this.userForm.value.lastName,
+          email: this.userForm.value.email,
+          telegram: this.userForm.value.telegram,
+          password: this.userForm.value.password,
+          userRoleId: `${this.isSitter ? UserRole.SITTER : UserRole.OWNER}`,
+        }).pipe(
+            take(1),
+            tap({
+              next: (result: User) => {
+                this.user$.next(result);
+                localStorage.setItem('token', result.accessToken);
+                this.router.navigate(['/search']);
+              },
+              error: err => {
+                this.error = err.error.detail;
+              }
+            }),
+        ).subscribe();
+      }
+    }    
+\end{lstlisting}
+
+search.component.html
+\begin{lstlisting}
+    <h1>Надежные догситтеры и выгульщики собак в вашем районе</h1>
+    <p> Позаботимся, пока вы в отъезде  Погуляем, пока вы на работе</p>
+    
+    <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+        <mat-form-field class="mx-3">
+            <mat-label>Выберите город</mat-label>
+            <mat-select formControlName="city">
+                <mat-option *ngFor="let city of cityList" [value]="city.id">{{ city.name }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="mx-3">
+            <input matInput [matDatepicker]="publishedDatePicker" placeholder="Начальная дата" formControlName="publishedAtFrom">
+            <mat-datepicker-toggle matSuffix [for]="publishedDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #publishedDatePicker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="mx-3">
+            <input matInput [matDatepicker]="expiredDatePicker" placeholder="Конечная дата" formControlName="expiredAtTo">
+            <mat-datepicker-toggle matSuffix [for]="expiredDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #expiredDatePicker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="mx-3">
+            <mat-label>Питомец</mat-label>
+            <mat-select formControlName="productGroup">
+                <mat-option *ngFor="let pg of productGroups" [value]="pg.id">{{ pg.name }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <br>
+        <button class="mx-3" mat-raised-button type="submit" [disabled]="!searchForm.valid">Поиск</button>
+    </form>    
+\end{lstlisting}
+
+
+search.component.ts
+\lstset{style=ts}
+\begin{lstlisting}
+    import { Component, OnDestroy, OnInit } from '@angular/core';
+    import { FormGroup, FormControl } from '@angular/forms';
+    import { City } from "@core/model/City";
+    import { Router } from "@angular/router";
+    import { ProductGroupStore } from '@app/store/product-group.store';
+    import { Subject } from 'rxjs';
+    import { takeUntil } from 'rxjs/operators';
+    import { ProductGroup } from '@app/core';
+    import { CityStore } from '@app/store/city.store';
+    
+    @Component({
+      selector: 'ts-search',
+      templateUrl: './search.component.html',
+      styleUrls: ['./search.component.scss'],
+    })
+    export class SearchComponent implements OnInit, OnDestroy {
+      private destroy$ = new Subject<void>();
+      searchForm: FormGroup;
+      cityList: City[] = [];
+      productGroups: ProductGroup[] = [];
+    
+      constructor(
+        private router: Router,
+        private readonly productGroupStore: ProductGroupStore,
+        private readonly cityStore: CityStore,
+      ) {
+        this.searchForm = new FormGroup({
+          city: new FormControl(''),
+          publishedAtFrom: new FormControl(''),
+          expiredAtTo: new FormControl(''),
+          productGroup: new FormControl(''),
+        });
+      }
+    
+      ngOnInit(): void {
+        this.productGroupStore.items$
+          .pipe(takeUntil(this.destroy$))
+          .subscribe((items) => (this.productGroups = items));
+    
+        this.cityStore.items$
+          .pipe(takeUntil(this.destroy$))
+          .subscribe((items) => (this.cityList = items));
+      }
+    
+      onSubmit() {
+        // Get form values and format dates
+        const { city, publishedAtFrom, expiredAtTo, productGroup } = this.searchForm.value;
+        const formattedPublishedAtFrom = publishedAtFrom ? new Date(publishedAtFrom).toISOString().split('T')[0] : null;
+        const formattedExpiredAtTo = expiredAtTo ? new Date(expiredAtTo).toISOString().split('T')[0] : null;
+    
+        // Navigate with query parameters
+        this.router.navigate(['/search-results'], {
+          queryParams: {
+            cityId: city, // assuming the city field contains the city ID
+            productGroupId: productGroup,
+            publishedAtFrom: formattedPublishedAtFrom,
+            expiredAtTo: formattedExpiredAtTo,
+          }
+        });
+      }
+    
+      ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
+      }
+    }    
+\end{lstlisting}
+
+search-results.component.html
+\begin{lstlisting}
+    <h1 class="text-center title">
+    Результаты поиска
+  </h1>
+  
+  <div class="row main-row">
+    <div *ngFor="let product of products; trackBy: trackById" class="ts-card-wrapper">
+      <ts-card
+        class="ts-card"
+        *ngIf="product"
+        [isEditable]="(user$ | async)?.id === product.createdByUserId"
+        [title]="product.name"
+        [author]="product.createdByUser"
+        [imageUrl]="product.imageUrl"
+        [description]="product.description"
+        [link]="'/product/' + product.id"
+        [publishedAt]="product.publishedAt"
+        [expiredAt]="product.expiredAt"
+        [price]="product.price"
+        [cityId]="product.cityId"
+        (onClickDelete)="deleteProduct(product.id)"
+      ></ts-card>
+    </div>
+  </div>  
+\end{lstlisting}
+
+
+search-results.component.ts
+\lstset{style=ts}
+\begin{lstlisting}
+    import { Component, OnDestroy, OnInit } from '@angular/core';
+    import { ActivatedRoute } from '@angular/router';
+    import { Product, ProductService, User, ProductFilter } from '@app/core';
+    import { UserStore } from '@app/store/user.store';
+    import { BehaviorSubject, Subject } from 'rxjs';
+    import { takeUntil } from 'rxjs/operators';
+    
+    @Component({
+      selector: 'ts-search-results',
+      templateUrl: './search-results.component.html',
+      styleUrls: ['./search-results.component.scss']
+    })
+    export class SearchResultsComponent implements OnInit, OnDestroy {
+      private destroy$ = new Subject<void>();
+      products: Product[] = [];
+      user$: BehaviorSubject<User> = this.userStore.user$;
+      filter: ProductFilter;
+    
+      constructor(
+        private readonly productService: ProductService,
+        private readonly userStore: UserStore,
+        private route: ActivatedRoute,
+      ) {}
+    
+      ngOnInit() {
+        this.route.queryParams.subscribe(params => {
+          const filter: ProductFilter = {};
+    
+          if (params['cityId']) {
+            filter.cityId = +params['cityId'];
+          }
+          if (params['productGroupId']) {
+            filter.productGroupId = +params['productGroupId'];
+          }
+          if (params['publishedAtFrom']) {
+            filter.publishedAtFrom = new Date(params['publishedAtFrom']);
+          }
+          if (params['expiredAtTo']) {
+            filter.expiredAtTo = new Date(params['expiredAtTo']);
+          }
+    
+          this.filter = filter;
+    
+          this.updateProducts();
+        });
+      }
+    
+      private updateProducts(): void {
+        this.productService
+          .getFilteredProducts(this.filter)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe((products) => {
+            this.products = products;
+          });
+      }
+    
+      deleteProduct(id: number): void {
+        this.productService
+          .delete(id)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe(() => this.updateProducts());
+      }
+    
+      trackById = (index: number, item: Product) => (item ? item.id : index);
+    
+      ngOnDestroy() {
+        this.destroy$.next();
+        this.destroy$.complete();
+      }
+    }    
+\end{lstlisting}
+
+product-routing.module.ts
+\lstset{style=ts}
+\begin{lstlisting}
+    import { NgModule } from '@angular/core';
+    import { RouterModule, Routes } from '@angular/router';
+    import { ProductCreatePage } from './product-create/product-create.page';
+    import { ProductListPage } from './product-list.page';
+    import { ProductViewPage } from './product-view/product-view.page';
+    
+    const routes: Routes = [
+      {
+        path: '',
+        component: ProductListPage,
+      },
+      {
+        path: 'add',
+        component: ProductCreatePage,
+      },
+      {
+        path: ':id',
+        component: ProductViewPage,
+      }
+    ];
+    
+    @NgModule({
+      imports: [RouterModule.forChild(routes)],
+      exports: [RouterModule],
+    })
+    export class ProductRoutingModule {
+    }    
+\end{lstlisting}
+
+product-list.page.html
+\begin{lstlisting}
+    <h1 class="text-center title">
+    Список объявлений
+    <a *ngIf="user$ | async"
+       mat-raised-button
+       class="create-item-button"
+       [routerLink]="['/product/add']">ДОБАВИТЬ</a>
+  </h1>
+  <div class="row main-row">
+    <div *ngFor="let product of products; trackBy: trackById"
+        class="ts-card-wrapper">
+      <ts-card
+        class="ts-card"
+        [isEditable]="(user$ | async)?.id === product.createdByUserId"
+        [title]="product.name"
+        [author]="product.createdByUser"
+        [imageUrl]="product.imageUrl"
+        [description]="product.description"
+        [link]="'/product/' + product.id"
+        [price]="product.price"
+        [publishedAt]="product.publishedAt"
+        [expiredAt]="product.expiredAt"
+        [cityId]="product.cityId"
+        (onClickDelete)="deleteProduct(product.id)"
+      ></ts-card>
+    </div>
+  </div>
+\end{lstlisting}
+
+
+product-list.page.ts
+\lstset{style=ts}
+\begin{lstlisting}
+    import {
+        ChangeDetectionStrategy,
+        Component,
+        OnDestroy,
+        OnInit,
+        ViewEncapsulation,
+      } from '@angular/core';
+      import {User} from '@app/core';
+      import { ProductService } from '@app/core/api/product.service';
+      import { Product } from '@app/core/model/product';
+      import {UserStore} from '@app/store/user.store';
+      import {BehaviorSubject, Subject} from 'rxjs';
+      import { takeUntil } from 'rxjs/operators';
+      
+      @Component({
+        selector: 'ts-product-list',
+        templateUrl: './product-list.page.html',
+        styleUrls: ['./product-list.page.scss'],
+        encapsulation: ViewEncapsulation.None,
+        changeDetection: ChangeDetectionStrategy.Default,
+      })
+      export class ProductListPage implements OnInit, OnDestroy {
+        private destroy$ = new Subject<void>();
+        products: Product[] = [];
+        user$: BehaviorSubject<User> = this.userStore.user$;
+      
+        constructor(
+          private readonly productService: ProductService,
+          private readonly userStore: UserStore,
+        ) {}
+      
+        ngOnInit() {
+          this.updateProducts();
+        }
+      
+        private updateProducts(): void {
+          this.productService
+            .getAll()
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((products) => {
+              this.products = products;
+            });
+        }
+      
+        deleteProduct(id: number): void {
+          this.productService
+            .delete(id)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(() => this.updateProducts());
+        }
+      
+        trackById = (index: number, item: Product) => (item ? item.id : index);
+      
+        ngOnDestroy() {
+          this.destroy$.next();
+          this.destroy$.complete();
+        }
+      }      
+\end{lstlisting}
+
+product-view.page.html
+\begin{lstlisting}
+    <ng-container *ngIf="product && productForm">
+    <h1 class="text-center">
+      {{ product.name }}
+    </h1>
+  
+    <img mat-card-image class="w-100 mb-3"
+    [src]="product.imageUrl"
+    alt="Photo of an item in list">
+  
+    <form [formGroup]="productForm">
+      <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Название</mat-label>
+        <input matInput formControlName="name" />
+      </mat-form-field>
+    
+      <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Описание</mat-label>
+        <textarea matInput formControlName="description"></textarea>
+      </mat-form-field>
+    
+      <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Категория</mat-label>
+        <mat-select formControlName="productGroupId">
+          <mat-option
+            *ngFor="let productGroup of productGroups"
+            [value]="productGroup.id"
+          >
+            {{ productGroup.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill" class="w-100">
+        <input matInput [matDatepicker]="publishedDatePicker" placeholder="Начальная дата" formControlName="publishedAt">
+        <mat-datepicker-toggle matSuffix [for]="publishedDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #publishedDatePicker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="w-100">
+          <input matInput [matDatepicker]="expiredDatePicker" placeholder="Конечная дата" formControlName="expiredAt">
+          <mat-datepicker-toggle matSuffix [for]="expiredDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #expiredDatePicker></mat-datepicker>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Выберите город</mat-label>
+        <mat-select formControlName="cityId">
+            <mat-option *ngFor="let city of cityList" [value]="city.id">{{ city.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    
+      <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Цена</mat-label>
+        <input matInput formControlName="price" />
+      </mat-form-field>
+    
+    </form>
+    
+    <mat-form-field appearance="fill" class="w-100">
+      <div>
+        <mat-toolbar>
+          <input matInput [(ngModel)]="fileAttr" readonly name="name" />
+          <button mat-flat-button color="primary">Выбрать</button>
+        </mat-toolbar>
+    
+        <input
+          type="file"
+          #fileInput
+          id="uploadFile"
+          (change)="uploadFileEvt($event)"
+          name="uploadFile"
+          accept="image/*"
+        />
+      </div>
+    </mat-form-field>
+    
+    <button mat-raised-button (click)="refresh()" color="warn" class="mr-3">ОТМЕНИТЬ</button>
+    <button mat-raised-button (click)="saveProduct()">СОХРАНИТЬ</button>
+  </ng-container>  
+\end{lstlisting}
+
+
+product-view.page.ts
+\lstset{style=ts}
+\begin{lstlisting}
+    import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+    import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+    import { ActivatedRoute } from '@angular/router';
+    import { ProductService } from '@app/core';
+    import { Product } from '@app/core/model/product';
+    import { ProductGroupStore } from '@app/store/product-group.store';
+    import { Subject } from 'rxjs';
+    import { takeUntil } from 'rxjs/operators';
+    import { defaultFileAttr } from '../product-create/product-create.page';
+    import { City } from '@app/core/model/City';
+    import { CityStore } from '@app/store/city.store';
+    
+    @Component({
+      selector: 'ts-product-view',
+      templateUrl: './product-view.page.html',
+      styleUrls: ['./product-view.page.scss'],
+    })
+    export class ProductViewPage implements OnInit, OnDestroy {
+      private destroy$ = new Subject<void>();
+      product: Product;
+      productForm: FormGroup;
+      productGroups = [];
+      private imgBase64Path: string;
+      @ViewChild('fileInput') fileInput: ElementRef;
+      fileAttr = defaultFileAttr;
+      cityList: City[] = [];
+    
+      constructor(
+        private readonly productService: ProductService,
+        private readonly route: ActivatedRoute,
+        private readonly fb: FormBuilder,
+        private readonly productGroupStore: ProductGroupStore,
+        private readonly cityStore: CityStore,
+      ) {}
+    
+      ngOnInit(): void {
+        this.refresh();
+        this.productGroupStore.items$
+          .pipe(takeUntil(this.destroy$))
+          .subscribe((items) => (this.productGroups = items));
+        this.cityStore.items$
+          .pipe(takeUntil(this.destroy$))
+          .subscribe((items) => (this.cityList = items));
+      }
+    
+      refresh(): void {
+        this.productForm = this.fb.group({
+          name: ['', Validators.required],
+          description: ['', Validators.required],
+          productGroupId: [null, Validators.required],
+          price: [null, Validators.required],
+          publishedAt: [null, Validators.required],
+          expiredAt: [null, Validators.required],
+          cityId: [null, Validators.required],
+        });
+    
+        const productId = this.route.snapshot.paramMap.get('id');
+        this.productService
+          .getById(+productId)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe((product) => {
+            this.product = product;
+            this.productForm.patchValue(product);
+            this.imgBase64Path = null;
+            this.fileAttr = defaultFileAttr;
+          });
+      }
+    
+      saveProduct(): void {
+        if (!this.productForm.valid) {
+          return;
+        }
+        this.productService
+          .update({
+            ...this.product,
+            ...this.productForm.value,
+            imageUrl: this.imgBase64Path || this.product.imageUrl,
+          })
+          .subscribe(() => this.refresh());
+      }
+    
+      uploadFileEvt(imgFile: any) {
+        if (imgFile.target.files && imgFile.target.files[0]) {
+          this.fileAttr = '';
+          Array.from(imgFile.target.files).forEach((file: File) => {
+            this.fileAttr += file.name;
+          });
+    
+          const reader = new FileReader();
+          reader.onload = (e: any) => {
+            const image = new Image();
+            image.src = e.target.result;
+            image.onload = () => {
+              this.imgBase64Path = e.target.result;
+            };
+          };
+          reader.readAsDataURL(imgFile.target.files[0]);
+    
+          this.fileInput.nativeElement.value = '';
+        } else {
+          this.imgBase64Path = null;
+          this.fileAttr = defaultFileAttr;
+        }
+      }
+    
+      ngOnDestroy() {
+        this.destroy$.next();
+        this.destroy$.complete();
+      }
+    }    
+\end{lstlisting}
+
+product-create.page.html
+\begin{lstlisting}
+    <h1 class="text-center">Создание объявления</h1>
+    <form [formGroup]="productForm">
+      <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Название</mat-label>
+        <input matInput formControlName="name" />
+      </mat-form-field>
+    
+      <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Описание</mat-label>
+        <textarea matInput formControlName="description"></textarea>
+      </mat-form-field>
+    
+      <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Категория</mat-label>
+        <mat-select formControlName="productGroupId">
+          <mat-option
+            *ngFor="let productGroup of productGroups"
+            [value]="productGroup.id"
+          >
+            {{ productGroup.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    
+        <mat-form-field appearance="fill" class="w-100">
+          <input matInput [matDatepicker]="publishedDatePicker" placeholder="Начальная дата" formControlName="publishedAt">
+          <mat-datepicker-toggle matSuffix [for]="publishedDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #publishedDatePicker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="w-100">
+          <input matInput [matDatepicker]="expiredDatePicker" placeholder="Конечная дата" formControlName="expiredAt">
+          <mat-datepicker-toggle matSuffix [for]="expiredDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #expiredDatePicker></mat-datepicker>
+      </mat-form-field>
+    
+      <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Выберите город</mat-label>
+        <mat-select formControlName="cityId">
+            <mat-option *ngFor="let city of cityList" [value]="city.id">{{ city.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    
+      <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Цена</mat-label>
+        <input matInput formControlName="price" />
+      </mat-form-field>
+    </form>
+    
+    <mat-form-field appearance="fill" class="w-100">
+      <div>
+        <mat-toolbar>
+          <input matInput [(ngModel)]="fileAttr" readonly name="name" />
+          <button mat-flat-button color="primary">Выбрать</button>
+        </mat-toolbar>
+    
+        <input
+          type="file"
+          #fileInput
+          id="uploadFile"
+          (change)="uploadFileEvt($event)"
+          name="uploadFile"
+          accept="image/*"
+        />
+      </div>
+    </mat-form-field>
+    
+    <button mat-raised-button (click)="createProduct()">СОЗДАТЬ</button>    
+\end{lstlisting}
+
+
+product-create.page.ts
+\lstset{style=ts}
+\begin{lstlisting}
+    import { Location } from '@angular/common';
+    import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+    import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+    import { ProductService } from '@app/core';
+    import { City } from '@app/core/model/City';
+    import { CityStore } from '@app/store/city.store';
+    import { ProductGroupStore } from '@app/store/product-group.store';
+    import { Subject } from 'rxjs';
+    import { takeUntil } from 'rxjs/operators';
+    
+    export const defaultFileAttr = 'Изображение';
+    
+    @Component({
+      selector: 'ts-product-create',
+      templateUrl: './product-create.page.html',
+      styleUrls: ['./product-create.page.scss'],
+    })
+    export class ProductCreatePage implements OnInit, OnDestroy {
+      private destroy$ = new Subject<void>();
+      productForm: FormGroup;
+      productGroups = [];
+      private imgBase64Path: string;
+      @ViewChild('fileInput') fileInput: ElementRef;
+      fileAttr = defaultFileAttr;
+      cityList: City[] = [];
+    
+      constructor(
+        private readonly fb: FormBuilder,
+        private readonly productService: ProductService,
+        private location: Location,
+        private readonly productGroupStore: ProductGroupStore,
+        private readonly cityStore: CityStore,
+      ) {}
+    
+      ngOnInit(): void {
+        this.productGroupStore.items$
+          .pipe(takeUntil(this.destroy$))
+          .subscribe((items) => (this.productGroups = items));
+        this.productForm = this.fb.group({
+          name: ['', Validators.required],
+          description: ['', Validators.required],
+          productGroupId: [null, Validators.required],
+          price: [null, Validators.required],
+          publishedAt: [null, Validators.required],
+          expiredAt: [null, Validators.required],
+          cityId: [null, Validators.required],
+        });
+        this.cityStore.items$
+          .pipe(takeUntil(this.destroy$))
+          .subscribe((items) => (this.cityList = items));
+      }
+    
+      createProduct() {
+        if (!this.productForm.valid || !this.imgBase64Path) {
+          return;
+        }
+        this.productService
+          .add({
+            ...this.productForm.value,
+            imageUrl: this.imgBase64Path,
+          })
+          .subscribe(() => this.location.back());
+      }
+    
+      uploadFileEvt(imgFile: any) {
+        if (imgFile.target.files && imgFile.target.files[0]) {
+          this.fileAttr = '';
+          Array.from(imgFile.target.files).forEach((file: File) => {
+            this.fileAttr += file.name;
+          });
+    
+          const reader = new FileReader();
+          reader.onload = (e: any) => {
+            const image = new Image();
+            image.src = e.target.result;
+            image.onload = () => {
+              this.imgBase64Path = e.target.result;
+            };
+          };
+          reader.readAsDataURL(imgFile.target.files[0]);
+    
+          this.fileInput.nativeElement.value = '';
+        } else {
+          this.imgBase64Path = null;
+          this.fileAttr = defaultFileAttr;
+        }
+      }
+    
+      ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
+      }
+    }    
+\end{lstlisting}
+
+login.component.html
+\begin{lstlisting}
+    <h1 mat-dialog-title>Пожалуйста авторизуйтесь</h1>
+    <div mat-dialog-content>
+        <form [formGroup]="userForm">
+            <mat-form-field appearance="fill" class="w-100">
+                <mat-label>Почта</mat-label>
+                <input matInput formControlName="email" type="email" />
+            </mat-form-field>
+    
+            <mat-form-field appearance="fill" class="w-100">
+                <mat-label>Пароль</mat-label>
+                <input matInput formControlName="password" type="password" />
+            </mat-form-field>
+    
+            <mat-error *ngIf="error">{{error}}</mat-error>
+        </form>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-button (click)="onNoClick()">Назад</button>
+        <button mat-button (click)="onOkClick()" cdkFocusInitial>Далее</button>
+    </div>    
+\end{lstlisting}
+
+
+login.component.ts
+\lstset{style=ts}
+\begin{lstlisting}
+    import { Component } from '@angular/core';
+    import { FormBuilder, Validators } from '@angular/forms';
+    import { User, UserService } from '@app/core';
+    import { take, tap } from 'rxjs/operators';
+    import { BehaviorSubject } from 'rxjs';
+    import { UserStore } from '@app/store/user.store';
+    import { Router } from '@angular/router';
+    
+    @Component({
+      selector: 'ts-login',
+      templateUrl: './login.component.html',
+      styleUrls: ['./login.component.scss'],
+    })
+    export class LoginComponent {
+      userForm = this.fb.group({
+        email: ['', Validators.required],
+        password: ['', Validators.required],
+      });
+      error: string;
+      user$: BehaviorSubject<User> = this.userStore.user$;
+    
+      constructor(private fb: FormBuilder,
+                  private userService: UserService,
+                  private readonly userStore: UserStore,
+                  private router: Router,
+                  ) {}
+    
+      onOkClick(): void {
+        this.error = null;
+        this.userForm.updateValueAndValidity();
+        this.userForm.markAllAsTouched();
+    
+        if (this.userForm.invalid) {
+          return;
+        }
+    
+        this.userService.login(this.userForm.value)
+            .pipe(
+                take(1),
+                tap({
+                  next: (result: User) => {
+                    this.user$.next(result);
+                    localStorage.setItem('token', result.accessToken);
+                    this.router.navigate(['/search']);
+                  },
+                  error: err => {
+                    this.error = err.error.detail;
+                  },
+                })
+            )
+            .subscribe();
+      }
+    }    
+\end{lstlisting}
+
+card.component.html
+\begin{lstlisting}
+    <mat-card class="card">
+    <mat-card-header class="card__header">
+      <div mat-card-avatar class="card__header-avatar">
+        <img *ngIf="author.imageUrl"
+              mat-card-image
+              [src]="imageUrl"
+              alt="Photo of an item in list">
+        <mat-icon *ngIf="!author.imageUrl"
+                  mat-card-avatar
+        >supervised_user_circle</mat-icon>
+      </div>
+  
+      <mat-card-title>
+        {{ title }}
+      </mat-card-title>
+  
+      <mat-card-subtitle>
+        {{ author.firstName + ' ' + author.lastName }}
+      </mat-card-subtitle>
+  
+      <a *ngIf="isEditable"
+         [routerLink]="[link]"
+         mat-icon-button
+         class="edit-button">
+        <mat-icon>edit</mat-icon>
+      </a>
+  
+      <button *ngIf="isEditable"
+              (click)="onClickDelete.emit()"
+              mat-icon-button
+              class="delete-button"
+              color="warn">
+        <mat-icon>delete</mat-icon>
+      </button>
+  
+    </mat-card-header>
+    <img mat-card-image
+         [src]="imageUrl"
+         alt="Photo of an item in list">
+    <mat-card-content>
+      <p>
+        {{formatDateRange(publishedAt, expiredAt)}}
+      </p>
+  
+      <p class="mb-0" style="font-size: 1.8em;">
+        {{getCityNameById(cityId)}}
+      </p>
+      
+      <mat-expansion-panel
+        hideToggle
+        class="more-info"
+        (opened)="panelOpenState = true"
+        (closed)="panelOpenState = false"
+      >
+        <mat-expansion-panel-header class="more-info__header p-0">
+          <mat-panel-title class="font-weight-bold">
+            {{ panelOpenState ? 'свернуть' : 'подробнее...' }}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="more-info__content">
+          <p>
+            {{ description }}
+          </p>
+  
+          <p>
+            <span class="font-weight-bold">Телеграм:</span>
+            {{ author.telegram }}
+          </p>
+          <p>
+            <span class="font-weight-bold">Почта:</span>
+            {{ author.email }}
+          </p>
+        </div>
+      </mat-expansion-panel>
+      <div class="d-flex flex-direction-rowd-flex flex-direction-row justify-content-between w-100 align-items-center">
+        <h2 class="font-weight-bold m-0">{{ price }} ₽</h2>
+        <!-- <span>{{ weight }} кг.</span> -->
+      </div>
+    </mat-card-content>
+    <mat-card-actions class="text-center">
+    </mat-card-actions>
+  </mat-card>  
+\end{lstlisting}
+
+
+card.component.ts
+\lstset{style=ts}
+\begin{lstlisting}
+    import {
+        ChangeDetectionStrategy,
+        Component,
+        EventEmitter,
+        Input,
+        Output,
+        ViewEncapsulation,
+      } from '@angular/core';
+      import {User} from '@app/core';
+      import { CityStore } from '@app/store/city.store';
+      import { formatDateRange } from '@app/util/date';
+      
+      @Component({
+        selector: 'ts-card',
+        templateUrl: './card.component.html',
+        styleUrls: ['./card.component.scss'],
+        encapsulation: ViewEncapsulation.None,
+        changeDetection: ChangeDetectionStrategy.OnPush,
+      })
+      export class CardComponent {
+        @Input() isEditable = false;
+        @Input() imageUrl = '';
+        @Input() author: User;
+        @Input() title: string;
+        @Input() description: string;
+        @Input() link: string;
+        @Input() price: number;
+        @Input() publishedAt: string;
+        @Input() expiredAt: string;
+        @Input() cityId: number;
+        @Output() onClickDelete = new EventEmitter();
+      
+        panelOpenState = false;
+        formatDateRange = formatDateRange;
+      
+        constructor(
+          readonly cityStore: CityStore, 
+        ) {
+        }
+      
+        getCityNameById(id: number): string {
+          const city = this.cityStore.items$.value.find((city) => city.id === id);
+          return city ? city.name : '';
+        }
+      }      
+\end{lstlisting}
+
 
 \ifВКР{
 \newpage
