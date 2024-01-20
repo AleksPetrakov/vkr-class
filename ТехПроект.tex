@@ -155,8 +155,6 @@ Angular, выбранный для Frontend разработки, предост
     Id & Long & true & Уникальный идентификатор пользователя \\ \hline
 \end{xltabular}
 
-\vspace{\baselineskip}
-
 % Таблица для User
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
     \caption{Атрибуты сущности <<User>>}\\ \hline
@@ -186,8 +184,6 @@ Angular, выбранный для Frontend разработки, предост
     CreatedByUserId & Long & true & Идентификатор пользователя, создавшего продукт \\ \hline
 \end{xltabular}
 
-\vspace{\baselineskip}
-
 % Таблица для ProductView
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
     \caption{Атрибуты сущности <<ProductView>>}\\ \hline
@@ -215,9 +211,13 @@ Angular, выбранный для Frontend разработки, предост
 
 % Таблица для Short
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
-    \caption{Атрибуты интерфейса <<Short>>}\\ \hline
+    \caption{Атрибуты интерфейса <<Short>>\label{int1:table}}\\ \hline
     Поле & Тип & Обяза\-тельное & Описание \\ \hline
     1 & 2 & 3 & 4 \\ \hline
+    \endfirsthead
+    \caption*{Продолжение таблицы \ref{int1:table}}\\
+    1 & 2 & 3 & 4 \\ \hline
+    \finishhead
     id & number & true & Уникальный идентификатор \\ \hline
     name & string & true & Название \\ \hline
     description & string & true & Описание \\ \hline
@@ -225,48 +225,53 @@ Angular, выбранный для Frontend разработки, предост
 
 % Таблица для User
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
-    \caption{Атрибуты интерфейса <<User>>}\\ \hline
+    \caption{Атрибуты интерфейса <<User>>\label{int2:table}}\\ \hline
     Поле & Тип & Обяза\-тельное & Описание \\ \hline
     1 & 2 & 3 & 4 \\ \hline
-    % Здесь перечислены атрибуты из Short
+    \endfirsthead
+    \caption*{Продолжение таблицы \ref{int2:table}}\\
+    1 & 2 & 3 & 4 \\ \hline
+    \finishhead
     phone & string & false & Телефонный номер \\ \hline
     % ... другие поля User ...
     accessToken & string & false & Токен доступа \\ \hline
 \end{xltabular}
 
-\vspace{\baselineskip}
-\vspace{\baselineskip}
-\vspace{\baselineskip}
-\vspace{\baselineskip}
-\vspace{\baselineskip}
-\vspace{\baselineskip}
-\vspace{\baselineskip}
-
 % Таблица для ProductGroup
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
-    \caption{Атрибуты интерфейса <<ProductGroup>>}\\ \hline
+    \caption{Атрибуты интерфейса <<ProductGroup>>\label{int3:table}}\\ \hline
     Поле & Тип & Обяза\-тельное & Описание \\ \hline
     1 & 2 & 3 & 4 \\ \hline
-    % Здесь перечислены атрибуты из Short
+    \endfirsthead
+    \caption*{Продолжение таблицы \ref{int3:table}}\\
+    1 & 2 & 3 & 4 \\ \hline
+    \finishhead
     type & string & true & Тип группы продуктов \\ \hline
     % ... другие поля ProductGroup ...
 \end{xltabular}
 
 % Таблица для Product
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
-    \caption{Атрибуты интерфейса <<Product>>}\\ \hline
+    \caption{Атрибуты интерфейса <<Product>>\label{int4:table}}\\ \hline
     Поле & Тип & Обяза\-тельное & Описание \\ \hline
     1 & 2 & 3 & 4 \\ \hline
-    % Здесь перечислены атрибуты из Short
+    \endfirsthead
+    \caption*{Продолжение таблицы \ref{int4:table}}\\
+    1 & 2 & 3 & 4 \\ \hline
+    \finishhead
     imageUrl & string & false & URL изображения продукта \\ \hline
     % ... другие поля Product ...
 \end{xltabular}
 
 % Таблица для City
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
-    \caption{Атрибуты интерфейса <<City>>}\\ \hline
+    \caption{Атрибуты интерфейса <<City>>\label{int5:table}}\\ \hline
     Поле & Тип & Обяза\-тельное & Описание \\ \hline
     1 & 2 & 3 & 4 \\ \hline
+    \endfirsthead
+    \caption*{Продолжение таблицы \ref{int5:table}}\\
+    1 & 2 & 3 & 4 \\ \hline
+    \finishhead
     id & number & true & Уникальный идентификатор \\ \hline
     name & string & true & Название города \\ \hline
 \end{xltabular}
