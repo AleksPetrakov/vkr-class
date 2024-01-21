@@ -309,16 +309,16 @@ priorityExpiredAt: <<2024-01-20>>
 \subsection{Модульное тестирование разработанного приложения}
 
 
-\section{Структура тестового проекта}
+\subsubsection{Структура тестового проекта}
 В рамках тестирования программного обеспечения был разработан тестовый проект, структура которого представлена на рисунке \ref{testproject_structure:image}. Данный проект включает в себя модульные тесты для различных компонентов системы. Тестирование моделей и контроллеров позволяет обеспечить надежность и корректность работы программного обеспечения.
-В тестовый проект добавлена возможность использовать пространство имен из основного проекта с помощью команды: dotnet add reference ..\/new_back\/new_back.csproj.
+В тестовый проект добавлена возможность использовать пространство имен из основного проекта с помощью команды: \texttt{dotnet add reference ..\/new\textunderscore back\/new\textunderscore back.csproj}.
 Тестовый проект включает в себя следующие ключевые элементы:
 
 \begin{itemize}
-  \item \textbf{Models}: Классы, которые представляют модели данных, используемые в тестах.
-  \item \textbf{Shared}: Вспомогательные классы и утилиты, используемые в различных тестах.
-  \item \textbf{TestResults}: Результаты выполнения тестов.
-  \item \textbf{UnitTestShort.cs и UnitTestUserController.cs}: Наборы модульных тестов для проверки соответствующих классов и контроллеров.
+  \item Models: Классы, которые представляют модели данных, используемые в тестах;
+  \item Shared: Вспомогательные классы и утилиты, используемые в различных тестах;
+  \item TestResults: Результаты выполнения тестов;
+  \item UnitTestShort.cs и UnitTestUserController.cs: Наборы модульных тестов для проверки соответствующих классов и контроллеров.
 \end{itemize}
 
 \begin{figure}[ht]
@@ -328,7 +328,7 @@ priorityExpiredAt: <<2024-01-20>>
 \label{testproject_structure:image}
 \end{figure}
 
-Содержимое файла \textbf{ShortTest.cs} представлено на рисунке \ref{st:image}.
+Содержимое файла ShortTest.cs представлено на рисунке \ref{st:image}.
 
 \begin{figure}[!ht]
 \lstset{style=sharpc}
@@ -344,11 +344,11 @@ namespace TestProject.Models
     }
 }
 \end{lstlisting}
-\caption{Содержимое файла \textbf{ShortTest.cs}}
+\caption{Содержимое файла ShortTest.cs}
 \label{st:image}
 \end{figure}
 
-Содержимое файла \textbf{Utils.cs} представлено на рисунке \ref{ut:image}.
+Содержимое файла Utils.cs представлено на рисунке \ref{ut:image}.
 
 \begin{figure}[!ht]
 \lstset{style=sharpc}
@@ -375,11 +375,11 @@ namespace TestProject.Shared
     }
 }
 \end{lstlisting}
-\caption{Содержимое файла \textbf{Utils.cs}}
+\caption{Содержимое файла Utils.cs}
 \label{ut:image}
 \end{figure}
 
-Содержимое файла \textbf{Usings.cs} представлено на рисунке \ref{usings:image}.
+Содержимое файла Usings.cs представлено на рисунке \ref{usings:image}.
 
 \begin{figure}[!ht]
 \lstset{style=sharpc}
@@ -391,7 +391,7 @@ global using System.Web;
 global using Moq;
 global using Microsoft.AspNetCore.Mvc;
 \end{lstlisting}
-\caption{Содержимое файла \textbf{Usings.cs}}
+\caption{Содержимое файла Usings.cs}
 \label{usings:image}
 \end{figure}
 
@@ -521,30 +521,61 @@ namespace TestProject
 \label{testresult:image}
 \end{figure}
 
-\subsection{Системное тестирование разработанного web-сайта}
+\subsection{Системное тестирование разработанного веб-приложения}
 
-На рисунке \ref{main:image} представлена главная страница сайта «Русатом – Аддитивные технологии».
+Каждая страница веб-приложения включает в себя такие элементы интерфейса как шапка сайта, боковое меню и основное содержимое страницы.
+
+Шапка сайта состоит из:
+\begin{itemize}
+    \item кнопка для раскрытия или закрытия бокового меню в зависимости от его текущего состояния;
+    \item логотип;
+    \item кнопки для перехода на страницу входа в систему и регистрации или имя и фамилию пользователя если он авторизован в системе и кнопку выхода пользователя из системы.
+\end{itemize}
+
+Боковое меню включает в себя ссылки на различные страницы сайта.
+Основное содержимое страницы меняется в зависимости от выбранного раздела сайта и включает в себя заголовок страницы и ее содержимое. 
+
+Главная страница включает в себя список карточек товаров и услуг, шапку сайта и боковое меню. Пользователь может просматривать карточки товаров и услуг, а также раскрывать при нажатии на кнопку <<Подробнее>> раскрывать блок с детальной информацией о товаре или услуге.
+На рисунке \ref{test-front1:image} представлена главная страница веб-приложения для неавторизованного пользователя с открытым боковым меню. Первая карточка с услугой <<Кошки в аренду>> раскрыта для просмотра детальной информации.
+
+
 \newpage % при необходимости можно переносить рисунок на новую страницу
 \begin{figure}[H] % H - рисунок обязательно здесь, или переносится, оставляя пустоту
-\center{\includegraphics[width=1\linewidth]{main1}}
-\center{\includegraphics[width=1\linewidth]{main2}}
-\center{\includegraphics[width=1\linewidth]{main3}}
-\caption{Главная страница сайта «Русатом – Аддитивные технологии»}
-\label{main:image}
+\center{\includegraphics[width=1\linewidth]{test-front1.png}}
+\caption{Главная страница веб-приложения}
+\label{test-front1:image}
 \end{figure}
 
-На рисунке \ref{menu:image} представлен динамический вывод заголовков, включающий в себя искомые фразы при поиске фраз.
+На рисунке \ref{test-front2:image} представлена страница регистрации пользователя-поставщика услуг. На рисунке \ref{test-front2:image} так же изображено боковым меню в закрытом состоянии.
 
-\begin{figure}[ht]
-\center{\includegraphics[width=1\linewidth]{menu}}
-\caption{Динамический вывод заголовков}
-\label{menu:image}
+\newpage % при необходимости можно переносить рисунок на новую страницу
+\begin{figure}[H] % H - рисунок обязательно здесь, или переносится, оставляя пустоту
+\center{\includegraphics[width=1\linewidth]{test-front2.png}}
+\caption{Страница регистрации пользователя-поставщика услуг}
+\label{test-front2:image}
 \end{figure}
 
-На рисунке \ref{enter:image} представлен ввод данных для публикации новости.
+После регистрации пользователь автоматически авторизуется в системе и перенаправляется на главную страницу приложения где он может просматривать карточки товаров и услуг, а также создавать свои карточки. На рисунке \ref{test-front3:image} представлена страница создания карточки. На рисунке \ref{test-front3:image} так же изображено состояние шапки сайта для авторизованного пользователя.
 
-\begin{figure}[ht]
-\center{\includegraphics[width=1\linewidth]{enter}}
-\caption{Ввод данных для публикации очень-очень длинной, интересной и полезной новости}
-\label{enter:image}
+\newpage % при необходимости можно переносить рисунок на новую страницу
+\begin{figure}[H] % H - рисунок обязательно здесь, или переносится, оставляя пустоту
+\center{\includegraphics[width=1\linewidth]{test-front3.png}}
+\caption{Страница регистрации пользователя-поставщика услуг}
+\label{test-front3:image}
 \end{figure}
+
+% На рисунке \ref{menu:image} представлен динамический вывод заголовков, включающий в себя искомые фразы при поиске фраз.
+
+% \begin{figure}[ht]
+% \center{\includegraphics[width=1\linewidth]{menu}}
+% \caption{Динамический вывод заголовков}
+% \label{menu:image}
+% \end{figure}
+
+% На рисунке \ref{enter:image} представлен ввод данных для публикации новости.
+
+% \begin{figure}[ht]
+% \center{\includegraphics[width=1\linewidth]{enter}}
+% \caption{Ввод данных для публикации очень-очень длинной, интересной и полезной новости}
+% \label{enter:image}
+% \end{figure}
