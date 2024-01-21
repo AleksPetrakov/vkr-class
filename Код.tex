@@ -29,7 +29,7 @@ Startup.cs
 \lstset{style=sharpc}
 \begin{lstlisting}
     using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Hosting; // Убедитесь, что используете это пространство имен
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.EntityFrameworkCore;
@@ -52,7 +52,6 @@ Startup.cs
                     options.UseNpgsql(Configuration.GetConnectionString("new_backConnection"))
                 );
     
-                // добавляем поддержку CORS:
                 services.AddCors();
     
                 services.AddMvc(option => option.EnableEndpointRouting = false);
@@ -65,7 +64,7 @@ Startup.cs
                 services.AddScoped<CityRepository>();
             }
     
-            public void Configure(IApplicationBuilder app, IWebHostEnvironment env) // Используйте IWebHostEnvironment здесь
+            public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
             {
                 if (env.IsDevelopment())
                 {
@@ -83,11 +82,9 @@ Startup.cs
                     app.UseHsts();
                 }
     
-                // строчки, позволяющие серверу обрабатывать статические файлы:
                 app.UseDefaultFiles();
                 app.UseStaticFiles();
     
-                // строка, позволяющая серверу принимать запросы с порта 4200:
                 app.UseCors(builder => builder.WithOrigins("http://localhost:4200"));
     
                 app.UseMvc();
@@ -145,7 +142,7 @@ Product.cs
     {
       public class Product : Short
       {
-        public string? ImageUrl { get; set; } // assuming JSON string
+        public string? ImageUrl { get; set; }
         public decimal Price { get; set; }
         public long? CreatedByUserId { get; set; }
         public long CityId { get; set; }
@@ -169,7 +166,6 @@ Product.cs
 CityIdEnum.cs
 \lstset{style=sharpc}
 \begin{lstlisting}
-    // CityEnum.cs in Enums folder
     using System.ComponentModel;
     
     namespace new_back.Enums
@@ -588,7 +584,6 @@ ProductController.cs
               .ToList();;
             
     
-            // Assuming GetFiltered returns IEnumerable<Product>
             return Ok(filteredProducts);
           }
           catch (Exception e)
@@ -695,18 +690,6 @@ UserController.cs
                 return userView;
             }
             
-            // [HttpPut("{id}")]
-            // public ActionResult<User> Update(UserView user, string id)
-            // {
-            //     var dishDb = _repository.Update(user ?? throw new ArgumentNullException(nameof(user)));
-            //     if (dishDb == null)
-            //     {
-            //         return NotFound();
-            //     }
-            //
-            //     return NoContent();
-            // }
-    
             [HttpPost("create")]
             public ActionResult<User> Create(UserRegistrationData regUserData)
             {
@@ -912,14 +895,6 @@ DatabaseBContext.cs
       {
             internal object _context;
     
-            // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            // {
-            //     if (!optionsBuilder.IsConfigured)
-            //     {
-            //         optionsBuilder.UseSqlServer("Host=localhost;Port=5432;Username=postgres;Password=postgres;Database=AnimalSharing;");
-            //     }
-            // }
-    
             public DatabaseContext() { }
     
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
@@ -964,7 +939,6 @@ ProductGroupRepository.cs
                 for (int i = 0; i < typeNames.Length; i++)
                 {
                     var enumValue = (ProductTypeEnum)Enum.Parse(typeof(ProductTypeEnum), typeNames[i]);
-                    // Получаем описание из GetDescription()
                     string description = enumValue.GetDescription();
     
                     _context.Database.ExecuteSqlInterpolated(
@@ -1102,7 +1076,6 @@ ProductRepository.cs
           if (productGroupId.HasValue)
             query = query.Where(p => p.ProductGroupId == productGroupId);
     
-          // Подготовка отдельных запросов
           var queryA = publishedAtFrom.HasValue
               ? query.Where(p => p.PublishedAt >= publishedAtFrom.Value)
               : query;
@@ -1111,7 +1084,6 @@ ProductRepository.cs
               ? query.Where(p => p.ExpiredAt <= expiredAtTo.Value)
               : query;
     
-          // Объединение запросов
           var combinedQuery = queryA.Union(queryB);
     
           return query.ToList();
@@ -1169,24 +1141,6 @@ UserRepository.cs
                 }).ToList();
             }
             
-            // public UserView Update(UserView user)
-            // {
-            //     _context.Users.Update(user);
-            //
-            //     var updated = GetById(user.Id);
-            //
-            //     try
-            //     {
-            //         _context.SaveChanges();
-            //     }
-            //     catch (DbUpdateConcurrencyException) when (!_context.Users.IsExists(user.Id))
-            //     {
-            //         return null;
-            //     }
-            //
-            //     return updated;
-            // }
-    
             public User Create(User user)
             {
                 if (_context.Users.IsUserEmailExists(user.Email)) return null;
@@ -1347,14 +1301,13 @@ Token.cs
         {
             public static string CreateToken(User user)
             {
-                // reading the content of a private key PEM file, PKCS8 encoded 
                 var privateKey = System.IO.File.ReadAllText(@"/Users/aleks/openssl/privateKey.pem");
                 
-                RSA rsa = RSA.Create(); // Создание экземпляра RSA
+                RSA rsa = RSA.Create();
     
                 try
                 {
-                    rsa.ImportFromPem(privateKey); // Импорт ключа из PEM файла
+                    rsa.ImportFromPem(privateKey);
     
                     var claims = new List<Claim>();
                     claims.Add(new Claim("id", user.Id.ToString()));
@@ -1365,7 +1318,7 @@ Token.cs
                 }
                 finally
                 {
-                    rsa.Dispose(); // Убедитесь, что ресурсы освобождены
+                    rsa.Dispose();
                 }
             }
             
@@ -1373,19 +1326,18 @@ Token.cs
             {
                 var publicKey = System.IO.File.ReadAllText(@"/Users/aleks/openssl/publicKey.pem");
                 
-                RSA rsa = RSA.Create(); // Создание экземпляра RSA
+                RSA rsa = RSA.Create();
     
                 try
                 {
-                    rsa.ImportFromPem(publicKey); // Импорт ключа из PEM файла
+                    rsa.ImportFromPem(publicKey);
     
-                    // This will throw if the signature is invalid
                     var decoded = Jose.JWT.Decode(token, rsa, Jose.JwsAlgorithm.RS256);
                     return JObject.Parse(decoded);  
                 }
                 finally
                 {
-                    rsa.Dispose(); // Убедитесь, что ресурсы освобождены
+                    rsa.Dispose();
                 }
             }
     
@@ -1649,7 +1601,6 @@ product.service.ts
       getFilteredProducts(filter: ProductFilter): Observable<Product[]> {
         let params = new HttpParams();
     
-        // Append each filter that's defined to the HttpParams object
         if (filter.cityId) {
           params = params.append('cityId', filter.cityId.toString());
         }
@@ -1783,7 +1734,6 @@ user.component.ts
               }
             }
     
-            // Assign user data to component properties
             this.photoUrl = userFromApi.photoUrl;
             this.firstName = userFromApi.firstName;
             this.lastName = userFromApi.lastName;
@@ -2035,15 +1985,13 @@ search.component.ts
       }
     
       onSubmit() {
-        // Get form values and format dates
         const { city, publishedAtFrom, expiredAtTo, productGroup } = this.searchForm.value;
         const formattedPublishedAtFrom = publishedAtFrom ? new Date(publishedAtFrom).toISOString().split('T')[0] : null;
         const formattedExpiredAtTo = expiredAtTo ? new Date(expiredAtTo).toISOString().split('T')[0] : null;
     
-        // Navigate with query parameters
         this.router.navigate(['/search-results'], {
           queryParams: {
-            cityId: city, // assuming the city field contains the city ID
+            cityId: city,
             productGroupId: productGroup,
             publishedAtFrom: formattedPublishedAtFrom,
             expiredAtTo: formattedExpiredAtTo,

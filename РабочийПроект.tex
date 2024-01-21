@@ -311,7 +311,7 @@ priorityExpiredAt: <<2024-01-20>>
 
 \subsubsection{Структура тестового проекта}
 В рамках тестирования программного обеспечения был разработан тестовый проект, структура которого представлена на рисунке \ref{testproject_structure:image}. Данный проект включает в себя модульные тесты для различных компонентов системы. Тестирование моделей и контроллеров позволяет обеспечить надежность и корректность работы программного обеспечения.
-В тестовый проект добавлена возможность использовать пространство имен из основного проекта с помощью команды: \texttt{dotnet add reference ..\/new\textunderscore back\/new\textunderscore back.csproj}.
+В тестовый проект добавлена возможность использовать пространство имен из основного проекта с помощью команды: \texttt{dotnet add reference ../new\textunderscore back/new\textunderscore back.csproj}.
 Тестовый проект включает в себя следующие ключевые элементы:
 
 \begin{itemize}
@@ -450,7 +450,7 @@ namespace TestProject
 \end{figure}
 
 Для контроллера UserController, который обрабатывает пользовательские запросы, были разработаны тесты, имитирующие взаимодействие с репозиторием данных. Это позволяет тестировать контроллер в изоляции от реальной базы данных, что упрощает процесс разработки и повышает качество кода.
-Модульные тесты для UserController представлено на рисунке \ref{unitcontr1:image}.
+Модульные тесты для UserController представлены в двух частях на рисунках \ref{unitcontr1:image} и \ref{unitcontr2:image}.
 
 \begin{figure}[ht]
 \lstset{style=sharpc}
@@ -494,21 +494,29 @@ namespace TestProject
             Assert.AreEqual(userId, userViewResult.Id);
             Assert.AreEqual("test@example.com", userViewResult.Email);
         }
+\end{lstlisting}
+\caption{Модульный тест класса UserController часть 1}
+\label{unitcontr1:image}
+\end{figure}
 
-        [TestMethod]
-        public void GetById_UserDoesNotExist_ReturnsNotFound()
-        {
-            _mockRepository.Setup(repo => repo.GetById(It.IsAny<long>())).Returns((User)null);
 
-            var result = _controller.GetById(1);
+\begin{figure}[ht]
+\lstset{style=sharpc}
+\begin{lstlisting}
+    [TestMethod]
+    public void GetById_UserDoesNotExist_ReturnsNotFound()
+    {
+        _mockRepository.Setup(repo => repo.GetById(It.IsAny<long>())).Returns((User)null);
 
-            Assert.IsInstanceOfType(result.Result, typeof(NotFoundResult));
-        }
+        var result = _controller.GetById(1);
+
+        Assert.IsInstanceOfType(result.Result, typeof(NotFoundResult));
     }
+  }
 }
 \end{lstlisting}
-\caption{Модульный тест класса UserController}
-\label{unitcontr1:image}
+\caption{Модульный тест класса UserController часть 2}
+\label{unitcontr2:image}
 \end{figure}
 
 Разработка тестового проекта является ключевым компонентом в цикле обеспечения качества программного продукта. Она демонстрирует эффективность тестирования и его способность гарантировать надежность функционирования системы. На рисунке \ref{testresult:image} представлены результаты выполнения модульных тестов, подтверждающие успешную проверку всех компонентов системы, что свидетельствует об отсутствии критических ошибок и готовности продукта к дальнейшим этапам разработки и внедрения.
@@ -538,8 +546,6 @@ namespace TestProject
 Главная страница включает в себя список карточек товаров и услуг, шапку сайта и боковое меню. Пользователь может просматривать карточки товаров и услуг, а также раскрывать при нажатии на кнопку <<Подробнее>> раскрывать блок с детальной информацией о товаре или услуге.
 На рисунке \ref{test-front1:image} представлена главная страница веб-приложения для неавторизованного пользователя с открытым боковым меню. Первая карточка с услугой <<Кошки в аренду>> раскрыта для просмотра детальной информации.
 
-
-\newpage % при необходимости можно переносить рисунок на новую страницу
 \begin{figure}[H] % H - рисунок обязательно здесь, или переносится, оставляя пустоту
 \center{\includegraphics[width=1\linewidth]{test-front1.png}}
 \caption{Главная страница веб-приложения}
@@ -591,14 +597,12 @@ namespace TestProject
 
 На рисунке \ref{test-front7:image} изображена страница поиска с предустановлеными фильтрами. На рисунке \ref{test-front8:image} изображена страница результатами поиска с заданными на странице поиска фильтрами.
 
-\newpage % при необходимости можно переносить рисунок на новую страницу
 \begin{figure}[H] % H - рисунок обязательно здесь, или переносится, оставляя пустоту
 \center{\includegraphics[width=1\linewidth]{test-front7.jpg}}
 \caption{Страница поиска}
 \label{test-front7:image}
 \end{figure}
 
-\newpage % при необходимости можно переносить рисунок на новую страницу
 \begin{figure}[H] % H - рисунок обязательно здесь, или переносится, оставляя пустоту
 \center{\includegraphics[width=1\linewidth]{test-front8.png}}
 \caption{Страница с результатами поиска}
