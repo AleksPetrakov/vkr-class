@@ -308,7 +308,7 @@ priorityExpiredAt: <<2024-01-20>>
 
 \subsection{Модульное тестирование разработанного приложения}
 
-Класс Short является базовым классом, от которого наследуются почти все модели серверной части приложения. Модульный тест для класса Short из модели данных представлен на рисунке \ref{unitshort:image}.
+Класс Short является базовым классом, от которого наследуются почти все модели серверной части приложения. Модульный тест для класса Short из модели данных представлен на рисунках \ref{unitshort1:image} и \ref{unitshort2:image}.
 
 \begin{figure}[ht]
 \lstset{style=sharpc}
@@ -348,39 +348,46 @@ priorityExpiredAt: <<2024-01-20>>
           Description = testValue
         };
         TestString(testObject.name, testValue); 
-      } 
-      
-      [TestMethod]
-      public void Short_Validate_Id() 
+      }  
+\end{lstlisting}
+\caption{Модульный тест класса Short (часть 1)}
+\label{unitshort1:image}
+\end{figure}
+
+\begin{figure}[!ht]
+\lstset{style=sharpc}
+\begin{lstlisting}
+    [TestMethod]
+    public void Short_Validate_Id() 
+    { 
+      var testObject = new Short(); 
+      long randomId = 0; 
+      while (randomId == 0) 
       { 
-        var testObject = new Short(); 
-        long randomId = 0; 
-        while (randomId == 0) 
-        { 
-          randomId = GenerateUniqueId(); 
-        } 
-        testObject.Id = randomId; 
-        Assert.AreNotEqual(0, testObject.Id); 
-        Assert.AreEqual(randomId, testObject.Id); 
-      }
-    
-      private boolean TestString(string v1, string v2)
-      {
-        if (v1 == null || v2 == null)
-          Assert.Fail();
-          
-        Assert.AreEqual(v1, v2);
-      }
-    
-      public static int GenerateUniqueId()
-      {
-        Random random = new Random();
-        return random.Next(1, 101);
-      }
-    }    
-\end{lstlisting}  
-\caption{Модульный тест класса Short}
-\label{unitshort:image}
+        randomId = GenerateUniqueId(); 
+      } 
+      testObject.Id = randomId; 
+      Assert.AreNotEqual(0, testObject.Id); 
+      Assert.AreEqual(randomId, testObject.Id); 
+    }
+  
+    private boolean TestString(string v1, string v2)
+    {
+      if (v1 == null || v2 == null)
+        Assert.Fail();
+        
+      Assert.AreEqual(v1, v2);
+    }
+  
+    public static int GenerateUniqueId()
+    {
+      Random random = new Random();
+      return random.Next(1, 101);
+    }
+  }
+\end{lstlisting}
+\caption{Модульный тест класса Short (часть 2)}
+\label{unitshort2:image}
 \end{figure}
 
 \subsection{Системное тестирование разработанного web-сайта}
