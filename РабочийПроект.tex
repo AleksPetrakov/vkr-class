@@ -308,86 +308,216 @@ priorityExpiredAt: <<2024-01-20>>
 
 \subsection{Модульное тестирование разработанного приложения}
 
-Класс Short является базовым классом, от которого наследуются почти все модели серверной части приложения. Модульный тест для класса Short из модели данных представлен на рисунках \ref{unitshort1:image} и \ref{unitshort2:image}.
+
+\section{Структура тестового проекта}
+В рамках тестирования программного обеспечения был разработан тестовый проект, структура которого представлена на рисунке \ref{testproject_structure:image}. Данный проект включает в себя модульные тесты для различных компонентов системы. Тестирование моделей и контроллеров позволяет обеспечить надежность и корректность работы программного обеспечения.
+В тестовый проект добавлена возможность использовать пространство имен из основного проекта с помощью команды: dotnet add reference ../new_back/new_back.csproj.
+Тестовый проект включает в себя следующие ключевые элементы:
+
+\begin{itemize}
+  \item \textbf{Models}: Классы, которые представляют модели данных, используемые в тестах.
+  \item \textbf{Shared}: Вспомогательные классы и утилиты, используемые в различных тестах.
+  \item \textbf{TestResults}: Результаты выполнения тестов.
+  \item \textbf{UnitTestShort.cs и UnitTestUserController.cs}: Наборы модульных тестов для проверки соответствующих классов и контроллеров.
+\end{itemize}
 
 \begin{figure}[ht]
-\lstset{style=sharpc}
-\begin{lstlisting}
-    using System;
-    using System.IO;
-    using System.Math;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    
-    namespace new_back
-    {
-      [TestClass]
-      public class Short
-      {
-        public long Id { get; set; } = null;
-    
-        public string Name { get; set; } = null;
-    
-        public string Description { get; set; } = null;
-      }
-    
-      [TestMethod]
-      public void Short_Validate_Name() 
-      { 
-        var testValue = "Test Name";
-        var testObject = new Short() { 
-          Name = testValue
-        };
-        TestString(testObject.name, testValue); 
-      } 
-      
-      [TestMethod]
-      public void Short_Validate_Description() 
-      { 
-        var testValue = "Test description";
-        var testObject = new Short() { 
-          Description = testValue
-        };
-        TestString(testObject.name, testValue); 
-      }  
-\end{lstlisting}
-\caption{Модульный тест класса Short (часть 1)}
-\label{unitshort1:image}
+\centering
+\includegraphics[width=0.5\textwidth]{testproject_structure.png}
+\caption{Структура тестового проекта}
+\label{testproject_structure:image}
 \end{figure}
+
+Содержимое файла \textbf{ShortTest.cs} представлено на рисунке \ref{st:image}.
 
 \begin{figure}[!ht]
 \lstset{style=sharpc}
 \begin{lstlisting}
-    [TestMethod]
-    public void Short_Validate_Id() 
-    { 
-      var testObject = new Short(); 
-      long randomId = 0; 
-      while (randomId == 0) 
-      { 
-        randomId = GenerateUniqueId(); 
-      } 
-      testObject.Id = randomId; 
-      Assert.AreNotEqual(0, testObject.Id); 
-      Assert.AreEqual(randomId, testObject.Id); 
-    }
-  
-    private boolean TestString(string v1, string v2)
+namespace TestProject.Models
+{
+    [TestClass]
+    public class ShortTest
     {
-      if (v1 == null || v2 == null)
-        Assert.Fail();
-        
-      Assert.AreEqual(v1, v2);
+        public long Id { get; set; }
+        public string? Name { get; set; }
+        public string? Description { get; set; } = null;
     }
-  
-    public static int GenerateUniqueId()
-    {
-      Random random = new Random();
-      return random.Next(1, 101);
-    }
-  }
+}
 \end{lstlisting}
-\caption{Модульный тест класса Short (часть 2)}
-\label{unitshort2:image}
+\caption{Содержимое файла \textbf{ShortTest.cs}}
+\label{st:image}
+\end{figure}
+
+Содержимое файла \textbf{Utils.cs} представлено на рисунке \ref{ut:image}.
+
+\begin{figure}[!ht]
+\lstset{style=sharpc}
+\begin{lstlisting}
+namespace TestProject.Shared
+{
+    public class Utils
+    {
+        public static void TestString(string v1, string v2)
+        {
+            if (v1 == null || v2 == null)
+            {
+                Assert.Fail();
+            }
+
+            Assert.AreEqual(v1, v2);
+        }
+
+        public static int GenerateUniqueId()
+        {
+            Random random = new Random();
+            return random.Next(1, 101);
+        }
+    }
+}
+\end{lstlisting}
+\caption{Содержимое файла \textbf{Utils.cs}}
+\label{ut:image}
+\end{figure}
+
+Содержимое файла \textbf{Usings.cs} представлено на рисунке \ref{usings:image}.
+
+\begin{figure}[!ht]
+\lstset{style=sharpc}
+\begin{lstlisting}
+global using Microsoft.VisualStudio.TestTools.UnitTesting;
+global using System.IO;
+global using static System.Math;
+global using System.Web;
+global using Moq;
+global using Microsoft.AspNetCore.Mvc;
+\end{lstlisting}
+\caption{Содержимое файла \textbf{Usings.cs}}
+\label{usings:image}
+\end{figure}
+
+Модульные тесты для класса Short, который является базовым классом для большинства моделей в приложении, позволяют проверить корректность логики и поведения этого компонента и исключить возникновение проблем в этом классе и его потомков. Тесты охватывают такие аспекты, как валидация имен и описаний, а также уникальность идентификаторов объектов.
+Модульные тесты для класса Short представлены на рисунке \ref{unitshort1:image}.
+
+\begin{figure}[ht]
+\lstset{style=sharpc}
+\begin{lstlisting}
+using TestProject.Shared;
+using TestProject.Models;
+
+namespace TestProject
+{
+    [TestClass]
+    public class UnitTestShort
+    {
+        [TestMethod]
+        public void Short_Validate_Name()
+        {
+            var testValue = "Test Name";
+            var testObject = new ShortTest() {
+                Name = testValue
+            };
+            Utils.TestString(testObject.Name, testValue);
+        }
+
+        [TestMethod]
+        public void Short_Validate_Description()
+        {
+            var testValue = "Test description";
+            var testObject = new ShortTest() {
+                Description = testValue
+            };
+            Utils.TestString(testObject.Description, testValue);
+        }
+
+        [TestMethod]
+        public void Short_Validate_Id()
+        {
+            var testObject = new ShortTest();
+            long randomId = 0;
+            while (randomId == 0)
+            {
+                randomId = Utils.GenerateUniqueId();
+            }
+            testObject.Id = randomId;
+            Assert.AreNotEqual(0, testObject.Id);
+            Assert.AreEqual(randomId, testObject.Id);
+        }
+    }
+}  
+\end{lstlisting}
+\caption{Модульный тест класса Short}
+\label{unitshort1:image}
+\end{figure}
+
+Для контроллера UserController, который обрабатывает пользовательские запросы, были разработаны тесты, имитирующие взаимодействие с репозиторием данных. Это позволяет тестировать контроллер в изоляции от реальной базы данных, что упрощает процесс разработки и повышает качество кода.
+Модульные тесты для UserController представлено на рисунке \ref{unitcontr1:image}.
+
+\begin{figure}[ht]
+\lstset{style=sharpc}
+\begin{lstlisting}
+global using new_back.Controllers;
+global using new_back.Infrastructure;
+global using new_back.Models;
+
+namespace TestProject
+{
+    [TestClass]
+    public class UserControllerTests
+    {
+        private Mock<IUserRepository> _mockRepository;
+        private UserController _controller;
+
+        [TestInitialize]
+        public void SetUp()
+        {
+            _mockRepository = new Mock<IUserRepository>();
+            _controller = new UserController(_mockRepository.Object);
+        }
+
+        [TestMethod]
+        public void GetById_UserExists_ReturnsUserView()
+        {
+            long userId = 1;
+            var mockUser = new User { Id = userId, Email = "test@example.com" };
+            _mockRepository.Setup(repo => repo.GetById(userId)).Returns(mockUser);
+
+            var result = _controller.GetById(userId);
+
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOfType(result.Result, typeof(OkObjectResult));
+
+            var okResult = result.Result as OkObjectResult;
+            Assert.IsNotNull(okResult);
+
+            var userViewResult = okResult.Value as UserView;
+            Assert.IsNotNull(userViewResult);
+            Assert.AreEqual(userId, userViewResult.Id);
+            Assert.AreEqual("test@example.com", userViewResult.Email);
+        }
+
+        [TestMethod]
+        public void GetById_UserDoesNotExist_ReturnsNotFound()
+        {
+            _mockRepository.Setup(repo => repo.GetById(It.IsAny<long>())).Returns((User)null);
+
+            var result = _controller.GetById(1);
+
+            Assert.IsInstanceOfType(result.Result, typeof(NotFoundResult));
+        }
+    }
+}
+\end{lstlisting}
+\caption{Модульный тест класса UserController}
+\label{unitcontr1:image}
+\end{figure}
+
+Разработка тестового проекта является ключевым компонентом в цикле обеспечения качества программного продукта. Она демонстрирует эффективность тестирования и его способность гарантировать надежность функционирования системы. На рисунке \ref{testresult:image} представлены результаты выполнения модульных тестов, подтверждающие успешную проверку всех компонентов системы, что свидетельствует об отсутствии критических ошибок и готовности продукта к дальнейшим этапам разработки и внедрения.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.8\textwidth]{testresult.png}
+\caption{Результаты выполнения модульных тестов}
+\label{testresult:image}
 \end{figure}
 
 \subsection{Системное тестирование разработанного web-сайта}
