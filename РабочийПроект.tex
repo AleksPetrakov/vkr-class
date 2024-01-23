@@ -39,10 +39,6 @@
     \caption{Описания методов для работы с городами\label{city:table}}\\
     \hline \centrow \setlength{\baselineskip}{0.7\baselineskip} HTTP-метод & \centrow \setlength{\baselineskip}{0.7\baselineskip} Описание & \centrow Входные параметры & \centrow Пример JSON ответа \\
     \hline \centrow 1 & \centrow 2 & \centrow 3 & \centrow 4\\ \hline
-    \endfirsthead
-    \caption*{Продолжение таблицы \ref{city:table}}\\
-    \hline \centrow 1 & \centrow 2 & \centrow 3 & \centrow 4\\ \hline
-    \finishhead
     GET /api /City  & Список всех городов City в БД & Нет & [ \{ 
       id: 0, 
       name: <<string>>, 
@@ -57,7 +53,6 @@
     \hline \centrow \setlength{\baselineskip}{0.7\baselineskip} HTTP-метод & \centrow \setlength{\baselineskip}{0.7\baselineskip} Описание & \centrow Входные параметры & \centrow Пример JSON ответа \\
     \hline \centrow 1 & \centrow 2 & \centrow 3 & \centrow 4\\ \hline
     \endfirsthead
-    \caption*{Продолжение таблицы \ref{product:table}}\\
     \hline \centrow 1 & \centrow 2 & \centrow 3 & \centrow 4\\ \hline
     \finishhead
     GET /api /Product  & Список всех карточек Product & Нет & [
@@ -225,7 +220,6 @@ priorityExpiredAt: <<2024-01-20>>
     \hline \centrow \setlength{\baselineskip}{0.7\baselineskip} HTTP-метод & \centrow \setlength{\baselineskip}{0.7\baselineskip} Описание & \centrow Входные параметры & \centrow JSON ответ \\
     \hline \centrow 1 & \centrow 2 & \centrow 3 & \centrow 4\\ \hline
     \endfirsthead
-    \caption*{Продолжение таблицы \ref{type:table}}\\
     \hline \centrow 1 & \centrow 2 & \centrow 3 & \centrow 4\\ \hline
     \finishhead
     GET /api /ProductGtoup  & Список всех типов продуктов (товаров и услуг) ProductGroup в БД & Нет & [
@@ -270,7 +264,6 @@ priorityExpiredAt: <<2024-01-20>>
     \hline \centrow \setlength{\baselineskip}{0.7\baselineskip} HTTP-метод & \centrow \setlength{\baselineskip}{0.7\baselineskip} Описание & \centrow Входные параметры & \centrow JSON ответ \\
     \hline \centrow 1 & \centrow 2 & \centrow 3 & \centrow 4\\ \hline
     \endfirsthead
-    \caption*{Продолжение таблицы \ref{data:table}}\\
     \hline \centrow 1 & \centrow 2 & \centrow 3 & \centrow 4\\ \hline
     \finishhead
     GET /api /User /{id} & Получить данные существующего пользователя User по его id & Нет & \{
@@ -347,7 +340,7 @@ priorityExpiredAt: <<2024-01-20>>
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=0.5\textwidth]{testproject_structure.png}
+\includegraphics[width=0.5\textwidth]{testproject_structure}
 \caption{Структура тестового проекта}
 \label{testproject_structure:image}
 \end{figure}
@@ -548,7 +541,7 @@ namespace TestProject
 \newpage % при необходимости можно переносить рисунок на новую страницу
 \begin{figure}[H] % H - рисунок обязательно здесь, или переносится, оставляя пустоту
 \centering
-\includegraphics[width=0.8\textwidth]{testresult.png}
+\includegraphics[width=0.8\textwidth]{testresult}
 \caption{Результаты выполнения модульных тестов}
 \label{testresult:image}
 \end{figure}
@@ -571,34 +564,34 @@ namespace TestProject
 На рисунке \ref{test-front1:image} представлена главная страница веб-приложения для неавторизованного пользователя с открытым боковым меню. Первая карточка с услугой <<Кошки в аренду>> раскрыта для просмотра детальной информации.
 
 \begin{figure}[H] % H - рисунок обязательно здесь, или переносится, оставляя пустоту
-\center{\includegraphics[width=1\linewidth]{test-front1.png}}
+\center{\includegraphics[width=1\linewidth]{test-front1}}
 \caption{Главная страница веб-приложения}
 \label{test-front1:image}
 \end{figure}
 
-На рисунке \ref{test-front2:image} представлена страница регистрации пользователя-поставщика услуг. На рисунке \ref{test-front2:image} так же изображено боковым меню в закрытом состоянии.
+На рисунке \ref{test-front2:image} представлена страница регистрации пользователя-поставщика услуг. На рисунке \ref{test-front2:image} также изображено боковым меню в закрытом состоянии.
 
 \newpage % при необходимости можно переносить рисунок на новую страницу
 \begin{figure}[H] % H - рисунок обязательно здесь, или переносится, оставляя пустоту
-\center{\includegraphics[width=1\linewidth]{test-front2.png}}
+\center{\includegraphics[width=1\linewidth]{test-front2}}
 \caption{Страница регистрации пользователя-поставщика услуг}
 \label{test-front2:image}
 \end{figure}
 
-После регистрации пользователь автоматически авторизуется в системе и перенаправляется на главную страницу приложения где он может просматривать карточки продуктов (товаров и услуг), а также создавать свои карточки. На рисунке \ref{test-front3:image} представлена страница создания карточки. На рисунке \ref{test-front3:image} так же изображено состояние шапки сайта для авторизованного пользователя.
+После регистрации пользователь автоматически авторизуется в системе и перенаправляется на главную страницу приложения где он может просматривать карточки продуктов (товаров и услуг), а также создавать свои карточки. На рисунке \ref{test-front3:image} представлена страница создания карточки. На рисунке \ref{test-front3:image} также изображено состояние шапки сайта для авторизованного пользователя.
 
 \newpage % при необходимости можно переносить рисунок на новую страницу
 \begin{figure}[H] % H - рисунок обязательно здесь, или переносится, оставляя пустоту
-\center{\includegraphics[width=1\linewidth]{test-front3.png}}
+\center{\includegraphics[width=1\linewidth]{test-front3}}
 \caption{Страница регистрации создания карточки}
 \label{test-front3:image}
 \end{figure}
 
-Созданная карточка отображается на главной странице веб-приложения. На рисунке \ref{test-front4:image} представлена главная страница веб-приложения для авторизованного пользователя с открытым боковым меню. Новая карточка с названием <<Тестовое название>> содержит кнопку для редактирования при нажатии на которую пользователь перенаправляется на страницу редактирования этой карточки. Новая карточка так же содержит кнопку удаления. На рисунке \ref{test-front4:image} изображена обновленная главная страница веб-приложения.
+Созданная карточка отображается на главной странице веб-приложения. На рисунке \ref{test-front4:image} представлена главная страница веб-приложения для авторизованного пользователя с открытым боковым меню. Новая карточка с названием <<Тестовое название>> содержит кнопку для редактирования при нажатии на которую пользователь перенаправляется на страницу редактирования этой карточки. Новая карточка также содержит кнопку удаления. На рисунке \ref{test-front4:image} изображена обновленная главная страница веб-приложения.
 
 \newpage % при необходимости можно переносить рисунок на новую страницу
 \begin{figure}[H] % H - рисунок обязательно здесь, или переносится, оставляя пустоту
-\center{\includegraphics[width=1\linewidth]{test-front4.png}}
+\center{\includegraphics[width=1\linewidth]{test-front4}}
 \caption{Обновленная главная страница веб-приложения}
 \label{test-front4:image}
 \end{figure}
@@ -607,28 +600,28 @@ namespace TestProject
 
 \newpage % при необходимости можно переносить рисунок на новую страницу
 \begin{figure}[H] % H - рисунок обязательно здесь, или переносится, оставляя пустоту
-\center{\includegraphics[width=1\linewidth]{test-front5.png}}
+\center{\includegraphics[width=1\linewidth]{test-front5}}
 \caption{Страница редактирования карточки}
 \label{test-front5:image}
 \end{figure}
 
 \newpage % при необходимости можно переносить рисунок на новую страницу
 \begin{figure}[H] % H - рисунок обязательно здесь, или переносится, оставляя пустоту
-\center{\includegraphics[width=1\linewidth]{test-front6.png}}
+\center{\includegraphics[width=1\linewidth]{test-front6}}
 \caption{Обновленная страница редактирования карточки}
 \label{test-front6:image}
 \end{figure}
 
-На рисунке \ref{test-front7:image} изображена страница поиска с предустановлеными фильтрами. На рисунке \ref{test-front8:image} изображена страница результатами поиска с заданными на странице поиска фильтрами.
+На рисунке \ref{test-front7:image} изображена страница поиска с предустановлеными фильтрами. На рисунке \ref{test-front7:image} изображена страница результатами поиска с заданными на странице поиска фильтрами.
 
 \begin{figure}[H] % H - рисунок обязательно здесь, или переносится, оставляя пустоту
-\center{\includegraphics[width=1\linewidth]{test-front7.jpg}}
+\center{\includegraphics[width=1\linewidth]{test-front7}}
 \caption{Страница поиска}
 \label{test-front7:image}
 \end{figure}
 
 \begin{figure}[H] % H - рисунок обязательно здесь, или переносится, оставляя пустоту
-\center{\includegraphics[width=1\linewidth]{test-front8.png}}
+\center{\includegraphics[width=1\linewidth]{test-front8}}
 \caption{Страница с результатами поиска}
 \label{test-front8:image}
 \end{figure}

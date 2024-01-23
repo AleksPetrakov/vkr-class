@@ -74,7 +74,7 @@ Angular, выбранный для Frontend разработки, предост
 
 
 \begin{figure}[h!]
-    \includegraphics[width=0.82\linewidth]{interface-register.png}
+    \includegraphics[width=0.82\linewidth]{interface-register}
     \caption{Модели интерфейса регистрации <<Пользователя>> и <<Дог-ситтера>>}
     \label{fig:register}
 \end{figure}
@@ -105,26 +105,20 @@ Angular, выбранный для Frontend разработки, предост
 
 % Таблица для HashSalt
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
-    \caption{Свойства класса <<HashSalt>>}\label{hashsalt_table} \\ \hline
-    Свойство & Тип & Обязательное & Описание \\ \hline
-    1 & 2 & 3 & 4 \\ \hline
-    \endfirsthead
-    \caption*{Продолжение таблицы \ref{hashsalt_table}}\\
+    \caption{Свойства класса <<HashSalt>>}\label{hashsalt:table} \\ \hline
+    Свойство & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
     1 & 2 & 3 & 4 \\ \hline
     \finishhead
     Hash & String & true & Хэш \\ \hline
     Salt & String & true & Соль для хэша \\ \hline
 \end{xltabular}
 
-\newpage
-
 % Таблица для UserBase
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
-    \caption{Свойства класса <<UserBase>>}\label{userbase_table} \\ \hline
-    Свойство & Тип & Обязательное & Описание \\ \hline
+    \caption{Свойства класса <<UserBase>>}\label{userbase:table} \\ \hline
+    Свойство & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
     1 & 2 & 3 & 4 \\ \hline
     \endfirsthead
-    \caption*{Продолжение таблицы \ref{userbase_table}}\\
     1 & 2 & 3 & 4 \\ \hline
     \finishhead
     Phone & String & false & Телефонный номер пользователя \\ \hline
@@ -136,73 +130,46 @@ Angular, выбранный для Frontend разработки, предост
     Website & String & false & Веб-сайт пользователя \\ \hline
 \end{xltabular}
 
-\newpage
-
 % Таблица для UserRegistrationData
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
-    \caption{Свойства класса <<UserRegistrationData>>}\label{userregdata_table} \\ \hline
-    Свойство & Тип & Обязательное & Описание \\ \hline
+    \caption{Свойства класса <<UserRegistrationData>>}\label{userregdata:table} \\ \hline
+    Свойство & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
     1 & 2 & 3 & 4 \\ \hline
-    \endfirsthead
-    \caption*{Продолжение таблицы \ref{userregdata_table}}\\
-    1 & 2 & 3 & 4 \\ \hline
-    \finishhead
     Password & String & true & Пароль пользователя \\ \hline
 \end{xltabular}
 
-\newpage
-
 % Таблица для UserLoginData
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
-    \caption{Свойства класса <<UserLoginData>>}\label{userlogindata_table} \\ \hline
-    Свойство & Тип & Обязательное & Описание \\ \hline
+    \caption{Свойства класса <<UserLoginData>>}\label{userlogindata:table} \\ \hline
+    Свойство & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
     1 & 2 & 3 & 4 \\ \hline
-    \endfirsthead
-    \caption*{Продолжение таблицы \ref{userlogindata_table}}\\
-    1 & 2 & 3 & 4 \\ \hline
-    \finishhead
     Email & String & true & Электронная почта пользователя для входа \\ \hline
     Password & String & true & Пароль пользователя для входа \\ \hline
 \end{xltabular}
 
-\newpage
-
 % Таблица для UserLoginResponseData
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
-    \caption{Свойства класса <<UserLoginResponseData>>}\label{userloginrespdata_table} \\ \hline
-    Свойство & Тип & Обязательное & Описание \\ \hline
+    \caption{Свойства класса <<UserLoginResponseData>>}\label{userloginrespdata:table} \\ \hline
+    Свойство & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
     1 & 2 & 3 & 4 \\ \hline
-    \endfirsthead
-    \caption*{Продолжение таблицы \ref{userloginrespdata_table}}\\
-    1 & 2 & 3 & 4 \\ \hline
-    \finishhead
     Id & Long & true & Уникальный идентификатор пользователя \\ \hline
     AccessToken & String & true & Токен доступа пользователя \\ \hline
 \end{xltabular}
 
-\newpage
-
 % Таблица для UserView
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
-    \caption{Свойства класса <<UserView>>}\label{userview_table} \\ \hline
-    Свойство & Тип & Обязательное & Описание \\ \hline
+    \caption{Свойства класса <<UserView>>}\label{userview:table} \\ \hline
+    Свойство & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
     1 & 2 & 3 & 4 \\ \hline
-    \endfirsthead
-    \caption*{Продолжение таблицы \ref{userview_table}}\\
-    1 & 2 & 3 & 4 \\ \hline
-    \finishhead
     Id & Long & true & Уникальный идентификатор пользователя \\ \hline
 \end{xltabular}
 
-\newpage
-
 % Таблица для User
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
-    \caption{Свойства класса <<User>>}\label{user_table} \\ \hline
-    Свойство & Тип & Обязательное & Описание \\ \hline
+    \caption{Свойства класса <<User>>}\label{user:table} \\ \hline
+    Свойство & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
     1 & 2 & 3 & 4 \\ \hline
     \endfirsthead
-    \caption*{Продолжение таблицы \ref{user_table}}\\
     1 & 2 & 3 & 4 \\ \hline
     \finishhead
     Id & Long & true & Уникальный идентификатор пользователя \\ \hline
@@ -214,15 +181,12 @@ Angular, выбранный для Frontend разработки, предост
 
 В частности, класс <<User>> является центральным в системе управления пользователями и их данными, что подчеркивает важность его реализации и интеграции с другими классами.
 
-\newpage
-
 % Таблица для Product
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
-    \caption{Свойства класса <<Product>>}\label{product_table} \\ \hline
-    Свойство & Тип & Обязательное & Описание \\ \hline
+    \caption{Свойства класса <<Product>>}\label{product:table} \\ \hline
+    Свойство & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
     1 & 2 & 3 & 4 \\ \hline
     \endfirsthead
-    \caption*{Продолжение таблицы \ref{product_table}}\\
     1 & 2 & 3 & 4 \\ \hline
     \finishhead
     ImageUrl & String & false & URL изображения продукта \\ \hline
@@ -232,17 +196,11 @@ Angular, выбранный для Frontend разработки, предост
     CreatedByUserId & Long & true & Идентификатор пользователя, создавшего продукт \\ \hline
 \end{xltabular}
 
-\newpage
-
 % Таблица для ProductView
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
-    \caption{Свойства класса <<ProductView>>}\label{productview_table} \\ \hline
-    Свойство & Тип & Обязательное & Описание \\ \hline
+    \caption{Свойства класса <<ProductView>>}\label{productview:table} \\ \hline
+    Свойство & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
     1 & 2 & 3 & 4 \\ \hline
-    \endfirsthead
-    \caption*{Продолжение таблицы \ref{productview_table}}\\
-    1 & 2 & 3 & 4 \\ \hline
-    \finishhead
     CreatedByUser & UserView & true & Пользователь, создавший продукт \\ \hline
 \end{xltabular}
 
@@ -251,15 +209,12 @@ Angular, выбранный для Frontend разработки, предост
     \item <<ProductView>> расширяет <<Product>>, добавляя <<CreatedByUser>>, который является экземпляром <<UserView>>. Это позволяет получать не только идентификационную информацию о создателе продукта, но и более детальные данные пользователя.
 \end{itemize}
 
-\newpage
-
 % Таблица для IUserRepository
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
-    \caption{Свойства класса <<IUserRepository>>}\label{iuserrepository_table} \\ \hline
-    Свойство & Тип & Обязательное & Описание \\ \hline
+    \caption{Свойства класса <<IUserRepository>>}\label{iuserrepository:table} \\ \hline
+    Свойство & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
     1 & 2 & 3 & 4 \\ \hline
     \endfirsthead
-    \caption*{Продолжение таблицы \ref{iuserrepository_table}}\\
     1 & 2 & 3 & 4 \\ \hline
     \finishhead
     GetById & User & true & Получить пользователя по идентификатору \\ \hline
@@ -288,10 +243,9 @@ Angular, выбранный для Frontend разработки, предост
 % Таблица для Short
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
     \caption{Свойства класса <<Short>>\label{int1:table}}\\ \hline
-    Свойство & Тип & Обязательное & Описание \\ \hline
+    Свойство & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
     1 & 2 & 3 & 4 \\ \hline
     \endfirsthead
-    \caption*{Продолжение таблицы \ref{int1:table}}\\
     1 & 2 & 3 & 4 \\ \hline
     \finishhead
     id & number & true & Уникальный идентификатор \\ \hline
@@ -302,10 +256,9 @@ Angular, выбранный для Frontend разработки, предост
 % Таблица для User
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
     \caption{Свойства класса <<User>>\label{int2:table}}\\ \hline
-    Свойство & Тип & Обязательное & Описание \\ \hline
+    Свойство & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
     1 & 2 & 3 & 4 \\ \hline
     \endfirsthead
-    \caption*{Продолжение таблицы \ref{int2:table}}\\
     1 & 2 & 3 & 4 \\ \hline
     \finishhead
     phone & string & true & Телефонный номер \\ \hline
@@ -324,10 +277,9 @@ Angular, выбранный для Frontend разработки, предост
 % Таблица для Product
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
     \caption{Свойства класса <<Product>>\label{int3:table}}\\ \hline
-    Свойство & Тип & Обязательное & Описание \\ \hline
+    Свойство & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
     1 & 2 & 3 & 4 \\ \hline
     \endfirsthead
-    \caption*{Продолжение таблицы \ref{int3:table}}\\
     1 & 2 & 3 & 4 \\ \hline
     \finishhead
     imageUrl & string & true & URL изображения продукта \\ \hline
@@ -342,10 +294,9 @@ Angular, выбранный для Frontend разработки, предост
 % Таблица для ProductGroup
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
     \caption{Свойства класса <<ProductGroup>>\label{int4:table}}\\ \hline
-    Свойство & Тип & Обязательное & Описание \\ \hline
+    Свойство & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
     1 & 2 & 3 & 4 \\ \hline
     \endfirsthead
-    \caption*{Продолжение таблицы \ref{int4:table}}\\
     1 & 2 & 3 & 4 \\ \hline
     \finishhead
     type & string & true & Тип группы продуктов \\ \hline
@@ -356,10 +307,9 @@ Angular, выбранный для Frontend разработки, предост
 % Таблица для ProductFilter
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
     \caption{Свойства класса <<ProductFilter>>\label{int5:table}}\\ \hline
-    Свойство & Тип & Обязательное & Описание \\ \hline
+    Свойство & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
     1 & 2 & 3 & 4 \\ \hline
     \endfirsthead
-    \caption*{Продолжение таблицы \ref{int5:table}}\\
     1 & 2 & 3 & 4 \\ \hline
     \finishhead
     cityId & number & false & Идентификатор города \\ \hline
@@ -371,12 +321,8 @@ Angular, выбранный для Frontend разработки, предост
 % Таблица для City
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
     \caption{Свойства класса <<City>>\label{int6:table}}\\ \hline
-    Свойство & Тип & Обязательное & Описание \\ \hline
+    Свойство & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
     1 & 2 & 3 & 4 \\ \hline
-    \endfirsthead
-    \caption*{Продолжение таблицы \ref{int6:table}}\\
-    1 & 2 & 3 & 4 \\ \hline
-    \finishhead
     id & number & true & Уникальный идентификатор \\ \hline
     name & string & true & Название города \\ \hline
 \end{xltabular}
@@ -384,10 +330,9 @@ Angular, выбранный для Frontend разработки, предост
 % Таблица для UserService
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
     \caption{Свойства класса <<UserService>>\label{int6:table}}\\ \hline
-    Свойство & Тип & Обязательное & Описание \\ \hline
+    Свойство & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
     1 & 2 & 3 & 4 \\ \hline
     \endfirsthead
-    \caption*{Продолжение таблицы \ref{int6:table}}\\
     1 & 2 & 3 & 4 \\ \hline
     \finishhead
     getById & User & true & Получить пользователя по идентификатору \\ \hline
@@ -399,10 +344,9 @@ Angular, выбранный для Frontend разработки, предост
 % Таблица для ProductGroupService
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
     \caption{Свойства класса <<ProductGroupService>>\label{int7:table}}\\ \hline
-    Метод & Тип & Обязательное & Описание \\ \hline
+    Метод & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
     1 & 2 & 3 & 4 \\ \hline
     \endfirsthead
-    \caption*{Продолжение таблицы \ref{int7:table}}\\
     1 & 2 & 3 & 4 \\ \hline
     \finishhead
     getAll & ProductGroup[] & true & Получить все группы продуктов \\ \hline
@@ -412,10 +356,9 @@ Angular, выбранный для Frontend разработки, предост
 % Таблица для ProductService
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
     \caption{Свойства класса <<ProductService>>\label{int8:table}}\\ \hline
-    Метод & Тип & Обязательное & Описание \\ \hline
+    Метод & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
     1 & 2 & 3 & 4 \\ \hline
     \endfirsthead
-    \caption*{Продолжение таблицы \ref{int8:table}}\\
     1 & 2 & 3 & 4 \\ \hline
     \finishhead
     getAll & Product[] & true & Получить все продукты \\ \hline
@@ -429,12 +372,8 @@ Angular, выбранный для Frontend разработки, предост
 % Таблица для CityService
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
     \caption{Свойства класса <<CityService>>\label{int9:table}}\\ \hline
-    Метод & Тип & Обязательное & Описание \\ \hline
+    Метод & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
     1 & 2 & 3 & 4 \\ \hline
-    \endfirsthead
-    \caption*{Продолжение таблицы \ref{int9:table}}\\
-    1 & 2 & 3 & 4 \\ \hline
-    \finishhead
     getAll & City[] & true & Получить все города \\ \hline
 \end{xltabular}
 
