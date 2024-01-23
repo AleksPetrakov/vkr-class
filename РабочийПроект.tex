@@ -1,27 +1,292 @@
 \section{Рабочий проект}
 
-\subsection{Описание архитектуры приложения}
+\subsection{Описание классов системы}
 
-Архитектура приложения, реализованная в рамках текущего исследования, базируется на модели MVC (Model-View-Controller) \cite{kofman}. Этот паттерн был избран благодаря его выдающейся способности к эффективному разделению функциональных обязанностей между структурными компонентами системы, а также способствованию упрощению процессов разработки и тестирования.
-
-Паттерн MVC реализован следующим образом:
-
-\begin{enumerate}
-    \item Модель (Model) и Контроллер (Controller): Обе эти компоненты были разработаны на платформе .NET, обеспечивая управление бизнес-логикой и обработку данных, а также связь между пользовательским интерфейсом и базой данных;
-    \item Представление (View): Реализовано через фронтенд, использующий фреймворк Angular, отвечающий за визуализацию информации и интерактивное взаимодействие с пользователем.
-\end{enumerate}
-
-Ключевым аспектом в управлении данными является использование системы управления базами данных PostgreSQL \cite{kofman}. Этот выбор был обусловлен высокой надежностью PostgreSQL, её превосходной производительностью и гибкостью в обработке сложных запросов, что имеет критическое значение для эффективного функционирования бэкенда.
-
-Применение архитектуры MVC принесло следующие ключевые преимущества:
+\subsubsection{Описание программных классов серверной части}
 
 \begin{itemize}
-  \item   Четкое Разделение Обязанностей: Эффективное разграничение между пользовательским интерфейсом (Angular) и серверной логикой (.NET) значительно упрощает процесс разработки и последующей поддержки системы \cite{kofman};
-  \item   Гибкость и Масштабируемость: Благодаря MVC, архитектура приложения легко адаптируется и масштабируется, что позволяет разработчикам модифицировать или расширять отдельные части системы без влияния на другие;
-  \item   Упрощение Тестирования: Независимость компонентов архитектуры MVC облегчает процедуру тестирования, позволяя проводить её для каждого элемента в отдельности \cite{kofman}.
+    \item <<UserBase>> является фундаментальным классом для хранения пользовательских данных. Помимо основных свойств, таких как <<Phone>>, <<Email>>, <<FirstName>>, <<LastName>>, предлагает основу для дальнейшего расширения и интеграции с другими подсистемами приложения.
+    \item <<UserRegistrationData>> расширяет <<UserBase>>, вводя специфические свойства, необходимые для процесса регистрации, включая <<Password>>. Это обеспечивает дополнительный уровень безопасности и индивидуализации данных пользователя.
+    \item <<UserLoginData>> применяется для авторизации пользователей в системе. Содержит только самую необходимую информацию для входа, а именно: <<Email>> и <<Password>>.
+    \item <<UserLoginResponseData>> и <<UserView>> наследуются от <<UserBase>> и дополняют его уникальным идентификатором <<Id>>. <<UserLoginResponseData>> также включает в себя <<AccessToken>>, что обеспечивает надежную аутентификацию и безопасность данных.
+    \item <<User>> представляет собой полную структуру класса пользователя, включая элементы безопасности (<<Hash>> и <<Salt>>) и уникальный идентификатор <<Id>>. Этот класс является центральным в системе управления пользователями и их данными.
 \end{itemize}
 
-Итоговая архитектура, базирующаяся на MVC в сочетании с Angular для фронтенда, .NET для бэкенда и PostgreSQL для управления данными, обеспечивает создание надежной, гибкой и масштабируемой системы. Данная архитектура представляет собой устойчивую основу для разработки современных программных решений, способных соответствовать как нынешним, так и будущим техническим и функциональным требованиям \cite{kofman}.
+% Таблица для HashSalt
+\begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
+    \caption{Свойства класса <<HashSalt>>}\label{hashsalt:table} \\ \hline
+    Свойство & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
+    1 & 2 & 3 & 4 \\ \hline
+    \finishhead
+    Hash & String & true & Хэш \\ \hline
+    Salt & String & true & Соль для хэша \\ \hline
+\end{xltabular}
+
+% Таблица для UserBase
+\begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
+    \caption{Свойства класса <<UserBase>>}\label{userbase:table} \\ \hline
+    Свойство & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
+    1 & 2 & 3 & 4 \\ \hline
+    \endfirsthead
+    1 & 2 & 3 & 4 \\ \hline
+    \finishhead
+    Phone & String & false & Телефонный номер пользователя \\ \hline
+    Email & String & false & Электронная почта пользователя \\ \hline
+    FirstName & String & false & Имя пользователя \\ \hline
+    LastName & String & false & Фамилия пользователя \\ \hline
+    ImageUrl & String & false & URL изображения пользователя \\ \hline
+    Telegram & String & false & Telegram пользователя \\ \hline
+    Website & String & false & Веб-сайт пользователя \\ \hline
+\end{xltabular}
+
+% Таблица для UserRegistrationData
+\begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
+    \caption{Свойства класса <<UserRegistrationData>>}\label{userregdata:table} \\ \hline
+    Свойство & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
+    1 & 2 & 3 & 4 \\ \hline
+    Password & String & true & Пароль пользователя \\ \hline
+\end{xltabular}
+
+% Таблица для UserLoginData
+\begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
+    \caption{Свойства класса <<UserLoginData>>}\label{userlogindata:table} \\ \hline
+    Свойство & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
+    1 & 2 & 3 & 4 \\ \hline
+    Email & String & true & Электронная почта пользователя для входа \\ \hline
+    Password & String & true & Пароль пользователя для входа \\ \hline
+\end{xltabular}
+
+% Таблица для UserLoginResponseData
+\begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
+    \caption{Свойства класса <<UserLoginResponseData>>}\label{userloginrespdata:table} \\ \hline
+    Свойство & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
+    1 & 2 & 3 & 4 \\ \hline
+    Id & Long & true & Уникальный идентификатор пользователя \\ \hline
+    AccessToken & String & true & Токен доступа пользователя \\ \hline
+\end{xltabular}
+
+% Таблица для UserView
+\begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
+    \caption{Свойства класса <<UserView>>}\label{userview:table} \\ \hline
+    Свойство & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
+    1 & 2 & 3 & 4 \\ \hline
+    Id & Long & true & Уникальный идентификатор пользователя \\ \hline
+\end{xltabular}
+
+% Таблица для User
+\begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
+    \caption{Свойства класса <<User>>}\label{user:table} \\ \hline
+    Свойство & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
+    1 & 2 & 3 & 4 \\ \hline
+    \endfirsthead
+    1 & 2 & 3 & 4 \\ \hline
+    \finishhead
+    Id & Long & true & Уникальный идентификатор пользователя \\ \hline
+    Hash & String & true & Хэш пользователя \\ \hline
+    Salt & String & true & Соль для хэша пароля пользователя \\ \hline
+\end{xltabular}
+
+Большой набор классов для описания пользователя в серверной части приложение таких как <<UserBase>>, <<UserRegistrationData>>, <<UserLoginData>>, <<UserLoginResponseData>> и <<User>>, подчеркивает разнообразие и сложность структур данных в современных системах. Подход к проектированию \cite{grinchenko} и реализации этих классов основывается на объектно-ориентированных принципах и практиках \cite{kumskova}.
+
+В частности, класс <<User>> является центральным в системе управления пользователями и их данными, что подчеркивает важность его реализации и интеграции с другими классами.
+
+% Таблица для Product
+\begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
+    \caption{Свойства класса <<Product>>}\label{product:table} \\ \hline
+    Свойство & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
+    1 & 2 & 3 & 4 \\ \hline
+    \endfirsthead
+    1 & 2 & 3 & 4 \\ \hline
+    \finishhead
+    ImageUrl & String & false & URL изображения продукта \\ \hline
+    ProductGroupId & Long & true & Идентификатор группы продуктов \\ \hline
+    Price & Float & true & Цена продукта \\ \hline
+    Weight & Integer & true & Вес продукта \\ \hline
+    CreatedByUserId & Long & true & Идентификатор пользователя, создавшего продукт \\ \hline
+\end{xltabular}
+
+% Таблица для ProductView
+\begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
+    \caption{Свойства класса <<ProductView>>}\label{productview:table} \\ \hline
+    Свойство & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
+    1 & 2 & 3 & 4 \\ \hline
+    CreatedByUser & UserView & true & Пользователь, создавший продукт \\ \hline
+\end{xltabular}
+
+\begin{itemize}
+    \item <<Product>>, наследующийся от <<Short>>, описывает основные свойства продукта, такие как <<ImageUrl>>, <<ProductGroupId>>, <<Price>>, <<Weight>>, и <<CreatedByUserId>>, указывающий на пользователя, создавшего продукт.
+    \item <<ProductView>> расширяет <<Product>>, добавляя <<CreatedByUser>>, который является экземпляром <<UserView>>. Это позволяет получать не только идентификационную информацию о создателе продукта, но и более детальные данные пользователя.
+\end{itemize}
+
+% Таблица для IUserRepository
+\begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
+    \caption{Свойства класса <<IUserRepository>>}\label{iuserrepository:table} \\ \hline
+    Свойство & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
+    1 & 2 & 3 & 4 \\ \hline
+    \endfirsthead
+    1 & 2 & 3 & 4 \\ \hline
+    \finishhead
+    GetById & User & true & Получить пользователя по идентификатору \\ \hline
+    GetByEmail & User & true & Получить пользователя по электронной почте \\ \hline
+    GetAllUserViews & List<UserView> & true & Получить список пользователей \\ \hline
+    Create & User & true & Создать пользователя \\ \hline
+\end{xltabular}
+
+Класс <<IUserRepository>> описывает основные методы для работы с пользователями, включая получение пользователя по идентификатору, получение пользователя по электронной почте, получение списка пользователей и создание пользователя.
+
+В системе предусмотрен внутренний механизм связи между классами и их свойствами, поэтому введение дополнительных идентификаторов при реализации связей между классами не предполагается.
+
+Экземпляры классов реализуются в информационных блоках посредством элементов, свойства класса – посредством свойств и методов элемента.
+
+\subsubsection{Описание программных классов клиентской части}
+
+\begin{itemize}
+    \item <<Short>> - основной класс, используемый для предоставления общей структуры данных. Свойства <<id>>, <<name>> и <<description>> являются фундаментальными для большинства классов;
+    \item <<User>> - расширяет <<Short>>, интегрируя контактные данные и личную информацию пользователя. Используется для управления учетными записями пользователей, включая процессы регистрации и авторизации;
+    \item <<ProductGroup>> - расширяет <<Short>>, добавляя конкретные детали для организации продуктов в группы. Используется для классификации и управления ассортиментом продуктов;
+    \item <<Product>> - расширяет <<Short>>, предоставляя подробную информацию о продуктах. Включает данные о создателе продукта и используется для представления конкретных товаров в системе;
+    \item <<City>> - описывает города, со свойствами <<id>> и <<name>>. Используется для управления информацией о местоположениях, связанных с пользователями и продуктами.
+    \item <<ProductFilter>> - используется для фильтрации продуктов по городу, группе продуктов, дате публикации и дате окончания срока действия.
+\end{itemize}
+
+% Таблица для Short
+\begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
+    \caption{Свойства класса <<Short>>\label{int1:table}}\\ \hline
+    Свойство & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
+    1 & 2 & 3 & 4 \\ \hline
+    \endfirsthead
+    1 & 2 & 3 & 4 \\ \hline
+    \finishhead
+    id & number & true & Уникальный идентификатор \\ \hline
+    name & string & true & Название \\ \hline
+    description & string & true & Описание \\ \hline
+\end{xltabular}
+
+% Таблица для User
+\begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
+    \caption{Свойства класса <<User>>\label{int2:table}}\\ \hline
+    Свойство & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
+    1 & 2 & 3 & 4 \\ \hline
+    \endfirsthead
+    1 & 2 & 3 & 4 \\ \hline
+    \finishhead
+    phone & string & true & Телефонный номер \\ \hline
+    email & string & true & Электронная почта \\ \hline
+    firstName & string & true & Имя \\ \hline
+    lastName & string & true & Фамилия \\ \hline
+    photoUrl & string & true & URL изображения \\ \hline
+    telegram & string & true & Telegram \\ \hline
+    website & string & true & Веб-сайт \\ \hline
+    address & string & true & Адрес \\ \hline
+    userRoleId & number & true & Идентификатор роли \\ \hline
+    password & string & false & Пароль пользователя (передается при авторизации и регистрации) \\ \hline
+    accessToken & string & false & Токен доступа (принимается при авторизации и регистрации) \\ \hline
+\end{xltabular}
+
+% Таблица для Product
+\begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
+    \caption{Свойства класса <<Product>>\label{int3:table}}\\ \hline
+    Свойство & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
+    1 & 2 & 3 & 4 \\ \hline
+    \endfirsthead
+    1 & 2 & 3 & 4 \\ \hline
+    \finishhead
+    imageUrl & string & true & URL изображения продукта \\ \hline
+    productGroupId & number & true & Идентификатор группы продуктов \\ \hline
+    price & number & true & Цена продукта \\ \hline
+    weight & number & true & Вес продукта \\ \hline
+    createdByUserId & number & true & Идентификатор пользователя, создавшего продукт \\ \hline
+    publishedAt & Date & true & Дата публикации \\ \hline
+    expiredAt & Date & true & Дата окончания срока действия \\ \hline
+\end{xltabular}
+
+% Таблица для ProductGroup
+\begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
+    \caption{Свойства класса <<ProductGroup>>\label{int4:table}}\\ \hline
+    Свойство & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
+    1 & 2 & 3 & 4 \\ \hline
+    \endfirsthead
+    1 & 2 & 3 & 4 \\ \hline
+    \finishhead
+    type & string & true & Тип группы продуктов \\ \hline
+    childrenProductGroupIds & number[] & true & Идентификаторы дочерних групп продуктов (может быть пустым массивом) \\ \hline
+    parentProductGroupId & number & false & Идентификатор родительской группы продуктов \\ \hline
+\end{xltabular}
+
+% Таблица для ProductFilter
+\begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
+    \caption{Свойства класса <<ProductFilter>>\label{int5:table}}\\ \hline
+    Свойство & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
+    1 & 2 & 3 & 4 \\ \hline
+    \endfirsthead
+    1 & 2 & 3 & 4 \\ \hline
+    \finishhead
+    cityId & number & false & Идентификатор города \\ \hline
+    productGroupId & number & false & Идентификатор группы продуктов \\ \hline
+    publishedAtFrom & Date & false & Дата публикации \\ \hline
+    expiredAtTo & Date & false & Дата окончания срока действия \\ \hline
+\end{xltabular}
+
+% Таблица для City
+\begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
+    \caption{Свойства класса <<City>>\label{int6:table}}\\ \hline
+    Свойство & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
+    1 & 2 & 3 & 4 \\ \hline
+    id & number & true & Уникальный идентификатор \\ \hline
+    name & string & true & Название города \\ \hline
+\end{xltabular}
+
+% Таблица для UserService
+\begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
+    \caption{Свойства класса <<UserService>>\label{int6:table}}\\ \hline
+    Свойство & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
+    1 & 2 & 3 & 4 \\ \hline
+    \endfirsthead
+    1 & 2 & 3 & 4 \\ \hline
+    \finishhead
+    getById & User & true & Получить пользователя по идентификатору \\ \hline
+    login & User & true & Получить пользователя по электронной почте \\ \hline
+    create & User & true & Получить список пользователей \\ \hline
+    update & User & true & Создать пользователя \\ \hline
+\end{xltabular}
+
+% Таблица для ProductGroupService
+\begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
+    \caption{Свойства класса <<ProductGroupService>>\label{int7:table}}\\ \hline
+    Метод & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
+    1 & 2 & 3 & 4 \\ \hline
+    \endfirsthead
+    1 & 2 & 3 & 4 \\ \hline
+    \finishhead
+    getAll & ProductGroup[] & true & Получить все группы продуктов \\ \hline
+    updateAll & ProductGroup[] & true & Обновить все группы продуктов \\ \hline
+\end{xltabular}
+
+% Таблица для ProductService
+\begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
+    \caption{Свойства класса <<ProductService>>\label{int8:table}}\\ \hline
+    Метод & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
+    1 & 2 & 3 & 4 \\ \hline
+    \endfirsthead
+    1 & 2 & 3 & 4 \\ \hline
+    \finishhead
+    getAll & Product[] & true & Получить все продукты \\ \hline
+    getById & Product & true & Получить продукт по идентификатору \\ \hline
+    add & Product & true & Добавить продукт \\ \hline
+    update & Product & true & Обновить продукт \\ \hline
+    delete & void & true & Удалить продукт \\ \hline
+    getFilteredProducts & Product[] & true & Получить отфильтрованные продукты \\ \hline
+\end{xltabular}
+
+% Таблица для CityService
+\begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
+    \caption{Свойства класса <<CityService>>\label{int9:table}}\\ \hline
+    Метод & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
+    1 & 2 & 3 & 4 \\ \hline
+    getAll & City[] & true & Получить все города \\ \hline
+\end{xltabular}
+
+Классы <<UserService>>, <<ProductGroupService>>, <<ProductService>> и <<CityService>> предоставляют методы для отправки HTTP запросов к API серверной части приложения.
 
 \subsection{Описание REST API приложения}
 
