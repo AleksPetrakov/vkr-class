@@ -12,6 +12,8 @@
     \item <<User>> представляет собой полную структуру класса пользователя, включая элементы безопасности (<<Hash>> и <<Salt>>) и уникальный идентификатор <<Id>>. Этот класс является центральным в системе управления пользователями и их данными.
 \end{itemize}
 
+\renewcommand{\arraystretch}{0.8} % уменьшение расстояний до сетки таблицы
+
 % Таблица для HashSalt
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
     \caption{Свойства класса <<HashSalt>>}\label{hashsalt:table} \\ \hline
@@ -19,7 +21,7 @@
     1 & 2 & 3 & 4 \\ \hline
     \finishhead
     Hash & String & true & Хэш \\ \hline
-    Salt & String & true & Соль для хэша \\ \hline
+    Salt & String & true & Соль для хэша \\
 \end{xltabular}
 
 % Таблица для UserBase
@@ -56,6 +58,8 @@
     Password & String & true & Пароль пользователя для входа \\ \hline
 \end{xltabular}
 
+\newpage
+
 % Таблица для UserLoginResponseData
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
     \caption{Свойства класса <<UserLoginResponseData>>}\label{userloginrespdata:table} \\ \hline
@@ -86,9 +90,13 @@
     Salt & String & true & Соль для хэша пароля пользователя \\ \hline
 \end{xltabular}
 
+\renewcommand{\arraystretch}{1.0} % восстановление сетки
+
 Большой набор классов для описания пользователя в серверной части приложение таких как <<UserBase>>, <<UserRegistrationData>>, <<UserLoginData>>, <<UserLoginResponseData>> и <<User>>, подчеркивает разнообразие и сложность структур данных в современных системах. Подход к проектированию \cite{grinchenko} и реализации этих классов основывается на объектно-ориентированных принципах и практиках \cite{kumskova}.
 
 В частности, класс <<User>> является центральным в системе управления пользователями и их данными, что подчеркивает важность его реализации и интеграции с другими классами.
+
+\renewcommand{\arraystretch}{0.8} % уменьшение расстояний до сетки таблицы
 
 % Таблица для Product
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
@@ -113,10 +121,16 @@
     CreatedByUser & UserView & true & Пользователь, создавший продукт \\ \hline
 \end{xltabular}
 
+\renewcommand{\arraystretch}{1}
+
 \begin{itemize}
     \item <<Product>>, наследующийся от <<Short>>, описывает основные свойства продукта, такие как <<ImageUrl>>, <<ProductGroupId>>, <<Price>>, <<Weight>>, и <<CreatedByUserId>>, указывающий на пользователя, создавшего продукт.
     \item <<ProductView>> расширяет <<Product>>, добавляя <<CreatedByUser>>, который является экземпляром <<UserView>>. Это позволяет получать не только идентификационную информацию о создателе продукта, но и более детальные данные пользователя.
 \end{itemize}
+
+\newpage
+
+\renewcommand{\arraystretch}{0.8} % уменьшение расстояний до сетки таблицы
 
 % Таблица для IUserRepository
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
@@ -131,6 +145,8 @@
     GetAllUserViews & List<UserView> & true & Получить список пользователей \\ \hline
     Create & User & true & Создать пользователя \\ \hline
 \end{xltabular}
+
+\renewcommand{\arraystretch}{1}
 
 Класс <<IUserRepository>> описывает основные методы для работы с пользователями, включая получение пользователя по идентификатору, получение пользователя по электронной почте, получение списка пользователей и создание пользователя.
 
@@ -149,6 +165,8 @@
     \item <<ProductFilter>> - используется для фильтрации продуктов по городу, группе продуктов, дате публикации и дате окончания срока действия.
 \end{itemize}
 
+\renewcommand{\arraystretch}{0.8} % уменьшение расстояний до сетки таблицы
+
 % Таблица для Short
 \begin{xltabular}{\textwidth}{|l|l|p{1.7cm}|X|}
     \caption{Свойства класса <<Short>>\label{int1:table}}\\ \hline
@@ -159,7 +177,7 @@
     \finishhead
     id & number & true & Уникальный идентификатор \\ \hline
     name & string & true & Название \\ \hline
-    description & string & true & Описание \\ \hline
+    description & string & true & Описание \\
 \end{xltabular}
 
 % Таблица для User
@@ -168,7 +186,7 @@
     Свойство & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
     1 & 2 & 3 & 4 \\ \hline
     \endfirsthead
-    1 & 2 & 3 & 4 \\ \hline
+    \hline 1 & 2 & 3 & 4 \\ \hline
     \finishhead
     phone & string & true & Телефонный номер \\ \hline
     email & string & true & Электронная почта \\ \hline
@@ -210,7 +228,7 @@
     \finishhead
     type & string & true & Тип группы продуктов \\ \hline
     childrenProductGroupIds & number[] & true & Идентификаторы дочерних групп продуктов (может быть пустым массивом) \\ \hline
-    parentProductGroupId & number & false & Идентификатор родительской группы продуктов \\ \hline
+    parentProductGroupId & number & false & Идентификатор родительской группы продуктов \\
 \end{xltabular}
 
 % Таблица для ProductFilter
@@ -224,7 +242,7 @@
     cityId & number & false & Идентификатор города \\ \hline
     productGroupId & number & false & Идентификатор группы продуктов \\ \hline
     publishedAtFrom & Date & false & Дата публикации \\ \hline
-    expiredAtTo & Date & false & Дата окончания срока действия \\ \hline
+    expiredAtTo & Date & false & Дата окончания срока действия \\
 \end{xltabular}
 
 % Таблица для City
@@ -286,6 +304,8 @@
     getAll & City[] & true & Получить все города \\ \hline
 \end{xltabular}
 
+\renewcommand{\arraystretch}{1.0} % восстановление сетки
+
 Классы <<UserService>>, <<ProductGroupService>>, <<ProductService>> и <<CityService>> предоставляют методы для отправки HTTP запросов к API серверной части приложения.
 
 \subsection{Описание REST API приложения}
@@ -304,6 +324,9 @@
     \caption{Описания методов для работы с городами\label{city:table}}\\
     \hline \centrow \setlength{\baselineskip}{0.7\baselineskip} HTTP-метод & \centrow \setlength{\baselineskip}{0.7\baselineskip} Описание & \centrow Входные параметры & \centrow Пример JSON ответа \\
     \hline \centrow 1 & \centrow 2 & \centrow 3 & \centrow 4\\ \hline
+    \endfirsthead
+    \hline \centrow 1 & \centrow 2 & \centrow 3 & \centrow 4\\ \hline
+    \finishhead
     GET /api /City  & Список всех городов City в БД & Нет & [ \{ 
       id: 0, 
       name: <<string>>, 
@@ -880,7 +903,7 @@ namespace TestProject
 На рисунке \ref{test-front7:image} изображена страница поиска с предустановлеными фильтрами. На рисунке \ref{test-front7:image} изображена страница результатами поиска с заданными на странице поиска фильтрами.
 
 \begin{figure}[H] % H - рисунок обязательно здесь, или переносится, оставляя пустоту
-\center{\includegraphics[width=1\linewidth]{test-front7}}
+\center{\includegraphics[width=1\linewidth]{interface-search}}
 \caption{Страница поиска}
 \label{test-front7:image}
 \end{figure}
