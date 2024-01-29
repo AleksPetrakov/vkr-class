@@ -3,9 +3,6 @@
 Program.cs
 \lstset{style=sharpc}
 \begin{lstlisting}
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.Extensions.Hosting;
-    
     namespace new_back
     {
       public static class Program
@@ -28,13 +25,6 @@ Program.cs
 Startup.cs
 \lstset{style=sharpc}
 \begin{lstlisting}
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.EntityFrameworkCore;
-    using new_back.Infrastructure;
-    
     namespace new_back
     {
         public class Startup
@@ -97,7 +87,6 @@ Short.cs
 \lstset{style=sharpc}
 \begin{lstlisting}
     namespace new_back.Models
-
     {
       public abstract class Short
       {
@@ -138,7 +127,6 @@ Product.cs
 \lstset{style=sharpc}
 \begin{lstlisting}
     namespace new_back.Models
-
     {
       public class Product : Short
       {
@@ -166,8 +154,6 @@ Product.cs
 CityIdEnum.cs
 \lstset{style=sharpc}
 \begin{lstlisting}
-    using System.ComponentModel;
-    
     namespace new_back.Enums
     {
         public enum CityIdEnum
@@ -185,8 +171,6 @@ CityIdEnum.cs
 ProductTypeEnum.cs
 \lstset{style=sharpc}
 \begin{lstlisting}
-    using System.ComponentModel;
-
     namespace new_back.Enums
     {
         public enum ProductTypeEnum
@@ -224,8 +208,6 @@ ProductTypeEnum.cs
 UserRoleEnum.cs
 \lstset{style=sharpc}
 \begin{lstlisting}
-    using System.ComponentModel;
-
     namespace new_back.Enums
     {
         public enum UserRoleEnum
@@ -241,9 +223,6 @@ UserRoleEnum.cs
 ProductGroup.cs
 \lstset{style=sharpc}
 \begin{lstlisting}
-    using System.Collections.Generic;
-    using new_back.Enums;
-    
     namespace new_back.Models
     {
         public class ProductGroup : Short
@@ -284,8 +263,6 @@ ProductStatus.cs
 User.cs
 \lstset{style=sharpc}
 \begin{lstlisting}
-    using new_back.Enums;
-
     namespace new_back.Models
     {
         public class UserBase
@@ -336,7 +313,6 @@ UserRole.cs
 \lstset{style=sharpc}
 \begin{lstlisting}
     namespace new_back.Models
-
     {
       public class UserRole : Short
       {
@@ -348,13 +324,6 @@ UserRole.cs
 CityController.cs
 \lstset{style=sharpc}
 \begin{lstlisting}
-    using Microsoft.AspNetCore.Mvc;
-    using new_back.Infrastructure;
-    using new_back.Models;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    
     namespace new_back.Controllers
     {
         [ApiController]
@@ -381,14 +350,6 @@ CityController.cs
 ProductController.cs
 \lstset{style=sharpc}
 \begin{lstlisting}
-    using Microsoft.AspNetCore.Mvc;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using new_back.Infrastructure;
-    using new_back.Models;
-    using new_back.Shared;
-    
     namespace new_back.Controllersnew_back
     {
       [Route("api/[controller]")]
@@ -598,12 +559,6 @@ ProductController.cs
 ProductGroupController.cs
 \lstset{style=sharpc}
 \begin{lstlisting}
-    using System;
-    using System.Collections.Generic;
-    using Microsoft.AspNetCore.Mvc;
-    using new_back.Infrastructure;
-    using new_back.Models;
-    
     namespace new_back.Controllers
     {
         [Route("api/[controller]")]
@@ -643,14 +598,6 @@ ProductGroupController.cs
 UserController.cs
 \lstset{style=sharpc}
 \begin{lstlisting}
-    using System;
-    using System.Security.Cryptography;
-    using new_back.Infrastructure;
-    using new_back.Models;
-    using new_back.Shared;
-    using Microsoft.AspNetCore.Mvc;
-    
-    
     namespace new_back.Controllers
     {
         [Route("api/[controller]")]
@@ -796,12 +743,6 @@ UserController.cs
 UserRoleController.cs
 \lstset{style=sharpc}
 \begin{lstlisting}
-    using System;
-    using System.Collections.Generic;
-    using Microsoft.AspNetCore.Mvc;
-    using new_back.Infrastructure;
-    using new_back.Models;
-    
     namespace new_back.Controllers
     {
         [Route("api/[controller]")]
@@ -841,14 +782,6 @@ UserRoleController.cs
 CityRepository.cs
 \lstset{style=sharpc}
 \begin{lstlisting}
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Microsoft.EntityFrameworkCore;
-    using new_back.Enums;
-    using new_back.Models;
-    using new_back.Shared;
-    
     namespace new_back.Infrastructure
     {
         public class CityRepository
@@ -886,9 +819,6 @@ CityRepository.cs
 DatabaseBContext.cs
 \lstset{style=sharpc}
 \begin{lstlisting}
-    using Microsoft.EntityFrameworkCore;
-    using new_back.Models;
-    
     namespace new_back.Infrastructure
     {  
       public class DatabaseContext : DbContext
@@ -913,14 +843,6 @@ DatabaseBContext.cs
 ProductGroupRepository.cs
 \lstset{style=sharpc}
 \begin{lstlisting}
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Microsoft.EntityFrameworkCore;
-    using new_back.Enums;
-    using new_back.Models;
-    using new_back.Shared;
-    
     namespace new_back.Infrastructure
     {
         public class ProductGroupRepository
@@ -992,12 +914,6 @@ ProductGroupRepository.cs
 ProductRepository.cs
 \lstset{style=sharpc}
 \begin{lstlisting}
-    using System.Collections.Generic;
-    using System.Linq;
-    using Microsoft.EntityFrameworkCore;
-    using new_back.Models;
-    using new_back.Shared;
-    
     namespace new_back.Infrastructure
     {
       public class ProductRepository
@@ -1095,11 +1011,6 @@ ProductRepository.cs
 UserRepository.cs
 \lstset{style=sharpc}
 \begin{lstlisting}
-    using System.Collections.Generic;
-    using System.Linq;
-    using new_back.Models;
-    using new_back.Shared;
-    
     namespace new_back.Infrastructure
     {
         public class UserRepository
@@ -1157,14 +1068,6 @@ UserRepository.cs
 UserRoleRepository.cs
 \lstset{style=sharpc}
 \begin{lstlisting}
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Microsoft.EntityFrameworkCore;
-    using new_back.Enums;
-    using new_back.Models;
-    using new_back.Shared;
-    
     namespace new_back.Infrastructure
     {
         public class UserRoleRepository
@@ -1234,11 +1137,6 @@ UserRoleRepository.cs
 EnumExtension.cs
 \lstset{style=sharpc}
 \begin{lstlisting}
-    using System.ComponentModel;
-    using System.Linq;
-    using Microsoft.EntityFrameworkCore;
-    using new_back.Models;
-    
     namespace new_back.Shared
     {
         public static class EnumExtensions
@@ -1256,10 +1154,6 @@ EnumExtension.cs
 RepositoryHelper.cs
 \lstset{style=sharpc}
 \begin{lstlisting}
-    using System.Linq;
-    using Microsoft.EntityFrameworkCore;
-    using new_back.Models;
-    
     namespace new_back.Shared
     {
       public static class RepositoryHelper
@@ -1280,21 +1174,6 @@ RepositoryHelper.cs
 Token.cs
 \lstset{style=sharpc}
 \begin{lstlisting}
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Security.Claims;
-    using System.Security.Cryptography;
-    using new_back.Infrastructure;
-    using new_back.Models;
-    using Microsoft.AspNetCore.Http;
-    using Newtonsoft.Json.Linq;
-    using Org.BouncyCastle.Crypto;
-    using Org.BouncyCastle.Crypto.Parameters;
-    using Org.BouncyCastle.OpenSsl;
-    using Org.BouncyCastle.Security;
-    
     namespace new_back.Shared
     {
         public class Token
@@ -1364,17 +1243,6 @@ Token.cs
 
 app-routing.module.ts
 \begin{lstlisting}
-    import { NgModule } from '@angular/core';
-    import { RouterModule, Routes } from '@angular/router';
-    import {SignupComponent} from "@app/pages/signup/signup.component";
-    import {SignupClientComponent} from "@app/pages/signup/signup-client/signup-client.component";
-    import {SignupSitterComponent} from "@app/pages/signup/signup-sitter/signup-sitter.component";
-    import {SignupFormComponent} from "@app/pages/signup/signup-form/signup-form.component";
-    import {SearchComponent} from "@app/pages/search/search.component";
-    import {LoginComponent} from "@app/pages/login/login.component";
-    import {SearchResultsComponent} from "@app/pages/search/search-results/search-results.component";
-    import {UserComponent} from "@app/pages/user/user.component";
-    
     const routes: Routes = [
       {
         path: '',
@@ -1417,12 +1285,6 @@ app-routing.module.ts
         component: UserComponent,
       }
     ];
-    
-    @NgModule({
-      imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
-      exports: [RouterModule],
-    })
-    export class AppRoutingModule {}
 \end{lstlisting}
 
 app.component.html
@@ -1457,32 +1319,6 @@ app.component.html
 
 app.component.ts
 \begin{lstlisting}
-    import { DOCUMENT } from '@angular/common';
-    import {
-      ChangeDetectionStrategy,
-      Component,
-      Inject,
-      OnDestroy,
-      OnInit,
-      ViewEncapsulation,
-    } from '@angular/core';
-    import {User, UserService} from '@app/core';
-    import {UserStore} from '@app/store/user.store';
-    import { Subject } from 'rxjs';
-    import {take, takeUntil} from 'rxjs/operators';
-    import { ProductGroupService } from './core/api/product-group.service';
-    import { ProductGroupStore } from './store/product-group.store';
-    import jwt_decode from 'jwt-decode';
-    import { CityStore } from './store/city.store';
-    import { CityService } from './core/api/city.service';
-    
-    @Component({
-      selector: 'ts-app',
-      templateUrl: './app.component.html',
-      styleUrls: ['./app.component.scss'],
-      encapsulation: ViewEncapsulation.None,
-      changeDetection: ChangeDetectionStrategy.Default,
-    })
     export class AppComponent implements OnInit, OnDestroy {
       private destroy$ = new Subject<void>();
       pages = [
@@ -1544,14 +1380,6 @@ app.component.ts
 
 city.service.ts
 \begin{lstlisting}
-    import { HttpClient } from '@angular/common/http';
-    import { Injectable } from '@angular/core';
-    import { Observable } from 'rxjs';
-    import { City } from '@core/model/City';
-    
-    @Injectable({
-      providedIn: 'root',
-    })
     export class CityService {
       private url = '/api/City';
     
@@ -1565,14 +1393,6 @@ city.service.ts
 
 product.service.ts
 \begin{lstlisting}
-    import { HttpClient, HttpParams } from '@angular/common/http';
-    import { Injectable } from '@angular/core';
-    import { Observable } from 'rxjs';
-    import { Product, ProductFilter } from '../model/product';
-    
-    @Injectable({
-      providedIn: 'root',
-    })
     export class ProductService {
       private url = '/api/Product';
     
@@ -1621,14 +1441,6 @@ product.service.ts
 
 product-group.service.ts
 \begin{lstlisting}
-    import { HttpClient } from '@angular/common/http';
-    import { Injectable } from '@angular/core';
-    import { Observable } from 'rxjs';
-    import { ProductGroup } from '../model/product-group';
-    
-    @Injectable({
-      providedIn: 'root',
-    })
     export class ProductGroupService {
       private url = '/api/ProductGroup';
     
@@ -1646,14 +1458,6 @@ product-group.service.ts
 
 user.service.ts
 \begin{lstlisting}
-    import {HttpClient} from '@angular/common/http';
-    import { Injectable } from '@angular/core';
-    import {User} from '@app/core';
-    import {Observable} from 'rxjs';
-    
-    @Injectable({
-      providedIn: 'root'
-    })
     export class UserService {
       private url = '/api/User';
     
@@ -1679,13 +1483,6 @@ user.service.ts
 
 user.store.ts
 \begin{lstlisting}
-    import { Injectable } from '@angular/core';
-    import { User } from '@app/core';
-    import { BehaviorSubject } from 'rxjs';
-    
-    @Injectable({
-      providedIn: 'root',
-    })
     export class UserStore {
       public user$ = new BehaviorSubject<User>(null);
     }    
@@ -1693,18 +1490,6 @@ user.store.ts
 
 user.component.ts
 \begin{lstlisting}
-    import { Component, OnInit, Input } from '@angular/core';
-    import { ActivatedRoute } from '@angular/router';
-    import { takeUntil, withLatestFrom } from 'rxjs/operators';
-    import { Subject } from 'rxjs';
-    import {UserService} from "@app/core";
-    import {UserStore} from "@app/store/user.store";
-    
-    @Component({
-      selector: 'ts-user',
-      templateUrl: './user.component.html',
-      styleUrls: ['./user.component.scss']
-    })
     export class UserComponent implements OnInit {
       @Input() photoUrl: string;
       @Input() firstName: string;
@@ -1766,14 +1551,6 @@ signup-form.component.html
 
 signup.component.ts
 \begin{lstlisting}
-    import { Component, OnInit } from '@angular/core';
-    import {Router} from "@angular/router";
-    
-    @Component({
-      selector: 'ts-signup',
-      templateUrl: './signup.component.html',
-      styleUrls: ['./signup.component.scss']
-    })
     export class SignupComponent implements OnInit {
     
       constructor(
@@ -1831,24 +1608,11 @@ signup-form.component.html
 
 signup-form.component.ts
 \begin{lstlisting}
-    import { Component, Input, OnInit } from '@angular/core';
-    import {FormBuilder, Validators} from "@angular/forms";
-    import { User, UserService } from "@app/core";
-    import {take, tap} from "rxjs/operators";
-    import { UserStore } from '@app/store/user.store';
-    import { BehaviorSubject } from 'rxjs';
-    import { Router } from '@angular/router';
-    
     export enum UserRole {
       SITTER = 1,
       OWNER = 2,
     }
     
-    @Component({
-      selector: 'ts-signup-form',
-      templateUrl: './signup-form.component.html',
-      styleUrls: ['./signup-form.component.scss']
-    })
     export class SignupFormComponent implements OnInit {
       @Input() isSitter = false;
     
@@ -1940,21 +1704,6 @@ search.component.html
 
 search.component.ts
 \begin{lstlisting}
-    import { Component, OnDestroy, OnInit } from '@angular/core';
-    import { FormGroup, FormControl } from '@angular/forms';
-    import { City } from "@core/model/City";
-    import { Router } from "@angular/router";
-    import { ProductGroupStore } from '@app/store/product-group.store';
-    import { Subject } from 'rxjs';
-    import { takeUntil } from 'rxjs/operators';
-    import { ProductGroup } from '@app/core';
-    import { CityStore } from '@app/store/city.store';
-    
-    @Component({
-      selector: 'ts-search',
-      templateUrl: './search.component.html',
-      styleUrls: ['./search.component.scss'],
-    })
     export class SearchComponent implements OnInit, OnDestroy {
       private destroy$ = new Subject<void>();
       searchForm: FormGroup;
@@ -2036,18 +1785,6 @@ search-results.component.html
 
 search-results.component.ts
 \begin{lstlisting}
-    import { Component, OnDestroy, OnInit } from '@angular/core';
-    import { ActivatedRoute } from '@angular/router';
-    import { Product, ProductService, User, ProductFilter } from '@app/core';
-    import { UserStore } from '@app/store/user.store';
-    import { BehaviorSubject, Subject } from 'rxjs';
-    import { takeUntil } from 'rxjs/operators';
-    
-    @Component({
-      selector: 'ts-search-results',
-      templateUrl: './search-results.component.html',
-      styleUrls: ['./search-results.component.scss']
-    })
     export class SearchResultsComponent implements OnInit, OnDestroy {
       private destroy$ = new Subject<void>();
       products: Product[] = [];
@@ -2110,12 +1847,6 @@ search-results.component.ts
 
 product-routing.module.ts
 \begin{lstlisting}
-    import { NgModule } from '@angular/core';
-    import { RouterModule, Routes } from '@angular/router';
-    import { ProductCreatePage } from './product-create/product-create.page';
-    import { ProductListPage } from './product-list.page';
-    import { ProductViewPage } from './product-view/product-view.page';
-    
     const routes: Routes = [
       {
         path: '',
@@ -2129,14 +1860,7 @@ product-routing.module.ts
         path: ':id',
         component: ProductViewPage,
       }
-    ];
-    
-    @NgModule({
-      imports: [RouterModule.forChild(routes)],
-      exports: [RouterModule],
-    })
-    export class ProductRoutingModule {
-    }    
+    ]; 
 \end{lstlisting}
 
 product-list.page.html
@@ -2172,28 +1896,7 @@ product-list.page.html
 
 product-list.page.ts
 \begin{lstlisting}
-    import {
-        ChangeDetectionStrategy,
-        Component,
-        OnDestroy,
-        OnInit,
-        ViewEncapsulation,
-      } from '@angular/core';
-      import {User} from '@app/core';
-      import { ProductService } from '@app/core/api/product.service';
-      import { Product } from '@app/core/model/product';
-      import {UserStore} from '@app/store/user.store';
-      import {BehaviorSubject, Subject} from 'rxjs';
-      import { takeUntil } from 'rxjs/operators';
-      
-      @Component({
-        selector: 'ts-product-list',
-        templateUrl: './product-list.page.html',
-        styleUrls: ['./product-list.page.scss'],
-        encapsulation: ViewEncapsulation.None,
-        changeDetection: ChangeDetectionStrategy.Default,
-      })
-      export class ProductListPage implements OnInit, OnDestroy {
+    export class ProductListPage implements OnInit, OnDestroy {
         private destroy$ = new Subject<void>();
         products: Product[] = [];
         user$: BehaviorSubject<User> = this.userStore.user$;
@@ -2317,23 +2020,6 @@ product-view.page.html
 
 product-view.page.ts
 \begin{lstlisting}
-    import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-    import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-    import { ActivatedRoute } from '@angular/router';
-    import { ProductService } from '@app/core';
-    import { Product } from '@app/core/model/product';
-    import { ProductGroupStore } from '@app/store/product-group.store';
-    import { Subject } from 'rxjs';
-    import { takeUntil } from 'rxjs/operators';
-    import { defaultFileAttr } from '../product-create/product-create.page';
-    import { City } from '@app/core/model/City';
-    import { CityStore } from '@app/store/city.store';
-    
-    @Component({
-      selector: 'ts-product-view',
-      templateUrl: './product-view.page.html',
-      styleUrls: ['./product-view.page.scss'],
-    })
     export class ProductViewPage implements OnInit, OnDestroy {
       private destroy$ = new Subject<void>();
       product: Product;
@@ -2503,23 +2189,6 @@ product-create.page.html
 
 product-create.page.ts
 \begin{lstlisting}
-    import { Location } from '@angular/common';
-    import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-    import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-    import { ProductService } from '@app/core';
-    import { City } from '@app/core/model/City';
-    import { CityStore } from '@app/store/city.store';
-    import { ProductGroupStore } from '@app/store/product-group.store';
-    import { Subject } from 'rxjs';
-    import { takeUntil } from 'rxjs/operators';
-    
-    export const defaultFileAttr = 'Изображение';
-    
-    @Component({
-      selector: 'ts-product-create',
-      templateUrl: './product-create.page.html',
-      styleUrls: ['./product-create.page.scss'],
-    })
     export class ProductCreatePage implements OnInit, OnDestroy {
       private destroy$ = new Subject<void>();
       productForm: FormGroup;
@@ -2625,19 +2294,6 @@ login.component.html
 
 login.component.ts
 \begin{lstlisting}
-    import { Component } from '@angular/core';
-    import { FormBuilder, Validators } from '@angular/forms';
-    import { User, UserService } from '@app/core';
-    import { take, tap } from 'rxjs/operators';
-    import { BehaviorSubject } from 'rxjs';
-    import { UserStore } from '@app/store/user.store';
-    import { Router } from '@angular/router';
-    
-    @Component({
-      selector: 'ts-login',
-      templateUrl: './login.component.html',
-      styleUrls: ['./login.component.scss'],
-    })
     export class LoginComponent {
       userForm = this.fb.group({
         email: ['', Validators.required],
@@ -2769,26 +2425,7 @@ card.component.html
 
 card.component.ts
 \begin{lstlisting}
-    import {
-        ChangeDetectionStrategy,
-        Component,
-        EventEmitter,
-        Input,
-        Output,
-        ViewEncapsulation,
-      } from '@angular/core';
-      import {User} from '@app/core';
-      import { CityStore } from '@app/store/city.store';
-      import { formatDateRange } from '@app/util/date';
-      
-      @Component({
-        selector: 'ts-card',
-        templateUrl: './card.component.html',
-        styleUrls: ['./card.component.scss'],
-        encapsulation: ViewEncapsulation.None,
-        changeDetection: ChangeDetectionStrategy.OnPush,
-      })
-      export class CardComponent {
+    export class CardComponent {
         @Input() isEditable = false;
         @Input() imageUrl = '';
         @Input() author: User;
