@@ -38,7 +38,7 @@
     LastName & String & false & Фамилия пользователя \\ \hline
     ImageUrl & String & false & URL изображения пользователя \\ \hline
     Telegram & String & false & Telegram пользователя \\ \hline
-    Website & String & false & Веб-сайт пользователя \\ \hline
+    Website & String & false & Веб-сайт пользователя \\
 \end{xltabular}
 
 % Таблица для UserRegistrationData
@@ -87,7 +87,7 @@
     \finishhead
     Id & Long & true & Уникальный идентификатор пользователя \\ \hline
     Hash & String & true & Хэш пользователя \\ \hline
-    Salt & String & true & Соль для хэша пароля пользователя \\ \hline
+    Salt & String & true & Соль для хэша пароля пользователя \\
 \end{xltabular}
 
 \renewcommand{\arraystretch}{1.0} % восстановление сетки
@@ -104,13 +104,13 @@
     Свойство & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
     1 & 2 & 3 & 4 \\ \hline
     \endfirsthead
-    1 & 2 & 3 & 4 \\ \hline
+    \hline 1 & 2 & 3 & 4 \\ \hline
     \finishhead
     ImageUrl & String & false & URL изображения продукта \\ \hline
     ProductGroupId & Long & true & Идентификатор группы продуктов \\ \hline
     Price & Float & true & Цена продукта \\ \hline
     Weight & Integer & true & Вес продукта \\ \hline
-    CreatedByUserId & Long & true & Идентификатор пользователя, создавшего продукт \\ \hline
+    CreatedByUserId & Long & true & Идентификатор пользователя, создавшего продукт \\
 \end{xltabular}
 
 % Таблица для ProductView
@@ -143,7 +143,7 @@
     GetById & User & true & Получить пользователя по идентификатору \\ \hline
     GetByEmail & User & true & Получить пользователя по электронной почте \\ \hline
     GetAllUserViews & List<UserView> & true & Получить список пользователей \\ \hline
-    Create & User & true & Создать пользователя \\ \hline
+    Create & User & true & Создать пользователя \\
 \end{xltabular}
 
 \renewcommand{\arraystretch}{1}
@@ -198,7 +198,7 @@
     address & string & true & Адрес \\ \hline
     userRoleId & number & true & Идентификатор роли \\ \hline
     password & string & false & Пароль пользователя (передается при авторизации и регистрации) \\ \hline
-    accessToken & string & false & Токен доступа (принимается при авторизации и регистрации) \\ \hline
+    accessToken & string & false & Токен доступа (принимается при авторизации и регистрации) \\
 \end{xltabular}
 
 % Таблица для Product
@@ -207,7 +207,7 @@
     Свойство & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
     1 & 2 & 3 & 4 \\ \hline
     \endfirsthead
-    1 & 2 & 3 & 4 \\ \hline
+    \hline 1 & 2 & 3 & 4 \\ \hline
     \finishhead
     imageUrl & string & true & URL изображения продукта \\ \hline
     productGroupId & number & true & Идентификатор группы продуктов \\ \hline
@@ -215,7 +215,7 @@
     weight & number & true & Вес продукта \\ \hline
     createdByUserId & number & true & Идентификатор пользователя, создавшего продукт \\ \hline
     publishedAt & Date & true & Дата публикации \\ \hline
-    expiredAt & Date & true & Дата окончания срока действия \\ \hline
+    expiredAt & Date & true & Дата окончания срока действия \\
 \end{xltabular}
 
 % Таблица для ProductGroup
@@ -250,8 +250,11 @@
     \caption{Свойства класса <<City>>\label{int6:table}}\\ \hline
     Свойство & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
     1 & 2 & 3 & 4 \\ \hline
+    \endfirsthead
+    1 & 2 & 3 & 4 \\ \hline
+    \finishhead
     id & number & true & Уникальный идентификатор \\ \hline
-    name & string & true & Название города \\ \hline
+    name & string & true & Название города \\
 \end{xltabular}
 
 % Таблица для UserService
@@ -277,7 +280,7 @@
     1 & 2 & 3 & 4 \\ \hline
     \finishhead
     getAll & ProductGroup[] & true & Получить все группы продуктов \\ \hline
-    updateAll & ProductGroup[] & true & Обновить все группы продуктов \\ \hline
+    updateAll & ProductGroup[] & true & Обновить все группы продуктов \\
 \end{xltabular}
 
 % Таблица для ProductService
@@ -286,14 +289,14 @@
     Метод & Тип & \makecell{Обяза-\\тельное} & Описание \\ \hline
     1 & 2 & 3 & 4 \\ \hline
     \endfirsthead
-    1 & 2 & 3 & 4 \\ \hline
+    \hline 1 & 2 & 3 & 4 \\ \hline
     \finishhead
     getAll & Product[] & true & Получить все продукты \\ \hline
     getById & Product & true & Получить продукт по идентификатору \\ \hline
     add & Product & true & Добавить продукт \\ \hline
     update & Product & true & Обновить продукт \\ \hline
     delete & void & true & Удалить продукт \\ \hline
-    getFilteredProducts & Product[] & true & Получить отфильтрованные продукты \\ \hline
+    getFilteredProducts & Product[] & true & Получить отфильтрованные продукты \\
 \end{xltabular}
 
 % Таблица для CityService
@@ -360,19 +363,36 @@
       priorityStartedAt: <<2024-01-20>>,
       priorityExpiredAt: <<2024-01-20>>,
       createdByUser: \{
-        phone: <<string>>,
-        email: <<string>>,
-        firstName: <<string>>,
-        lastName: <<string>>,
-        imageUrl: <<string>>,
-        telegram: <<string>>,
-        website: <<string>>,
-        userRoleId: <<string>>,
-        permissions: <<string>>,
-        id: 0
-          \}
+      phone: <<string>>,
+      email: <<string>>,
+      firstName: <<string>>,
+      lastName: <<string>>,\\
+    \hline ~ & ~ & ~ & imageUrl: <<string>>,
+      telegram: <<string>>,
+      website: <<string>>,
+      userRoleId: <<string>>,
+      permissions: <<string>>,
+      id: 0
         \}
-      ]\\
+      \}
+    ]\\
+    \hline GET /api /Product /\{id\} & Получить выбранный Product по его id & Нет & \{
+id: 0,
+name: <<string>>,
+description: <<string>>,
+imageUrl: <<string>>,
+price: 0,
+createdByUserId: 0,
+cityId: 0,
+productGroupId: 0,
+productStatusId: 0,
+createdAt: <<2024-01-20>>,
+publishedAt: <<2024-01-20>>,
+expiredAt: <<2024-01-20>>,
+priorityId: 0,
+priorityStartedAt: <<2024-01-20>>,
+priorityExpiredAt: <<2024-01-20>>
+  \}\\
 \hline POST /api /Product  & Создать новый Product & Body: \{
 id: 0,
 name: <<string>>,
@@ -388,7 +408,24 @@ publishedAt: <<2024-01-20>>,
 expiredAt: <<2024-01-20>>,
 priorityId: 0,
 priorityStartedAt: <<2024-01-20>>,
-priorityExpiredAt: <<2024-01-20>>,
+priorityExpiredAt: <<2024-01-20>>, & \{
+  id: 0,
+  name: <<string>>,
+  description: <<string>>,
+  imageUrl: <<string>>,
+  price: 0,
+  createdByUserId: 0,
+  cityId: 0,
+  productGroupId: 0,
+  productStatusId: 0,
+  createdAt: <<2024-01-20>>,
+  publishedAt: <<2024-01-20>>,
+  expiredAt: <<2024-01-20>>,
+  priorityId: 0,
+  priorityStartedAt: <<2024-01-20>>,
+  priorityExpiredAt: <<2024-01-20>>
+  \} \\
+\hline ~ & ~ & 
 createdByUser: \{
   phone: <<string>>,
   email: <<string>>,
@@ -401,40 +438,7 @@ createdByUser: \{
   permissions: <<string>>,
   id: 0
     \}
-  \} & \{
-id: 0,
-name: <<string>>,
-description: <<string>>,
-imageUrl: <<string>>,
-price: 0,
-createdByUserId: 0,
-cityId: 0,
-productGroupId: 0,
-productStatusId: 0,
-createdAt: <<2024-01-20>>,
-publishedAt: <<2024-01-20>>,
-expiredAt: <<2024-01-20>>,
-priorityId: 0,
-priorityStartedAt: <<2024-01-20>>,
-priorityExpiredAt: <<2024-01-20>>
-  \}\\
-\hline GET /api /Product /\{id\} & Получить выбранный Product по его id & Нет & \{
-id: 0,
-name: <<string>>,
-description: <<string>>,
-imageUrl: <<string>>,
-price: 0,
-createdByUserId: 0,
-cityId: 0,
-productGroupId: 0,
-productStatusId: 0,
-createdAt: <<2024-01-20>>,
-publishedAt: <<2024-01-20>>,
-expiredAt: <<2024-01-20>>,
-priorityId: 0,
-priorityStartedAt: <<2024-01-20>>,
-priorityExpiredAt: <<2024-01-20>>
-  \}\\
+  \} & ~ \\
 \hline PUT /api /Product /\{id\} & Обновить существующий Product & Body: \{
 id: 0,
 name: <<string>>,
@@ -509,7 +513,7 @@ priorityExpiredAt: <<2024-01-20>>
     \endfirsthead
     \hline \centrow 1 & \centrow 2 & \centrow 3 & \centrow 4\\ \hline
     \finishhead
-    GET /api /ProductGtoup  & Список всех типов продуктов (товаров и услуг) ProductGroup в БД & Нет & [
+    GET /api /ProductGroup  & Список всех типов продуктов (товаров и услуг) ProductGroup в БД & Нет & [
         \{
       id: 0,
       name: <<string>>,
@@ -521,7 +525,7 @@ priorityExpiredAt: <<2024-01-20>>
       parentProductGroupId: 0
         \}
       ]\\
-      \hline POST /api /ProductGtoup  & Создать новый ProductGtoup & Body: [
+      \hline POST /api /ProductGroup  & Создать новый ProductGroup & Body: [
         \{
       id: 0,
       name: <<string>>,
@@ -565,7 +569,23 @@ priorityExpiredAt: <<2024-01-20>>
     permissions: <<string>>,
     id: 0
       \}\\
-      \hline POST /api /User /create & Создать нового пользователя User & Body: \{
+\hline POST /api /User /login & Авторизоваться существующим пользователем User в системе. Авторизоваться -\- сохранить в клиентском приложение значение из поля accessToken & Body: \{
+    email: <<string>>,
+    password: <<string>>
+      \} & \{
+    phone: <<string>>,
+    email: <<string>>,
+    firstName: <<string>>,
+    lastName: <<string>>,
+    imageUrl: <<string>>,
+    telegram: <<string>>,
+    website: <<string>>,
+    userRoleId: <<string>>,
+    permissions: <<string>>,
+    id: 0,
+    accessToken: <<string>>
+      \} \\
+\hline POST /api /User /create & Создать нового пользователя User & Body: \{
     phone: <<string>>,
     email: <<string>>,
     firstName: <<string>>,
@@ -588,24 +608,7 @@ priorityExpiredAt: <<2024-01-20>>
     permissions: <<string>>,
     id: 0,
     hash: <<string>>,
-    salt: <<string>>
-      \} \\
-      \hline POST /api /User /login & Авторизоваться существующим пользователем User в системе. Авторизоваться -\- сохранить в клиентском приложение значение из поля accessToken & Body: \{
-    email: <<string>>,
-    password: <<string>>
-      \} & \{
-    phone: <<string>>,
-    email: <<string>>,
-    firstName: <<string>>,
-    lastName: <<string>>,
-    imageUrl: <<string>>,
-    telegram: <<string>>,
-    website: <<string>>,
-    userRoleId: <<string>>,
-    permissions: <<string>>,
-    id: 0,
-    accessToken: <<string>>
-      \} \\
+    salt: <<string>> \} \\
 \end{xltabular}
 
 \renewcommand{\arraystretch}{1.0} % восстановление сетки
